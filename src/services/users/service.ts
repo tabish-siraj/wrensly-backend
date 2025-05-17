@@ -1,25 +1,60 @@
+// src/services/users/service.ts
 import prisma from '../../lib/prisma';
-import { CreateUserInput, CreateUserSchema } from '../../schemas/users/schema';
+import { CreateUserInput, CreateUserSchema, UpdateUserInput, UpdateUserSchema } from '../../schemas/users/schema';
 import { hashPassword } from '../../utils/hashing';
+import logger from '../../utils/logger';
 
-async function createUser(user: CreateUserInput) {
-  // Validate the user input using Zod
-  const parsedUser = CreateUserSchema.safeParse(user);
-  if (!parsedUser.success) {
-    // Handle validation errors
-    const errors = parsedUser.error.format();
-    throw new Error(
-      `Validation failed: ${JSON.stringify(errors, null, 2)}`
-    );
-  }
+export async function createUser(user: CreateUserInput) {
+    const parsed = CreateUserSchema.safeParse(user);
+    if (!parsed.success) {
+        logger.warn(`User validation failed: ${JSON.stringify(parsed.error.format())}`);
+        const validationErrors = parsed.error.flatten().fieldErrors;
+        const error = new Error('Validation failed');
+        (error as any).details = validationErrors;
+        throw error;
+    }
 
-  // Hash the password
-  const hashedPassword = hashPassword(user.password);
+    const hashedPassword = hashPassword(parsed.data.password);
+    try {
+        const createdUser = await prisma.user.create({
+            data: {
+                ...parsed.data,
+                password: hashedPassword,
+            },
+        });
+        return createdUser;
+    } catch (error) {
+        logger.error(`DB error creating user: ${error}`);
+        throw new Error('Database error: failed to create user');
+    }
+}
 
+export async function updateUser(id: string, user: UpdateUserInput) {
+    const parsed = UpdateUserSchema.safeParse(user);
+    if (!parsed.success) {
+        logger.warn(`User validation failed: ${JSON.stringify(parsed.error.format())}`);
+        const validationErrors = parsed.error.flatten().fieldErrors;
+        const error = new Error('Validation failed');
+        (error as any).details = validationErrors;
+        throw error;
+    }
 
-  // Create the user in the database
-  const createdUser = await prisma.user.create({
-    data: parsedUser.data,
-  });
-  return createdUser;
+    try {
+        const updatedUser = await prisma.user.update({
+            where: { id },
+            data: {
+                ...parsed.data,
+            },
+        });
+        if (!updatedUser) {
+            logger.warn(`User with ID ${id} not found`);
+            const error = new Error('User not found');
+            (error as any).details = { id };
+            throw error;
+        }
+        return updatedUser;
+    } catch (error) {
+        logger.error(`DB error updating user: ${error}`);
+        throw new Error('Database error: failed to update user');
+    }
 }
