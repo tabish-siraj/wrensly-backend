@@ -136,3 +136,5 @@ dist
 .pnp.*
 *.js
 .vscode
+*.db-journal
+*.db

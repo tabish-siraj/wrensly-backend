@@ -7,23 +7,148 @@
 generator client {
   provider = "prisma-client-js"
 }
-  // output   = "../src/generated/prisma"
+
+// output   = "../src/generated/prisma"
 
 datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"
 }
+
 // url      = env("DATABASE_URL")
 
 model User {
   id        String   @id @default(cuid())
-  username  String?   @unique
+  username  String?  @unique
   email     String   @unique
-  firstName String?
-  lastName  String?
-  dateOfBirth DateTime?
-  gender   String?
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+
+  Profile   Profile?
+  Post      Post[]
+  Comment   Comment[]
+  Like      Like[]
+  Follower  Follow[]  @relation("Follower")
+  Following Follow[]  @relation("Following")
+  Feed      Feed[]
+}
+
+model Attachment {
+  id                String              @id @default(cuid())
+  url               String
+  type              String
+  createdAt         DateTime            @default(now())
+  ProfileAttachment ProfileAttachment[]
+  PostAttachment    PostAttachment[]
+  CommentAttachment CommentAttachment[]
+}
+
+model Profile {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  firstName   String?
+  lastName    String?
+  dateOfBirth DateTime?
+  gender      String?
+  bio         String?
+  avatar      String?
+  city        String?
+  state       String?
+  country     String?
+  phone       String?
+  website     String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
+
+  user              User                @relation(fields: [userId], references: [id])
+  ProfileAttachment ProfileAttachment[]
+}
+
+model ProfileAttachment {
+  id           String   @id @default(cuid())
+  profileId    String
+  attachmentId String
+  createdAt    DateTime @default(now())
+
+  profile    Profile    @relation(fields: [profileId], references: [id])
+  attachment Attachment @relation(fields: [attachmentId], references: [id])
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  content   String
+  userId    String
+  parentId  String? // for reposts or quotes
+  createdAt DateTime @default(now())
+
+  user           User             @relation(fields: [userId], references: [id])
+  parent         Post?            @relation("ParentPost", fields: [parentId], references: [id])
+  Post           Post[]           @relation("ParentPost")
+  PostAttachment PostAttachment[]
+  Comment        Comment[]
+  Like           Like[]
+  Feed           Feed[]
+}
+
+model PostAttachment {
+  id           String   @id @default(cuid())
+  postId       String
+  attachmentId String
+  createdAt    DateTime @default(now())
+
+  post       Post       @relation(fields: [postId], references: [id])
+  attachment Attachment @relation(fields: [attachmentId], references: [id])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  postId    String
+  userId    String
+  createdAt DateTime @default(now())
+
+  post              Post                @relation(fields: [postId], references: [id])
+  user              User                @relation(fields: [userId], references: [id])
+  CommentAttachment CommentAttachment[]
+}
+
+model CommentAttachment {
+  id           String   @id @default(cuid())
+  commentId    String
+  attachmentId String
+  createdAt    DateTime @default(now())
+
+  comment    Comment    @relation(fields: [commentId], references: [id])
+  attachment Attachment @relation(fields: [attachmentId], references: [id])
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String
+  createdAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+
+  follower  User @relation("Follower", fields: [followerId], references: [id])
+  following User @relation("Following", fields: [followingId], references: [id])
+}
+
+model Feed {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
 }
