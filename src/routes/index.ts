@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import userRoutes from './users/route';
+import userRoutes from '../user/route';
+import authRoutes from '../auth/route';
+import { authenticateJWT } from '../middlewares/auth';
 
 const router = Router();
 
 router.use('/user', userRoutes); // /api/user
+router.use('/auth', authRoutes); // /api/auth
 
 export default router;
-// This file is responsible for defining the routes for the application.
-// It imports the necessary modules and sets up the routes for the application.
