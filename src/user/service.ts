@@ -1,11 +1,12 @@
 // src/services/users/service.ts
 import prisma from '../lib/prisma';
-import { CreateUserInput, CreateUserSchema, UpdateUserInput, UpdateUserSchema } from './schema';
+import { UserInterface, UserSchema, ProfileInterface, ProfileSchema } from './schema';
 import { hashPassword } from '../utils/hashing';
 import logger from '../utils/logger';
 
-export async function createUser(user: CreateUserInput) {
-    const parsed = CreateUserSchema.safeParse(user);
+export async function createUser(user: UserInterface) {
+    // Validate user data against the schema
+    const parsed = UserSchema.safeParse(user);
     if (!parsed.success) {
         logger.warn(`User validation failed: ${JSON.stringify(parsed.error.format())}`);
         const validationErrors = parsed.error.flatten().fieldErrors;
@@ -14,6 +15,7 @@ export async function createUser(user: CreateUserInput) {
         throw error;
     }
 
+    // Hash the password before storing it
     const hashedPassword = hashPassword(parsed.data.password);
     try {
         const createdUser = await prisma.user.create({
@@ -22,6 +24,17 @@ export async function createUser(user: CreateUserInput) {
                 password: hashedPassword,
             },
         });
+        if (!createdUser) {
+            logger.warn('User creation failed');
+            throw new Error('User creation failed');
+        }
+
+        // Initialize profile with empty data
+        const userId = createdUser.id;
+        await prisma.profile.create({
+            data: { userId: userId },
+        });
+
         return createdUser;
     } catch (error) {
         logger.error(`DB error creating user: ${error}`);
@@ -29,8 +42,8 @@ export async function createUser(user: CreateUserInput) {
     }
 }
 
-export async function updateUser(id: string, user: UpdateUserInput) {
-    const parsed = UpdateUserSchema.safeParse(user);
+export async function updateUser(id: string, user: UserInterface) {
+    const parsed = UserSchema.safeParse(user);
     if (!parsed.success) {
         logger.warn(`User validation failed: ${JSON.stringify(parsed.error.format())}`);
         const validationErrors = parsed.error.flatten().fieldErrors;
@@ -94,3 +107,53 @@ export async function getUserByEmail(email: string) {
         throw new Error('Database error: failed to fetch user');
     }
 }
+
+export const updateProfile = async (userId: string, profile: ProfileInterface) => {
+    const parsed = ProfileSchema.safeParse(profile);
+    if (!parsed.success) {
+        logger.warn(`Profile validation failed: ${JSON.stringify(parsed.error.format())}`);
+        const validationErrors = parsed.error.flatten().fieldErrors;
+        const error = new Error('Validation failed');
+        (error as any).details = validationErrors;
+        throw error;
+    }
+
+    try {
+        // Exclude userId from the data object to avoid type errors
+        const { userId: _omit, ...profileData } = parsed.data;
+        const updatedProfile = await prisma.profile.update({
+            where: { userId },
+            data: {
+                ...profileData,
+            },
+        });
+        if (!updatedProfile) {
+            logger.warn(`Profile for user ID ${userId} not found`);
+            const error = new Error('Profile not found');
+            (error as any).details = { userId };
+            throw error;
+        }
+        return updatedProfile;
+    } catch (error) {
+        logger.error(`DB error updating profile: ${error}`);
+        throw new Error('Database error: failed to update profile');
+    }
+}
+
+export const getProfileByUserId = async (userId: string) => {
+    try {
+        const profile = await prisma.profile.findUnique({
+            where: { userId },
+        });
+        if (!profile) {
+            logger.warn(`Profile for user ID ${userId} not found`);
+            const error = new Error('Profile not found');
+            (error as any).details = { userId };
+            throw error;
+        }
+        return profile;
+    } catch (error) {
+        logger.error(`DB error fetching profile: ${error}`);
+        throw new Error('Database error: failed to fetch profile');
+    }
+};

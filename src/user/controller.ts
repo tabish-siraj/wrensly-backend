@@ -43,7 +43,6 @@ export const getUserByIDController = async (req: Request, res: Response) => {
     }
 }
 
-
 export const getUserByEmailController = async (req: Request, res: Response) => {
     const { email } = req.params;
     try {
@@ -56,5 +55,32 @@ export const getUserByEmailController = async (req: Request, res: Response) => {
         logger.error(`getUser failed: ${err.message}`);
         const errorDetails = err.details || err.message;
         res.status(400).json(errorResponse('User retrieval failed', errorDetails));
+    }
+}
+
+export const updateProfileController = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+        const profile = await updateUser(id, req.body);
+        res.status(200).json(successResponse('Profile updated successfully', profile));
+    } catch (err: any) {
+        logger.error(`updateProfile failed: ${err.message}`);
+        const errorDetails = err.details || err.message;
+        res.status(400).json(errorResponse('Profile update failed', errorDetails));
+    }
+}
+
+export const getProfileController = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+        const profile = await getUserById(id);
+        if (!profile) {
+            res.status(404).json(errorResponse('Profile not found'));
+        }
+        res.status(200).json(successResponse('Profile retrieved successfully', profile));
+    } catch (err: any) {
+        logger.error(`getProfile failed: ${err.message}`);
+        const errorDetails = err.details || err.message;
+        res.status(400).json(errorResponse('Profile retrieval failed', errorDetails));
     }
 }

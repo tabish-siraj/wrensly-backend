@@ -16,14 +16,26 @@ datasource db {
 }
 
 // url      = env("DATABASE_URL")
+model Attachment {
+  id        String    @id @default(cuid())
+  url       String
+  type      String
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  ProfileAttachment ProfileAttachment[]
+  PostAttachment    PostAttachment[]
+  CommentAttachment CommentAttachment[]
+}
 
 model User {
-  id        String   @id @default(cuid())
-  username  String?  @unique
-  email     String   @unique
+  id        String    @id @default(cuid())
+  username  String?   @unique
+  email     String    @unique
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  deletedAt DateTime?
 
   Profile   Profile?
   Post      Post[]
@@ -32,16 +44,6 @@ model User {
   Follower  Follow[]  @relation("Follower")
   Following Follow[]  @relation("Following")
   Feed      Feed[]
-}
-
-model Attachment {
-  id                String              @id @default(cuid())
-  url               String
-  type              String
-  createdAt         DateTime            @default(now())
-  ProfileAttachment ProfileAttachment[]
-  PostAttachment    PostAttachment[]
-  CommentAttachment CommentAttachment[]
 }
 
 model Profile {
@@ -60,6 +62,7 @@ model Profile {
   website     String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @default(now())
+  deletedAt   DateTime?
 
   user              User                @relation(fields: [userId], references: [id])
   ProfileAttachment ProfileAttachment[]
@@ -76,11 +79,13 @@ model ProfileAttachment {
 }
 
 model Post {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   content   String
   userId    String
   parentId  String? // for reposts or quotes
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  deletedAt DateTime?
 
   user           User             @relation(fields: [userId], references: [id])
   parent         Post?            @relation("ParentPost", fields: [parentId], references: [id])
@@ -102,14 +107,19 @@ model PostAttachment {
 }
 
 model Comment {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   content   String
   postId    String
   userId    String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  deletedAt DateTime?
+  parentId  String? // for replies to comments
 
   post              Post                @relation(fields: [postId], references: [id])
   user              User                @relation(fields: [userId], references: [id])
+  parent            Comment?            @relation("ParentComment", fields: [parentId], references: [id])
+  Comment           Comment[]           @relation("ParentComment")
   CommentAttachment CommentAttachment[]
 }
 
