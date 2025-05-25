@@ -5,7 +5,8 @@
   "main": "app.ts",
   "scripts": {
     "dev": "nodemon server",
-    "start": "node server"
+    "start": "node server",
+    "postinstall": "prisma generate"
   },
   "repository": {
     "type": "git",
