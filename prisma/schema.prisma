@@ -11,11 +11,12 @@ generator client {
 // output   = "../src/generated/prisma"
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  // provider = "sqlite"
+  // url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-// url      = env("DATABASE_URL")
 model Attachment {
   id        String    @id @default(cuid())
   url       String
