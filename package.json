@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon server",
     "start": "node server",
+    "build": "tsc",
     "postinstall": "prisma generate"
   },
   "repository": {
