@@ -7,6 +7,9 @@ const app = express();
 app.use(express.json());
 app.use(requestLogger);
 app.use('/api', router);
+app.use('/test', (req, res) => {
+    res.status(200).json({ message: 'Server is running!!!' });
+})
 
 export default app;
 // This file is responsible for setting up the Express application.
