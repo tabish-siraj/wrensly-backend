@@ -30,13 +30,17 @@ model Attachment {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  username  String?   @unique
-  email     String    @unique
-  password  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
-  deletedAt DateTime?
+  id         String    @id @default(cuid())
+  username   String?   @unique
+  email      String    @unique
+  password   String
+  isActive   Boolean   @default(true)
+  isVerified Boolean   @default(false)
+  isAdmin    Boolean   @default(false)
+  isBanned   Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now())
+  deletedAt  DateTime?
 
   Profile   Profile?
   Post      Post[]

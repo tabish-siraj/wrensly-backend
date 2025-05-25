@@ -9,10 +9,9 @@ export const UserSchema = z.object({
 export type UserInterface = z.infer<typeof UserSchema>;
 
 export const ProfileSchema = z.object({
-  userId: z.string().uuid().nullable().optional(),
   firstName: z.string().nullable().optional(),
   lastName: z.string().nullable().optional(),
-  dateOfBirth: z.date().nullable().optional(),
+  dateOfBirth: z.string().datetime({ message: "Invalid date format" }).transform((val) => new Date(val)).nullable().optional(),
   gender: z.string().nullable().optional(),
   bio: z.string().nullable().optional(),
   avatar: z.string().nullable().optional(),
@@ -24,3 +23,15 @@ export const ProfileSchema = z.object({
 });
 
 export type ProfileInterface = z.infer<typeof ProfileSchema>;
+
+export const UserUpdateSchema = z.object({
+  username: z.string().nullable().optional(),
+});
+
+export type UserUpdateInterface = z.infer<typeof UserUpdateSchema>;
+
+export const UpdatePasswordSchema = z.object({
+  oldPassword: z.string(),
+  newPassword: z.string(),
+});
+export type UpdatePasswordInterface = z.infer<typeof UpdatePasswordSchema>;

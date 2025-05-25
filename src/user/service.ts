@@ -1,6 +1,6 @@
 // src/services/users/service.ts
 import prisma from '../lib/prisma';
-import { UserInterface, UserSchema, ProfileInterface, ProfileSchema } from './schema';
+import { UserInterface, UserSchema, ProfileInterface, ProfileSchema, UserUpdateInterface, UserUpdateSchema } from './schema';
 import { hashPassword } from '../utils/hashing';
 import logger from '../utils/logger';
 
@@ -42,8 +42,8 @@ export async function createUser(user: UserInterface) {
     }
 }
 
-export async function updateUser(id: string, user: UserInterface) {
-    const parsed = UserSchema.safeParse(user);
+export async function updateUser(id: string, user: UserUpdateInterface) {
+    const parsed = UserUpdateSchema.safeParse(user);
     if (!parsed.success) {
         logger.warn(`User validation failed: ${JSON.stringify(parsed.error.format())}`);
         const validationErrors = parsed.error.flatten().fieldErrors;
@@ -120,7 +120,7 @@ export const updateProfile = async (userId: string, profile: ProfileInterface) =
 
     try {
         // Exclude userId from the data object to avoid type errors
-        const { userId: _omit, ...profileData } = parsed.data;
+        const { ...profileData } = parsed.data;
         const updatedProfile = await prisma.profile.update({
             where: { userId },
             data: {
@@ -143,7 +143,16 @@ export const updateProfile = async (userId: string, profile: ProfileInterface) =
 export const getProfileByUserId = async (userId: string) => {
     try {
         const profile = await prisma.profile.findUnique({
-            where: { userId },
+            where: { userId: userId },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        email: true,
+                        username: true,
+                    },
+                },
+            },
         });
         if (!profile) {
             logger.warn(`Profile for user ID ${userId} not found`);
