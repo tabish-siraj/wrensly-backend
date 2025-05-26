@@ -9,6 +9,6 @@ const router = Router();
 
 router.use('/user', userRoutes); // /api/user
 router.use('/auth', authRoutes); // /api/auth
-router.use('/post', postRoutes); // /api/post
+router.use('/post', authenticateJWT, postRoutes); // /api/post
 
 export default router;

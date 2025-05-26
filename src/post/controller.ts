@@ -10,9 +10,10 @@ import { successResponse } from "../utils/response";
 
 export const createPostController = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const post = await CreatePost(req.body);
+        const user = (req as any).user; // Assuming user is set by the authenticateJWT middleware
+        const post = await CreatePost(user, req.body);
         res.status(201).json(successResponse("Post created successfully", post, 201));
     } catch (err: any) {
-        next(err);
+        next(err.details);
     }
 };

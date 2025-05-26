@@ -8,12 +8,10 @@ export const globalErrorHandler = (
     res: Response,
     next: NextFunction
 ): void => {
-    console.error(err);
-
     if (err instanceof AppError) {
         res
             .status(err.statusCode)
-            .json(errorResponse(err.message, err.details, err.statusCode));
+            .json(errorResponse(err.message, err.details || null, err.statusCode));
     } else {
         res
             .status(500)
