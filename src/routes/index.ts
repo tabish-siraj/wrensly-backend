@@ -2,6 +2,7 @@ import { Router } from 'express';
 import userRoutes from '../user/route';
 import authRoutes from '../auth/route';
 import postRoutes from '../post/route';
+import commentRoutes from '../comment/route';
 import { authenticateJWT } from '../middlewares/auth';
 
 
@@ -10,5 +11,6 @@ const router = Router();
 router.use('/user', userRoutes); // /api/user
 router.use('/auth', authRoutes); // /api/auth
 router.use('/post', authenticateJWT, postRoutes); // /api/post
+router.use('/comment', authenticateJWT, commentRoutes); // /api/comment
 
 export default router;

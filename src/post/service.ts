@@ -10,8 +10,8 @@ export const CreatePost = async (user: any, post: PostInterface) => {
         if (!parsed.success) {
             // const validationErrors = parsed.error.errors.map(err => `${err.path.join('.')} - ${err.message}`).join(', ');
             const validationErrors = parsed.error.flatten().fieldErrors;
-            logger.warn(`Post validation failed: ${validationErrors}`);
-            throw new BadRequestError(`${validationErrors}`);
+            logger.warn(`Post validation failed: ${JSON.stringify(validationErrors)}`);
+            throw new BadRequestError(validationErrors);
         }
 
         if (post.parentId) {
@@ -58,8 +58,8 @@ export const GetPostById = async (user: any, id: string) => {
             where: { id },
             include: {
                 user: true, // Include user details if needed
-                comments: true, // Include comments if needed
-            },
+                Comment: true
+            }
         });
 
         if (!post) {
@@ -83,11 +83,7 @@ export const GetPostsByUserId = async (user: any, userId: string) => {
 
         // Fetch posts by user ID
         const posts = await prisma.post.findMany({
-            where: { userId },
-            include: {
-                user: true, // Include user details if needed
-                comments: true, // Include comments if needed
-            },
+            where: { userId }
         });
 
         if (!posts || posts.length === 0) {
@@ -125,12 +121,40 @@ export const DeletePost = async (user: any, postId: string) => {
             throw new ForbiddenError('You are not authorized to delete this post');
         }
 
-        // Delete the post from the database
-        await prisma.post.delete({
+        // Soft delete the post
+        const the_post = await prisma.post.findUnique({
             where: { id: postId },
         });
+        if (!the_post) {
+            logger.warn(`Post with ID ${postId} not found for deletion`);
+            throw new NotFoundError(`Post with ID ${postId} not found`);
+        }
+
+        await prisma.post.update({
+            where: { id: postId },
+            data: { deletedAt: new Date() } // Soft delete by setting deletedAt
+        })
 
         return { message: 'Post deleted successfully' };
+    } catch (error) {
+        throw error;
+    }
+}
+
+// TEMPORARY
+export const GetAllPosts = async (user: any) => {
+    try {
+        // Fetch all posts from the database
+        const posts = await prisma.post.findMany({
+            orderBy: { createdAt: 'desc' }, // Optional: order by creation date
+        });
+
+        if (!posts || posts.length === 0) {
+            logger.warn('No posts found');
+            throw new NotFoundError('No posts found');
+        }
+
+        return posts;
     } catch (error) {
         throw error;
     }

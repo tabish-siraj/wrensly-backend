@@ -3,16 +3,25 @@ import prisma from '../lib/prisma';
 import { UserInterface, UserSchema, ProfileInterface, ProfileSchema, UserUpdateInterface, UserUpdateSchema } from './schema';
 import { hashPassword } from '../utils/hashing';
 import logger from '../utils/logger';
+import { NotFoundError, BadRequestError, ForbiddenError, UnauthorizedError, AlreadyExistsError, InternalServerError } from "../utils/errors";
+
 
 export async function createUser(user: UserInterface) {
     // Validate user data against the schema
     const parsed = UserSchema.safeParse(user);
     if (!parsed.success) {
-        logger.warn(`User validation failed: ${JSON.stringify(parsed.error.format())}`);
         const validationErrors = parsed.error.flatten().fieldErrors;
-        const error = new Error('Validation failed');
-        (error as any).details = validationErrors;
-        throw error;
+        logger.warn(`User validation failed: ${JSON.stringify(validationErrors)}`);
+        throw new BadRequestError(validationErrors);
+    }
+
+    // Check if the user already exists by email
+    const existingUser = await prisma.user.findUnique({
+        where: { email: parsed.data.email },
+    });
+    if (existingUser) {
+        logger.warn(`User with email ${parsed.data.email} already exists`);
+        throw new AlreadyExistsError({ email: parsed.data.email });
     }
 
     // Hash the password before storing it
@@ -26,7 +35,7 @@ export async function createUser(user: UserInterface) {
         });
         if (!createdUser) {
             logger.warn('User creation failed');
-            throw new Error('User creation failed');
+            throw new InternalServerError('Failed to create user');
         }
 
         // Initialize profile with empty data
@@ -37,19 +46,16 @@ export async function createUser(user: UserInterface) {
 
         return createdUser;
     } catch (error) {
-        logger.error(`DB error creating user: ${error}`);
-        throw new Error('Database error: failed to create user');
+        throw error;
     }
 }
 
 export async function updateUser(id: string, user: UserUpdateInterface) {
     const parsed = UserUpdateSchema.safeParse(user);
     if (!parsed.success) {
-        logger.warn(`User validation failed: ${JSON.stringify(parsed.error.format())}`);
         const validationErrors = parsed.error.flatten().fieldErrors;
-        const error = new Error('Validation failed');
-        (error as any).details = validationErrors;
-        throw error;
+        logger.warn(`User update validation failed: ${JSON.stringify(validationErrors)}`);
+        throw new BadRequestError(validationErrors);
     }
 
     try {
@@ -61,14 +67,11 @@ export async function updateUser(id: string, user: UserUpdateInterface) {
         });
         if (!updatedUser) {
             logger.warn(`User with ID ${id} not found`);
-            const error = new Error('User not found');
-            (error as any).details = { id };
-            throw error;
+            throw new NotFoundError({ id });
         }
         return updatedUser;
     } catch (error) {
-        logger.error(`DB error updating user: ${error}`);
-        throw new Error('Database error: failed to update user');
+        throw error;
     }
 }
 
@@ -79,14 +82,12 @@ export async function getUserById(id: string) {
         });
         if (!user) {
             logger.warn(`User with ID ${id} not found`);
-            const error = new Error('User not found');
-            (error as any).details = { id };
+            const error = new NotFoundError({ id });
             throw error;
         }
         return user;
     } catch (error) {
-        logger.error(`DB error fetching user: ${error}`);
-        throw new Error('Database error: failed to fetch user');
+        throw error;
     }
 }
 
@@ -97,46 +98,34 @@ export async function getUserByEmail(email: string) {
         });
         if (!user) {
             logger.warn(`User with email ${email} not found`);
-            const error = new Error('User not found');
-            (error as any).details = { email };
+            const error = new NotFoundError({ email });
             throw error;
         }
         return user;
     } catch (error) {
-        logger.error(`DB error fetching user: ${error}`);
-        throw new Error('Database error: failed to fetch user');
+        throw error;
     }
 }
 
 export const updateProfile = async (userId: string, profile: ProfileInterface) => {
     const parsed = ProfileSchema.safeParse(profile);
     if (!parsed.success) {
-        logger.warn(`Profile validation failed: ${JSON.stringify(parsed.error.format())}`);
         const validationErrors = parsed.error.flatten().fieldErrors;
-        const error = new Error('Validation failed');
-        (error as any).details = validationErrors;
-        throw error;
+        logger.warn(`Profile validation failed: ${JSON.stringify(validationErrors)}`);
+        throw new BadRequestError(validationErrors);
     }
 
     try {
         // Exclude userId from the data object to avoid type errors
         const { ...profileData } = parsed.data;
-        const updatedProfile = await prisma.profile.update({
+        return await prisma.profile.update({
             where: { userId },
             data: {
                 ...profileData,
             },
         });
-        if (!updatedProfile) {
-            logger.warn(`Profile for user ID ${userId} not found`);
-            const error = new Error('Profile not found');
-            (error as any).details = { userId };
-            throw error;
-        }
-        return updatedProfile;
     } catch (error) {
-        logger.error(`DB error updating profile: ${error}`);
-        throw new Error('Database error: failed to update profile');
+        throw error;
     }
 }
 
@@ -156,13 +145,10 @@ export const getProfileByUserId = async (userId: string) => {
         });
         if (!profile) {
             logger.warn(`Profile for user ID ${userId} not found`);
-            const error = new Error('Profile not found');
-            (error as any).details = { userId };
-            throw error;
+            throw new NotFoundError({ userId });
         }
         return profile;
     } catch (error) {
-        logger.error(`DB error fetching profile: ${error}`);
-        throw new Error('Database error: failed to fetch profile');
+        throw error;
     }
 };

@@ -11,10 +11,10 @@ export const globalErrorHandler = (
     if (err instanceof AppError) {
         res
             .status(err.statusCode)
-            .json(errorResponse(err.message, err.details || null, err.statusCode));
+            .json(errorResponse(err.message, err.error || null, err.statusCode));
     } else {
         res
             .status(500)
-            .json(errorResponse("Internal Server Error", (err as Error).message));
+            .json(errorResponse("Internal Server Error", err));
     }
 };

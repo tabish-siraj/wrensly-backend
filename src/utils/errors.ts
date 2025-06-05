@@ -1,41 +1,47 @@
 export class AppError extends Error {
     public statusCode: number;
-    public details?: any;
+    public error?: any;
 
-    constructor(message: string, statusCode = 500, details?: any) {
+    constructor(message: string, statusCode = 500, error?: any) {
         super(message);
         this.statusCode = statusCode;
-        this.details = details;
+        this.error = error;
         Error.captureStackTrace(this, this.constructor);
     }
 }
 
 export class BadRequestError extends AppError {
-    constructor(details?: any) {
-        super("Bad request", 400, details);
+    constructor(error?: any) {
+        super("Bad request", 400, error);
     }
 }
 
 export class UnauthorizedError extends AppError {
-    constructor(details?: any) {
-        super("Unauthorized", 401, details);
+    constructor(error?: any) {
+        super("Unauthorized", 401, error);
     }
 }
 
 export class ForbiddenError extends AppError {
-    constructor(details?: any) {
-        super("Forbidden", 403, details);
+    constructor(error?: any) {
+        super("Forbidden", 403, error);
     }
 }
 
 export class NotFoundError extends AppError {
-    constructor(details?: any) {
-        super("Resource not found", 404, details);
+    constructor(error?: any) {
+        super("Resource not found", 404, error);
+    }
+}
+
+export class AlreadyExistsError extends AppError {
+    constructor(error?: any) {
+        super("Resource already exists", 409, error);
     }
 }
 
 export class InternalServerError extends AppError {
-    constructor(details?: any) {
-        super("Internal server error", 500, details);
+    constructor(error?: any) {
+        super("Internal server error", 500, error);
     }
 }
