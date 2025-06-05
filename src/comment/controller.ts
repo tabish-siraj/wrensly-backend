@@ -29,7 +29,7 @@ export const getCommentByIdController = async (req: Request, res: Response, next
 export const getCommentsByPostIdController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = (req as any).user;
-        const postId = req.params.postId;
+        const postId = req.params.id;
 
         const comments = await GetCommentsByPostId(user, postId);
         res.status(200).json(successResponse("Comments retrieved successfully", comments, 200));

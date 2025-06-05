@@ -1,7 +1,7 @@
 import { CommentSchema, CommentInterface } from "./schema"
 import prisma from "../lib/prisma";
 import logger from "../utils/logger";
-import { NotFoundError, BadRequestError, ForbiddenError, UnauthorizedError, InternalServerError } from "../utils/errors";
+import { NotFoundError, BadRequestError, ForbiddenError, InternalServerError } from "../utils/errors";
 
 export const CreateComment = async (user: any, comment: CommentInterface) => {
     const parsed = CommentSchema.safeParse(comment);
@@ -77,7 +77,7 @@ export const GetCommentById = async (user: any, id: string) => {
 }
 
 export const GetCommentsByPostId = async (user: any, postId: string) => {
-    if (!postId || typeof postId !== 'string') {
+    if (!postId) {
         logger.warn(`Invalid post ID: ${postId}`);
         throw new BadRequestError('Invalid post ID');
     }
@@ -109,26 +109,19 @@ export const DeleteComment = async (user: any, commentId: string) => {
     try {
         // Check if the comment exists
         const comment = await prisma.comment.findUnique({
-            where: { id: commentId },
+            where: { id: commentId, userId: user.id, deletedAt: null }
         });
-
         if (!comment) {
-            logger.warn(`Comment with ID ${commentId} not found`);
-            throw new NotFoundError(`Comment with ID ${commentId} not found`);
+            logger.warn(`Comment with ID ${commentId} not found or does not belong to the user`);
+            throw new NotFoundError(`Comment not found.`);
         }
 
-        // Check if the user is authorized to delete the comment
-        if (comment.userId !== user.id) {
-            logger.warn(`User ${user.id} is not authorized to delete comment ${commentId}`);
-            throw new ForbiddenError('You are not authorized to delete this comment');
-        }
-
-        // Delete the comment from the database
-        const deletedComment = await prisma.comment.delete({
+        // Soft delete the comment by setting deletedAt
+        await prisma.comment.update({
             where: { id: commentId },
+            data: { deletedAt: new Date() },
         });
-
-        return deletedComment;
+        return;
     } catch (error) {
         throw error;
     }

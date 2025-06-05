@@ -55,7 +55,7 @@ export const GetPostById = async (user: any, id: string) => {
 
         // Fetch the post from the database
         const post = await prisma.post.findUnique({
-            where: { id },
+            where: { id, deletedAt: null }, // Ensure we only fetch non-deleted posts
             include: {
                 user: true, // Include user details if needed
                 Comment: true
@@ -83,7 +83,8 @@ export const GetPostsByUserId = async (user: any, userId: string) => {
 
         // Fetch posts by user ID
         const posts = await prisma.post.findMany({
-            where: { userId }
+            where: { userId, deletedAt: null }, // Ensure we only fetch non-deleted posts
+            orderBy: { createdAt: 'desc' }, // Optional: order by creation date
         });
 
         if (!posts || posts.length === 0) {
@@ -107,7 +108,7 @@ export const DeletePost = async (user: any, postId: string) => {
 
         // Fetch the post to check ownership
         const post = await prisma.post.findUnique({
-            where: { id: postId },
+            where: { id: postId, userId: user.id, deletedAt: null }, // Ensure we only fetch non-deleted posts
         });
 
         if (!post) {
@@ -115,27 +116,12 @@ export const DeletePost = async (user: any, postId: string) => {
             throw new NotFoundError(`Post with ID ${postId} not found`);
         }
 
-        // Check if the user is authorized to delete the post
-        if (post.userId !== user.id) {
-            logger.warn(`User ${user.id} is not authorized to delete post ${postId}`);
-            throw new ForbiddenError('You are not authorized to delete this post');
-        }
-
-        // Soft delete the post
-        const the_post = await prisma.post.findUnique({
-            where: { id: postId },
-        });
-        if (!the_post) {
-            logger.warn(`Post with ID ${postId} not found for deletion`);
-            throw new NotFoundError(`Post with ID ${postId} not found`);
-        }
-
         await prisma.post.update({
             where: { id: postId },
-            data: { deletedAt: new Date() } // Soft delete by setting deletedAt
-        })
+            data: { deletedAt: new Date() }, // Soft delete the post
+        });
 
-        return { message: 'Post deleted successfully' };
+        return;
     } catch (error) {
         throw error;
     }
