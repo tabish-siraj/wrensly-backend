@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express from 'express';
 import router from './src/routes/index';
 import requestLogger from './src/middlewares/logger';
@@ -5,6 +6,15 @@ import { globalErrorHandler } from './src/middlewares/errorHandler';
 
 const app = express();
 
+// CORS Configuration for Development and Production
+const corsOptions = {
+    origin: '*',  // wildcard in development
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],  // Allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization'],  // Allowed headers
+    credentials: true,  // Allow cookies or credentials
+};
+
+app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
 app.use('/api', router);
