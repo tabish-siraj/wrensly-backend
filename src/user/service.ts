@@ -92,9 +92,16 @@ export async function getUserById(id: string) {
 }
 
 export async function getUserByEmail(email: string) {
+    // case insensitive search
+    email = email.toLowerCase();
     try {
-        const user = await prisma.user.findUnique({
-            where: { email },
+        const user = await prisma.user.findFirst({
+            where: {
+                email: {
+                    equals: email,
+                    mode: 'insensitive', // Case insensitive search
+                },
+            },
         });
         if (!user) {
             logger.warn(`User with email ${email} not found`);
