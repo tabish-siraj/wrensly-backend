@@ -22,6 +22,17 @@ export const updateUserController = async (req: Request, res: Response, next: Ne
     }
 };
 
+export const getMyUserController = async (req: Request, res: Response, next: NextFunction) => {
+    const id = (req as any).user.id; // Assuming user ID is stored in req.user
+    try {
+        const user = await getUserById(id);
+        res.status(200).json(successResponse('User retrieved successfully', user));
+    } catch (err: any) {
+        next(err);
+
+    }
+}
+
 export const getUserByIDController = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {
