@@ -32,7 +32,7 @@ export const GetFeed = async (user: any) => {
         //     },
         // });
         // return feed;
-        return;
+        return follows;
 
     } catch (error) {
         throw error;
