@@ -6,6 +6,8 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["strictUndefinedChecks"]
+
 }
 
 // output   = "../src/generated/prisma"
@@ -153,7 +155,7 @@ model Follow {
   followerId  String
   followingId String
   createdAt   DateTime @default(now())
-  deletedAt   DateTime
+  deletedAt   DateTime?
 
   follower  User @relation("Follower", fields: [followerId], references: [id])
   following User @relation("Following", fields: [followingId], references: [id])
