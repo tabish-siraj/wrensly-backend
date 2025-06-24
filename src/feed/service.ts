@@ -13,24 +13,26 @@ export const GetFeed = async (user: any) => {
                 followingId: true
             }
         });
+        logger.info(follows);
 
-        const feed = await prisma.feed.findMany({
-            where: {
-                userId: {
-                    in: follows
-                }
-            },
-            include: {
-                user: {
-                    select: {
-                        id: true,
-                        email: true,
-                        username: true,
-                    },
-                },
-            },
-        });
-        return feed;
+        // const feed = await prisma.feed.findMany({
+        //     where: {
+        //         userId: {
+        //             in: follows
+        //         }
+        //     },
+        //     include: {
+        //         user: {
+        //             select: {
+        //                 id: true,
+        //                 email: true,
+        //                 username: true,
+        //             },
+        //         },
+        //     },
+        // });
+        // return feed;
+        return;
 
     } catch (error) {
         throw error;
