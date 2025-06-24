@@ -132,7 +132,27 @@ export const GetAllPosts = async (user: any) => {
     try {
         // Fetch all posts from the database
         const posts = await prisma.post.findMany({
-            orderBy: { createdAt: 'desc' }, // Optional: order by creation date
+            orderBy: { createdAt: 'desc' },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        username: true,
+                        Profile: {
+                            select: {
+                                firstName: true,
+                                lastName: true
+                            }
+                        }
+                    }
+                },
+                // also include comment count
+                _count: {
+                    select: {
+                        Comment: true
+                    }
+                }
+            }
         });
 
         if (!posts || posts.length === 0) {

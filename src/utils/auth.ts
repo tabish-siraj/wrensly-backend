@@ -1,8 +1,8 @@
 // utils/auth.util.ts
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'chin-tapak-dam-dam';
-const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'damadam-mast-kalandar';
+const JWT_SECRET = process.env.JWT_SECRET || 'your-default-secret';
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'your-default-refresh-secret';
 const JWT_EXPIRES_IN = '1h';
 
 export function generateToken(payload: object): string {
