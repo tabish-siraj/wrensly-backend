@@ -22,27 +22,26 @@ export const CreateFollowUnfollow = async (user: any, payload: FollowInterface) 
             throw new NotFoundError(`User you're trying to ${parsed.data.operation ? 'follow' : 'unfollow'} with ID ${parsed.data.following} not found`);
         }
 
-        const alreadyFollowing = await prisma.follow.findUnique({
+        const existingFollow = await prisma.follow.findFirst({
             where: {
                 followerId: user.id,
                 followingId: parsed.data.following,
-                deletedAt: null
             }
         })
 
-        if (alreadyFollowing){
+        if (existingFollow && !existingFollow.deletedAt) {
             await prisma.follow.update({
-                where: {
-                    followerId: user.id,
-                    followingId: parsed.data.following,
-                    deletedAt: null
-                },
-                data: {
-                    deletedAt: new Date()
-                }
+                where: {id: existingFollow.id},
+                data: { deletedAt: new Date() }
             })
             return "unfollowed"
-        } else{
+        } else if (existingFollow && existingFollow.deletedAt) {
+            await prisma.follow.update({
+                where: {id: existingFollow.id},
+                data: { deletedAt: null }
+            })
+            return "followed"
+        } else {
             await prisma.follow.create({
                 data: {
                     followerId: user.id,
