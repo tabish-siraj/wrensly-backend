@@ -7,33 +7,49 @@ export const GetFeed = async (user: any) => {
     try {
         const follows = await prisma.follow.findMany({
             where: {
-                followerId: user.id
+                followerId: user.id,
+                deletedAt: null
             },
             select: {
                 followingId: true
             }
         });
-        logger.info(follows);
 
-        // const feed = await prisma.feed.findMany({
-        //     where: {
-        //         userId: {
-        //             in: follows
-        //         }
-        //     },
-        //     include: {
-        //         user: {
-        //             select: {
-        //                 id: true,
-        //                 email: true,
-        //                 username: true,
-        //             },
-        //         },
-        //     },
-        // });
-        // return feed;
-        return follows;
+        const followingIds = follows.map(follow => follow.followingId);
 
+        if (followingIds.length === 0) return [];
+        
+
+        const feed = await prisma.post.findMany({
+            where: {
+                userId: {
+                    in: followingIds
+                }
+            },
+            orderBy: {
+                createdAt: 'desc'
+            },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        username: true,
+                        Profile: {
+                            select: {
+                                firstName: true,
+                                lastName: true
+                            }
+                        }
+                    }
+                },
+                _count: {
+                    select: {
+                        Comment: true
+                    }
+                }
+            }
+        });
+        return feed;
     } catch (error) {
         throw error;
     }
