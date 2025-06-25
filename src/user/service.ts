@@ -4,6 +4,7 @@ import { UserInterface, UserSchema, ProfileInterface, ProfileSchema, UserUpdateI
 import { hashPassword } from '../utils/hashing';
 import logger from '../utils/logger';
 import { NotFoundError, BadRequestError, ForbiddenError, UnauthorizedError, AlreadyExistsError, InternalServerError } from "../utils/errors";
+import { omitEmptyFields } from './helper';
 
 
 export async function createUser(user: UserInterface) {
@@ -50,6 +51,31 @@ export async function createUser(user: UserInterface) {
     }
 }
 
+// export async function updateUser(id: string, user: UserUpdateInterface) {
+//     const parsed = UserUpdateSchema.safeParse(user);
+//     if (!parsed.success) {
+//         const validationErrors = parsed.error.flatten().fieldErrors;
+//         logger.warn(`User update validation failed: ${JSON.stringify(validationErrors)}`);
+//         throw new BadRequestError(validationErrors);
+//     }
+
+//     try {
+//         const updatedUser = await prisma.user.update({
+//             where: { id },
+//             data: {
+//                 ...parsed.data,
+//             },
+//         });
+//         if (!updatedUser) {
+//             logger.warn(`User with ID ${id} not found`);
+//             throw new NotFoundError({ id });
+//         }
+//         return updatedUser;
+//     } catch (error) {
+//         throw error;
+//     }
+// }
+
 export async function updateUser(id: string, user: UserUpdateInterface) {
     const parsed = UserUpdateSchema.safeParse(user);
     if (!parsed.success) {
@@ -59,16 +85,38 @@ export async function updateUser(id: string, user: UserUpdateInterface) {
     }
 
     try {
+
+        const username = parsed.data.username;
+        delete parsed.data.username;
+
+        // check if the username is already taken
+        const existingUser = await prisma.user.findFirst({
+            where: { username: username, NOT: { id: id} },
+        });
+        if (existingUser) {
+            logger.warn(`User with username ${username} already exists`);
+            throw new AlreadyExistsError({ username });
+        }
+
         const updatedUser = await prisma.user.update({
             where: { id },
             data: {
-                ...parsed.data,
+                username: username,
             },
         });
         if (!updatedUser) {
             logger.warn(`User with ID ${id} not found`);
-            throw new NotFoundError({ id });
+            throw new NotFoundError(`User with ID ${id} not found`);
         }
+
+        const profile = omitEmptyFields(parsed.data)
+
+        await prisma.profile.update({
+            where: { userId: id },
+            data: {
+                ...profile,
+            },
+        })
         return updatedUser;
     } catch (error) {
         throw error;
@@ -79,6 +127,9 @@ export async function getUserById(id: string) {
     try {
         const user = await prisma.user.findUnique({
             where: { id },
+            include: {
+                Profile: true,
+            },
         });
         if (!user) {
             logger.warn(`User with ID ${id} not found`);
@@ -102,6 +153,9 @@ export async function getUserByEmail(email: string) {
                     mode: 'insensitive', // Case insensitive search
                 },
             },
+            include: {
+                Profile: true,
+            },
         });
         if (!user) {
             logger.warn(`User with email ${email} not found`);
@@ -114,48 +168,48 @@ export async function getUserByEmail(email: string) {
     }
 }
 
-export const updateProfile = async (userId: string, profile: ProfileInterface) => {
-    const parsed = ProfileSchema.safeParse(profile);
-    if (!parsed.success) {
-        const validationErrors = parsed.error.flatten().fieldErrors;
-        logger.warn(`Profile validation failed: ${JSON.stringify(validationErrors)}`);
-        throw new BadRequestError(validationErrors);
-    }
+// export const updateProfile = async (userId: string, profile: ProfileInterface) => {
+//     const parsed = ProfileSchema.safeParse(profile);
+//     if (!parsed.success) {
+//         const validationErrors = parsed.error.flatten().fieldErrors;
+//         logger.warn(`Profile validation failed: ${JSON.stringify(validationErrors)}`);
+//         throw new BadRequestError(validationErrors);
+//     }
 
-    try {
-        // Exclude userId from the data object to avoid type errors
-        const { ...profileData } = parsed.data;
-        return await prisma.profile.update({
-            where: { userId },
-            data: {
-                ...profileData,
-            },
-        });
-    } catch (error) {
-        throw error;
-    }
-}
+//     try {
+//         // Exclude userId from the data object to avoid type errors
+//         const { ...profileData } = parsed.data;
+//         return await prisma.profile.update({
+//             where: { userId },
+//             data: {
+//                 ...profileData,
+//             },
+//         });
+//     } catch (error) {
+//         throw error;
+//     }
+// }
 
-export const getProfileByUserId = async (userId: string) => {
-    try {
-        const profile = await prisma.profile.findUnique({
-            where: { userId: userId },
-            include: {
-                user: {
-                    select: {
-                        id: true,
-                        email: true,
-                        username: true,
-                    },
-                },
-            },
-        });
-        if (!profile) {
-            logger.warn(`Profile for user ID ${userId} not found`);
-            throw new NotFoundError({ userId });
-        }
-        return profile;
-    } catch (error) {
-        throw error;
-    }
-};
+// export const getProfileByUserId = async (userId: string) => {
+//     try {
+//         const profile = await prisma.profile.findUnique({
+//             where: { userId: userId },
+//             include: {
+//                 user: {
+//                     select: {
+//                         id: true,
+//                         email: true,
+//                         username: true,
+//                     },
+//                 },
+//             },
+//         });
+//         if (!profile) {
+//             logger.warn(`Profile for user ID ${userId} not found`);
+//             throw new NotFoundError({ userId });
+//         }
+//         return profile;
+//     } catch (error) {
+//         throw error;
+//     }
+// };
