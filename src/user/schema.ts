@@ -52,3 +52,24 @@ export const UpdatePasswordSchema = z.object({
   newPassword: z.string(),
 });
 export type UpdatePasswordInterface = z.infer<typeof UpdatePasswordSchema>;
+
+export const UserResponse = z.object({
+    id: z.string(),
+    username: z.string(),
+    email: z.string().email(),
+    firstName: z.string(),
+    lastName: z.string(),
+    dateOfBirth: z.string(),
+    gender: z.string(),
+    bio: z.string(),
+    avatar: z.string(),
+    city: z.string(),
+    state: z.string(),
+    country: z.string(),
+    phone: z.string(),
+    website: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+});
+
+export type UserResponseInterface = z.infer<typeof UserResponse>;
