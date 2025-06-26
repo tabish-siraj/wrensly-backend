@@ -180,7 +180,25 @@ export async function getUserByEmail(email: string) {
             const error = new NotFoundError({ email });
             throw error;
         }
-        return user;
+        const userResponse: UserResponseInterface = {
+            id: user.id,
+            username: user.username || "",
+            email: user.email,
+            firstName: user.Profile?.firstName || "",
+            lastName: user.Profile?.lastName || "",
+            dateOfBirth: user.Profile?.dateOfBirth?.toString() || "",
+            gender: user.Profile?.gender || "",
+            bio: user.Profile?.bio || "",
+            avatar: user.Profile?.avatar || "",
+            city: user.Profile?.city || "",
+            state: user.Profile?.state || "",
+            country: user.Profile?.country || "",
+            phone: user.Profile?.phone || "",
+            website: user.Profile?.website || "",
+            createdAt: user.createdAt.toString() || "",
+            updatedAt: user.updatedAt.toString() || "",
+        };
+        return userResponse;
     } catch (error) {
         throw error;
     }
