@@ -1,3 +1,4 @@
+import prisma from '../lib/prisma';
 import { getUserByEmail } from "../user/service";
 import { comparePassword } from "../utils/hashing";
 import { generateToken, generateRefreshToken, verifyRefreshToken } from "../utils/auth";
@@ -7,7 +8,15 @@ import { NotFoundError, BadRequestError, ForbiddenError, UnauthorizedError, Inte
 
 export const loginUser = async (email: string, password: string) => {
     try {
-        const user = await getUserByEmail(email);
+        const user = await prisma.user.findFirst({
+            where: {
+                email: {
+                    equals: email,
+                    mode: 'insensitive', // Case insensitive search
+                },
+            },
+        });
+
         if (!user) {
             logger.error(`User not found: ${email}`);
             throw new NotFoundError("User not found");
