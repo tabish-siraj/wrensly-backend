@@ -98,6 +98,31 @@ export const GetPostsByUserId = async (user: any, userId: string) => {
     }
 }
 
+export const GetPostsByUsername = async (user: any, username: string) => {
+    try {
+        // Validate the username format
+        if (!username || typeof username !== 'string') {
+            logger.warn(`Invalid user ID: ${username}`);
+            throw new BadRequestError('Invalid user ID');
+        }
+
+        // Fetch posts by user ID
+        const posts = await prisma.post.findMany({
+            where: { user: { username }, deletedAt: null }, // Ensure we only fetch non-deleted posts
+            orderBy: { createdAt: 'desc' }, // Optional: order by creation date
+        });
+
+        if (!posts || posts.length === 0) {
+            logger.warn(`No posts found for user ID ${username}`);
+            throw new NotFoundError(`No posts found for user ID ${username}`);
+        }
+
+        return posts;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const DeletePost = async (user: any, postId: string) => {
     try {
         // Validate the post ID format
