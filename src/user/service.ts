@@ -89,24 +89,27 @@ export async function updateUser(id: string, user: UserUpdateInterface) {
         const username = parsed.data.username;
         delete parsed.data.username;
 
-        // check if the username is already taken
-        const existingUser = await prisma.user.findFirst({
-            where: { username: username, NOT: { id: id} },
-        });
-        if (existingUser) {
-            logger.warn(`User with username ${username} already exists`);
-            throw new AlreadyExistsError({ username });
-        }
+        // Validate that the username is provided
+        if (username) {
+            // check if the username is already taken
+            const existingUser = await prisma.user.findFirst({
+                where: { username: username, NOT: { id: id } },
+            });
+            if (existingUser) {
+                logger.warn(`User with username ${username} already exists`);
+                throw new AlreadyExistsError({ username });
+            }
 
-        const updatedUser = await prisma.user.update({
-            where: { id },
-            data: {
-                username: username,
-            },
-        });
-        if (!updatedUser) {
-            logger.warn(`User with ID ${id} not found`);
-            throw new NotFoundError(`User with ID ${id} not found`);
+            const updatedUser = await prisma.user.update({
+                where: { id },
+                data: {
+                    username: username,
+                },
+            });
+            if (!updatedUser) {
+                logger.warn(`User with ID ${id} not found`);
+                throw new NotFoundError(`User with ID ${id} not found`);
+            }
         }
 
         const profile = omitEmptyFields(parsed.data)
@@ -117,7 +120,7 @@ export async function updateUser(id: string, user: UserUpdateInterface) {
                 ...profile,
             },
         })
-        return updatedUser;
+        return;
     } catch (error) {
         throw error;
     }
