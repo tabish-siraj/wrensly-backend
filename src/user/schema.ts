@@ -34,9 +34,7 @@ export const UserUpdateSchema = z.object({
   username: z.string().nullable().optional(),
   firstName: z.string().nullable().optional(),
   lastName: z.string().nullable().optional(),
-  dateOfBirth: z.string().nullable().optional().refine((val) => val === null || !isNaN(Date.parse(val as string)), {
-    message: "Invalid date format",
-  }).transform((val) => (val ? new Date(val) : null)),
+  dateOfBirth: z.string().nullable().optional().transform((val) => val ? new Date(val) : null),
   gender: z.string().nullable().optional(),
   bio: z.string().nullable().optional(),
   avatar: z.string().nullable().optional(),
