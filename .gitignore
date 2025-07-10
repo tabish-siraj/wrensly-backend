@@ -138,3 +138,6 @@ dist
 .vscode
 *.db-journal
 *.db
+
+# Prisma Migrations
+# npx prisma migrate dev --name <migration-name> --create-only
