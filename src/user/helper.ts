@@ -1,6 +1,6 @@
 import { UserResponseInterface } from "./schema";
 
-export function omitEmptyFields(obj: any){
+export function omitEmptyFields(obj: any) {
     Object.keys(obj).forEach((key) => {
         if (obj[key] === null || obj[key] === undefined || obj[key] === '') {
             delete obj[key];
@@ -25,6 +25,8 @@ export function toUserResponse(user: any): UserResponseInterface {
         country: user.Profile?.country || "",
         phone: user.Profile?.phone || "",
         website: user.Profile?.website || "",
+        followersCount: user._count?.Follower || 0,
+        followingCount: user._count?.Following || 0,
         createdAt: user.createdAt.toString() || "",
         updatedAt: user.updatedAt.toString() || "",
     };

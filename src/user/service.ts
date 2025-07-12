@@ -128,10 +128,17 @@ export async function updateUser(id: string, user: UserUpdateInterface) {
 
 export async function getUserById(id: string) {
     try {
+        // also get profile and followers/following count
         const user = await prisma.user.findUnique({
             where: { id },
             include: {
                 Profile: true,
+                _count: {
+                    select: {
+                        Follower: true,
+                        Following: true,
+                    },
+                },
             },
         });
         if (!user) {
@@ -173,48 +180,29 @@ export async function getUserByEmail(email: string) {
     }
 }
 
-// export const updateProfile = async (userId: string, profile: ProfileInterface) => {
-//     const parsed = ProfileSchema.safeParse(profile);
-//     if (!parsed.success) {
-//         const validationErrors = parsed.error.flatten().fieldErrors;
-//         logger.warn(`Profile validation failed: ${JSON.stringify(validationErrors)}`);
-//         throw new BadRequestError(validationErrors);
-//     }
+export async function getUserByUsername(username: string) {
+    // case insensitive search
+    username = username.toLowerCase();
+    try {
+        const user = await prisma.user.findFirst({
+            where: {
+                username: {
+                    equals: username,
+                    mode: 'insensitive', // Case insensitive search
+                },
+            },
+            include: {
+                Profile: true,
+            },
+        });
+        if (!user) {
+            logger.warn(`User with username ${username} not found`);
+            const error = new NotFoundError({ username });
+            throw error;
+        }
 
-//     try {
-//         // Exclude userId from the data object to avoid type errors
-//         const { ...profileData } = parsed.data;
-//         return await prisma.profile.update({
-//             where: { userId },
-//             data: {
-//                 ...profileData,
-//             },
-//         });
-//     } catch (error) {
-//         throw error;
-//     }
-// }
-
-// export const getProfileByUserId = async (userId: string) => {
-//     try {
-//         const profile = await prisma.profile.findUnique({
-//             where: { userId: userId },
-//             include: {
-//                 user: {
-//                     select: {
-//                         id: true,
-//                         email: true,
-//                         username: true,
-//                     },
-//                 },
-//             },
-//         });
-//         if (!profile) {
-//             logger.warn(`Profile for user ID ${userId} not found`);
-//             throw new NotFoundError({ userId });
-//         }
-//         return profile;
-//     } catch (error) {
-//         throw error;
-//     }
-// };
+        return toUserResponse(user);
+    } catch (error) {
+        throw error;
+    }
+}

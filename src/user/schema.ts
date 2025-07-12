@@ -68,6 +68,8 @@ export const UserResponse = z.object({
   country: z.string(),
   phone: z.string(),
   website: z.string(),
+  followersCount: z.number(),
+  followingCount: z.number(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });

@@ -54,3 +54,27 @@ export const CreateFollowUnfollow = async (user: any, payload: FollowInterface) 
         throw error;
     }
 }
+
+// export const GetFollowers = async (userId: string) => {
+//     try {
+//         const followers = await prisma.follow.findMany({
+//             where: {
+//                 followingId: userId,
+//                 deletedAt: null
+//             },
+//             include: {
+//                 follower: true
+//             }
+//         });
+
+//         return followers.map(follow => ({
+//             id: follow.follower.id,
+//             username: follow.follower.username,
+//             email: follow.follower.email,
+//             createdAt: follow.follower.createdAt
+//         }));
+//     } catch (error) {
+//         logger.error(`Error fetching followers for user ${userId}: ${error}`);
+//         throw new InternalServerError("Failed to fetch followers");
+//     }
+// }
