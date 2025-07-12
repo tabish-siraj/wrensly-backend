@@ -55,6 +55,13 @@ export const CreateFollowUnfollow = async (user: any, payload: FollowInterface) 
     }
 }
 
+export const GetFollow = async () => {
+    try {
+        return await prisma.follow.findMany({});
+    } catch (error) {
+        throw error;
+    }
+}
 // export const GetFollowers = async (userId: string) => {
 //     try {
 //         const followers = await prisma.follow.findMany({
