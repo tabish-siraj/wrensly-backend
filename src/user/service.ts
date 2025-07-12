@@ -147,7 +147,15 @@ export async function getUserById(id: string) {
             throw error;
         }
 
-        return toUserResponse(user);
+        const followerCount = await prisma.follow.count({
+            where: { followingId: id },
+        });
+
+        const followingCount = await prisma.follow.count({
+            where: { followerId: id },
+        });
+
+        return toUserResponse(user, followerCount, followingCount);
     } catch (error) {
         throw error;
     }
@@ -174,7 +182,7 @@ export async function getUserByEmail(email: string) {
             throw error;
         }
 
-        return toUserResponse(user);
+        return toUserResponse(user, 0, 0);
     } catch (error) {
         throw error;
     }
@@ -201,7 +209,7 @@ export async function getUserByUsername(username: string) {
             throw error;
         }
 
-        return toUserResponse(user);
+        return toUserResponse(user, 0, 0);
     } catch (error) {
         throw error;
     }
