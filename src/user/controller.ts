@@ -56,9 +56,9 @@ export const getUserByEmailController = async (req: Request, res: Response, next
 }
 
 export const getUserByUsernameController = async (req: Request, res: Response, next: NextFunction) => {
-    const { email } = req.params;
+    const { username } = req.params;
     try {
-        const user = await getUserByUsername(email);
+        const user = await getUserByUsername(username);
         res.status(200).json(successResponse('User retrieved successfully', user));
     } catch (err: any) {
         next(err);
