@@ -51,31 +51,6 @@ export async function createUser(user: UserInterface) {
     }
 }
 
-// export async function updateUser(id: string, user: UserUpdateInterface) {
-//     const parsed = UserUpdateSchema.safeParse(user);
-//     if (!parsed.success) {
-//         const validationErrors = parsed.error.flatten().fieldErrors;
-//         logger.warn(`User update validation failed: ${JSON.stringify(validationErrors)}`);
-//         throw new BadRequestError(validationErrors);
-//     }
-
-//     try {
-//         const updatedUser = await prisma.user.update({
-//             where: { id },
-//             data: {
-//                 ...parsed.data,
-//             },
-//         });
-//         if (!updatedUser) {
-//             logger.warn(`User with ID ${id} not found`);
-//             throw new NotFoundError({ id });
-//         }
-//         return updatedUser;
-//     } catch (error) {
-//         throw error;
-//     }
-// }
-
 export async function updateUser(id: string, user: UserUpdateInterface) {
     const parsed = UserUpdateSchema.safeParse(user);
     if (!parsed.success) {
@@ -133,6 +108,12 @@ export async function getUserById(id: string) {
             where: { id },
             include: {
                 Profile: true,
+                _count: {
+                    select: {
+                        Follower: true,
+                        Following: true,
+                    },
+                },
             },
         });
         if (!user) {
@@ -140,13 +121,13 @@ export async function getUserById(id: string) {
             throw new NotFoundError({ id });
         }
 
-        // Fetch follower and following counts in parallel
-        const [followerCount, followingCount] = await Promise.all([
-            prisma.follow.count({ where: { followingId: id } }),
-            prisma.follow.count({ where: { followerId: id } }),
-        ]);
+        // // Fetch follower and following counts in parallel
+        // const [followerCount, followingCount] = await Promise.all([
+        //     prisma.follow.count({ where: { followingId: id } }),
+        //     prisma.follow.count({ where: { followerId: id } }),
+        // ]);
 
-        return toUserResponse(user, followerCount, followingCount);
+        return toUserResponse(user);
     } catch (error) {
         throw error;
     }
@@ -156,15 +137,16 @@ export async function getUserByEmail(email: string) {
     // case insensitive search
     email = email.toLowerCase();
     try {
-        const user = await prisma.user.findFirst({
-            where: {
-                email: {
-                    equals: email,
-                    mode: 'insensitive', // Case insensitive search
-                },
-            },
+        const user = await prisma.user.findUnique({
+            where: { email },
             include: {
                 Profile: true,
+                _count: {
+                    select: {
+                        Follower: true,
+                        Following: true,
+                    },
+                },
             },
         });
         if (!user) {
@@ -173,7 +155,7 @@ export async function getUserByEmail(email: string) {
             throw error;
         }
 
-        return toUserResponse(user, 0, 0);
+        return toUserResponse(user);
     } catch (error) {
         throw error;
     }
@@ -183,15 +165,16 @@ export async function getUserByUsername(username: string) {
     // case insensitive search
     username = username.toLowerCase();
     try {
-        const user = await prisma.user.findFirst({
-            where: {
-                username: {
-                    equals: username,
-                    mode: 'insensitive', // Case insensitive search
-                },
-            },
+        const user = await prisma.user.findUnique({
+            where: { username },
             include: {
                 Profile: true,
+                _count: {
+                    select: {
+                        Follower: true,
+                        Following: true,
+                    },
+                },
             },
         });
         if (!user) {
@@ -200,7 +183,7 @@ export async function getUserByUsername(username: string) {
             throw error;
         }
 
-        return toUserResponse(user, 0, 0);
+        return toUserResponse(user);
     } catch (error) {
         throw error;
     }
