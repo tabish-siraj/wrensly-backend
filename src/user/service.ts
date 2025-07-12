@@ -137,17 +137,14 @@ export async function getUserById(id: string) {
         });
         if (!user) {
             logger.warn(`User with ID ${id} not found`);
-            const error = new NotFoundError({ id });
-            throw error;
+            throw new NotFoundError({ id });
         }
 
-        const followerCount = await prisma.follow.count({
-            where: { followingId: id },
-        });
-
-        const followingCount = await prisma.follow.count({
-            where: { followerId: id },
-        });
+        // Fetch follower and following counts in parallel
+        const [followerCount, followingCount] = await Promise.all([
+            prisma.follow.count({ where: { followingId: id } }),
+            prisma.follow.count({ where: { followerId: id } }),
+        ]);
 
         return toUserResponse(user, followerCount, followingCount);
     } catch (error) {
