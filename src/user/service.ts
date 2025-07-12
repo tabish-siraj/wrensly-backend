@@ -51,8 +51,8 @@ export async function createUser(user: UserInterface) {
     }
 }
 
-export async function updateUser(id: string, user: UserUpdateInterface) {
-    const parsed = UserUpdateSchema.safeParse(user);
+export async function updateUser(user: any, id: string, payload: UserUpdateInterface) {
+    const parsed = UserUpdateSchema.safeParse(payload);
     if (!parsed.success) {
         const validationErrors = parsed.error.flatten().fieldErrors;
         logger.warn(`User update validation failed: ${JSON.stringify(validationErrors)}`);
@@ -101,10 +101,14 @@ export async function updateUser(id: string, user: UserUpdateInterface) {
     }
 }
 
-export async function getUserById(id: string) {
+export async function getUserById(user: any, id: string) {
     try {
+        if (user.id !== id) {
+            logger.warn(`Unauthorized access attempt by user ID ${user.id} to user ID ${id}`);
+            throw new UnauthorizedError('You are not authorized to update this user');
+        }
         // also get profile and followers/following count
-        const user = await prisma.user.findUnique({
+        const fetchedUser = await prisma.user.findUnique({
             where: { id },
             include: {
                 Profile: true,
@@ -116,28 +120,32 @@ export async function getUserById(id: string) {
                 },
             },
         });
-        if (!user) {
+        if (!fetchedUser) {
             logger.warn(`User with ID ${id} not found`);
             throw new NotFoundError({ id });
         }
 
-        // // Fetch follower and following counts in parallel
-        // const [followerCount, followingCount] = await Promise.all([
-        //     prisma.follow.count({ where: { followingId: id } }),
-        //     prisma.follow.count({ where: { followerId: id } }),
-        // ]);
+        let isFollowing = false;
+        const follow = await prisma.follow.findFirst({
+            where: {
+                followerId: user.id,
+                followingId: id,
+                deletedAt: null, // if you use soft deletes
+            },
+        });
+        isFollowing = !!follow;
 
-        return toUserResponse(user);
+        return { ...toUserResponse(fetchedUser), isFollowing };
     } catch (error) {
         throw error;
     }
 }
 
-export async function getUserByEmail(email: string) {
+export async function getUserByEmail(user: any, email: string) {
     // case insensitive search
     email = email.toLowerCase();
     try {
-        const user = await prisma.user.findUnique({
+        const fetchedUser = await prisma.user.findUnique({
             where: { email },
             include: {
                 Profile: true,
@@ -149,23 +157,32 @@ export async function getUserByEmail(email: string) {
                 },
             },
         });
-        if (!user) {
+        if (!fetchedUser) {
             logger.warn(`User with email ${email} not found`);
-            const error = new NotFoundError({ email });
-            throw error;
+            throw new NotFoundError({ email });
         }
 
-        return toUserResponse(user);
+        let isFollowing = false;
+        const follow = await prisma.follow.findFirst({
+            where: {
+                followerId: user.id,
+                followingId: fetchedUser.id,
+                deletedAt: null, // if you use soft deletes
+            },
+        });
+        isFollowing = !!follow;
+
+        return { ...toUserResponse(fetchedUser), isFollowing };
     } catch (error) {
         throw error;
     }
 }
 
-export async function getUserByUsername(username: string) {
+export async function getUserByUsername(user: any, username: string) {
     // case insensitive search
     username = username.toLowerCase();
     try {
-        const user = await prisma.user.findUnique({
+        const fetchedUser = await prisma.user.findUnique({
             where: { username },
             include: {
                 Profile: true,
@@ -177,13 +194,31 @@ export async function getUserByUsername(username: string) {
                 },
             },
         });
-        if (!user) {
+        if (!fetchedUser) {
             logger.warn(`User with username ${username} not found`);
-            const error = new NotFoundError({ username });
-            throw error;
+            throw new NotFoundError({ username });
         }
 
-        return toUserResponse(user);
+        let isFollowing = false;
+        let followingBy = false;
+        const followBy = await prisma.follow.findFirst({
+            where: {
+                followerId: fetchedUser.id,
+                followingId: user.id,
+                deletedAt: null, // if you use soft deletes
+            },
+        });
+        const following = await prisma.follow.findFirst({
+            where: {
+                followerId: user.id,
+                followingId: fetchedUser.id,
+                deletedAt: null, // if you use soft deletes
+            },
+        });
+        isFollowing = !!following;
+        followingBy = !!followBy;
+
+        return { ...toUserResponse(fetchedUser), isFollowing, followingBy };
     } catch (error) {
         throw error;
     }
