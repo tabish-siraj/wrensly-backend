@@ -133,12 +133,6 @@ export async function getUserById(id: string) {
             where: { id },
             include: {
                 Profile: true,
-                _count: {
-                    select: {
-                        Follower: true,
-                        Following: true,
-                    },
-                },
             },
         });
         if (!user) {
