@@ -38,7 +38,7 @@ export const CreateFollowUnfollow = async (user: any, payload: FollowInterface) 
         } else if (existingFollow && existingFollow.deletedAt) {
             await prisma.follow.update({
                 where: { id: existingFollow.id },
-                data: { deletedAt: undefined }
+                data: { deletedAt: null }
             })
             return "followed"
         } else {
