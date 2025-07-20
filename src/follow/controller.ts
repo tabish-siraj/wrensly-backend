@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { CreateFollowUnfollow, GetFollow } from "./service";
+import { CreateFollowUnfollow, GetFollowsByUsername, GetFollowersByUsername } from "./service";
 import { successResponse } from "../utils/response";
 
 export const followUnfollowController = async (req: Request, res: Response, next: NextFunction) => {
@@ -13,9 +13,22 @@ export const followUnfollowController = async (req: Request, res: Response, next
     }
 };
 
-export const getFollowController = async (req: Request, res: Response, next: NextFunction) => {
+export const getFollowsByUsernameController = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const follow = await GetFollow();
+        const user = (req as any).user;
+        const username = req.params.username;
+        const follow = await GetFollowsByUsername(user, username);
+        res.status(200).json(successResponse("Follow model list", follow, 200));
+    } catch (err: any) {
+        next(err);
+    }
+};
+
+export const getFollowersByUsernameController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = (req as any).user;
+        const username = req.params.username;
+        const follow = await GetFollowersByUsername(user, username);
         res.status(200).json(successResponse("Follow model list", follow, 200));
     } catch (err: any) {
         next(err);

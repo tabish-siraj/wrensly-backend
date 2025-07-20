@@ -1,6 +1,7 @@
 import prisma from "../lib/prisma";
 import { FollowSchema, FollowInterface } from "./schema";
 import logger from "../utils/logger";
+import { toUserResponse, omitEmptyFields } from "../user/helper";
 import { NotFoundError, BadRequestError, ForbiddenError, UnauthorizedError, InternalServerError } from "../utils/errors";
 
 export const CreateFollowUnfollow = async (user: any, payload: FollowInterface) => {
@@ -50,38 +51,155 @@ export const CreateFollowUnfollow = async (user: any, payload: FollowInterface) 
             })
             return "followed"
         }
+
     } catch (error) {
         throw error;
     }
 }
 
-export const GetFollow = async () => {
+export const GetFollowsByUsername = async (user: any, username: string) => {
     try {
-        return await prisma.follow.findMany({});
+        // Validate the username format
+        if (!username || typeof username !== 'string') {
+            logger.warn(`Invalid username: ${username}`);
+            throw new BadRequestError('Invalid username');
+        }
+
+        const foundUser = await prisma.user.findFirst({
+            where: { username, deletedAt: null }
+        })
+
+        if (!foundUser) {
+            logger.warn(`User with username ${username} not found`);
+            throw new NotFoundError(`User with username ${username} not found`);
+        }
+
+        const follows = await prisma.follow.findMany({
+            where: {
+                followerId: foundUser.id,
+                deletedAt: null
+            },
+            select: {
+                followingId: true
+            }
+        })
+
+        if (follows.length === 0) return [];
+
+        const followingIds = follows.map(follow => follow.followingId);
+
+        const followingUsers = await prisma.user.findMany({
+            where: {
+                id: {
+                    in: followingIds
+                }
+            },
+            select: {
+                id: true,
+                username: true,
+                email: true,
+                createdAt: true,
+                Profile: {
+                    select: {
+                        firstName: true,
+                        lastName: true,
+                        avatar: true
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        })
+
+        return followingUsers.map(user => {
+            return {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                createdAt: user.createdAt,
+                firstName: user.Profile?.firstName,
+                lastName: user.Profile?.lastName,
+                avatar: user.Profile?.avatar
+
+            }
+        })
+
     } catch (error) {
         throw error;
     }
 }
-// export const GetFollowers = async (userId: string) => {
-//     try {
-//         const followers = await prisma.follow.findMany({
-//             where: {
-//                 followingId: userId,
-//                 deletedAt: null
-//             },
-//             include: {
-//                 follower: true
-//             }
-//         });
 
-//         return followers.map(follow => ({
-//             id: follow.follower.id,
-//             username: follow.follower.username,
-//             email: follow.follower.email,
-//             createdAt: follow.follower.createdAt
-//         }));
-//     } catch (error) {
-//         logger.error(`Error fetching followers for user ${userId}: ${error}`);
-//         throw new InternalServerError("Failed to fetch followers");
-//     }
-// }
+
+export const GetFollowersByUsername = async (user: any, username: string) => {
+    try {
+        // Validate the username format
+        if (!username || typeof username !== 'string') {
+            logger.warn(`Invalid username: ${username}`);
+            throw new BadRequestError('Invalid username');
+        }
+
+        const foundUser = await prisma.user.findFirst({
+            where: { username, deletedAt: null }
+        })
+
+        if (!foundUser) {
+            logger.warn(`User with username ${username} not found`);
+            throw new NotFoundError(`User with username ${username} not found`);
+        }
+
+        const follows = await prisma.follow.findMany({
+            where: {
+                followingId: foundUser.id,
+                deletedAt: null
+            },
+            select: {
+                followerId: true
+            }
+        })
+
+        if (follows.length === 0) return [];
+
+        const followerIds = follows.map(follow => follow.followerId);
+
+        const followerUsers = await prisma.user.findMany({
+            where: {
+                id: {
+                    in: followerIds
+                }
+            },
+            select: {
+                id: true,
+                username: true,
+                email: true,
+                createdAt: true,
+                Profile: {
+                    select: {
+                        firstName: true,
+                        lastName: true,
+                        avatar: true
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        })
+
+        return followerUsers.map(user => {
+            return {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                createdAt: user.createdAt,
+                firstName: user.Profile?.firstName,
+                lastName: user.Profile?.lastName,
+                avatar: user.Profile?.avatar
+
+            }
+        })
+
+    } catch (error) {
+        throw error;
+    }
+}

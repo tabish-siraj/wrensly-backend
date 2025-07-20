@@ -11,9 +11,9 @@ export function omitEmptyFields(obj: any) {
 
 export function toUserResponse(user: any): UserResponseInterface {
     return {
-        id: user.id,
+        id: user.id || "",
         username: user.username || "",
-        email: user.email,
+        email: user.email || "",
         firstName: user.Profile?.firstName || "",
         lastName: user.Profile?.lastName || "",
         dateOfBirth: user.Profile?.dateOfBirth?.toString() || "",
