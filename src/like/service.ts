@@ -22,7 +22,7 @@ export const CreateLike = async (user: any, likePayload: LikeInterface) => {
 
         // Check if post is already liked (if provided)
         if (parsed.data.isLiked) {
-            const alreadyLiked = await prisma.like.findUnique({
+            const alreadyLiked = await prisma.like.findFirst({
                 where: {
                     postId: parsed.data.postId,
                     userId: user.id,
@@ -62,7 +62,7 @@ export const DeleteLike = async (user: any, postId: string) => {
 
     try {
         // Check if the post is already liked
-        const isLiked = await prisma.like.findUnique({
+        const isLiked = await prisma.like.findFirst({
             where: {
                 postId: postId,
                 userId: user.id,
@@ -78,8 +78,7 @@ export const DeleteLike = async (user: any, postId: string) => {
         // Hard delete the like by deleting the record
         await prisma.like.delete({
             where: {
-                postId: postId,
-                userId: user.id,
+                id: isLiked.id
             }
         })
         return;
