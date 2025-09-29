@@ -18,7 +18,6 @@ export const GetFeed = async (user: any) => {
         const followingIds = follows.map(follow => follow.followingId);
 
         if (followingIds.length === 0) return [];
-        
 
         const feed = await prisma.post.findMany({
             where: {
@@ -44,7 +43,14 @@ export const GetFeed = async (user: any) => {
                 },
                 _count: {
                     select: {
-                        Comment: true
+                        Comment: true,
+                        Like: true
+                    }
+                },
+                Like: {
+                    where: { userId: user.id },
+                    select: {
+                        id: true
                     }
                 }
             }
