@@ -3,6 +3,26 @@ import logger from "../utils/logger";
 import { NotFoundError, BadRequestError, ForbiddenError, UnauthorizedError, InternalServerError } from "../utils/errors";
 import { FollowSchema } from "./schema";
 
+
+interface NormalizedUser {
+    id: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+}
+
+interface NormalizedPost {
+    id: string;
+    content: string;
+    createdAt: Date;
+    user: NormalizedUser;
+    stats: {
+        likes: number;
+        comments: number;
+    };
+    isLiked: boolean;
+}
+
 export const GetFeed = async (user: any) => {
     try {
         const follows = await prisma.follow.findMany({
@@ -55,7 +75,25 @@ export const GetFeed = async (user: any) => {
                 }
             }
         });
-        return feed;
+
+        const normalizedFeed = feed.map(post => ({
+            id: post.id,
+            content: post.content,
+            createdAt: post.createdAt,
+            user: {
+                id: post.user.id,
+                username: post.user.username,
+                firstName: post?.user?.Profile?.firstName,
+                lastName: post?.user?.Profile?.lastName
+            },
+            stats: {
+                likes: post._count.Like,
+                comments: post._count.Comment
+            },
+            isLiked: post.Like.length > 0
+        })) as NormalizedPost[];
+
+        return normalizedFeed;
     } catch (error) {
         throw error;
     }
