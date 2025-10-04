@@ -21,6 +21,7 @@ interface NormalizedPost {
         comments: number;
     };
     isLiked: boolean;
+    isBookmarked: boolean;
 }
 
 export const GetFeed = async (user: any) => {
@@ -72,6 +73,12 @@ export const GetFeed = async (user: any) => {
                     select: {
                         id: true
                     }
+                },
+                Bookmark: {
+                    where: { userId: user.id },
+                    select: {
+                        id: true
+                    }
                 }
             }
         });
@@ -90,7 +97,8 @@ export const GetFeed = async (user: any) => {
                 likes: post._count.Like,
                 comments: post._count.Comment
             },
-            isLiked: post.Like.length > 0
+            isLiked: post.Like.length > 0,
+            isBookmarked: post.Bookmark.length > 0
         })) as NormalizedPost[];
 
         return normalizedFeed;
