@@ -20,18 +20,18 @@ export const CreateBookmark = async (user: any, bookmarkPayload: BookmarkInterfa
             throw new NotFoundError(`Post with ID ${parsed.data.postId} not found`);
         }
 
-        // Check if post is already bookmarkd (if provided)
-        if (parsed.data.isBookmarkd) {
-            const alreadyBookmarkd = await prisma.bookmark.findFirst({
+        // Check if post is already bookmarked (if provided)
+        if (parsed.data.isBookmarked) {
+            const alreadyBookmarked = await prisma.bookmark.findFirst({
                 where: {
                     postId: parsed.data.postId,
                     userId: user.id,
                     // deletedAt: null
                 },
             });
-            if (alreadyBookmarkd) {
-                logger.warn(`Post with ID ${parsed.data.postId} is already bookmarkd by user ${user.id}`);
-                throw new ForbiddenError(`You have already bookmarkd this post`);
+            if (alreadyBookmarked) {
+                logger.warn(`Post with ID ${parsed.data.postId} is already bookmarked by user ${user.id}`);
+                throw new ForbiddenError(`You have already bookmarked this post`);
             }
             // Create the bookmark in the database
             const createdBookmark = await prisma.bookmark.create({
@@ -61,15 +61,15 @@ export const DeleteBookmark = async (user: any, postId: string) => {
     }
 
     try {
-        // Check if the post is already bookmarkd
-        const isBookmarkd = await prisma.bookmark.findFirst({
+        // Check if the post is already bookmarked
+        const isBookmarked = await prisma.bookmark.findFirst({
             where: {
                 postId: postId,
                 userId: user.id,
                 // deletedAt: null
             }
         });
-        if (!isBookmarkd) {
+        if (!isBookmarked) {
             logger.warn(`Bookmark with Post ID ${postId} not found for user ${user.id}`);
             throw new NotFoundError(`Bookmark with Post ID ${postId} not found for user ${user.id}`);
         }
@@ -78,7 +78,7 @@ export const DeleteBookmark = async (user: any, postId: string) => {
         // Hard delete the bookmark by deleting the record
         await prisma.bookmark.delete({
             where: {
-                id: isBookmarkd.id
+                id: isBookmarked.id
             }
         })
         return;
@@ -96,7 +96,7 @@ export const CreateDeleteBookmark = async (user: any, bookmarkPayload: BookmarkI
     }
 
     try {
-        if (parsed.data.isBookmarkd) {
+        if (parsed.data.isBookmarked) {
             await CreateBookmark(user, parsed.data);
         }
         else {
