@@ -29,8 +29,8 @@ export const CreatePost = async (user: any, post: PostInterface) => {
         const createdPost = await prisma.post.create({
             data: {
                 content: parsed.data.content,
-                parentId: parsed.data.parentId || null, // Ensure parentId is null if not provided
-                userId: user.id, // Add userId as required by the schema
+                parentId: parsed.data.parentId,
+                userId: user.id,
             },
         });
 
@@ -44,6 +44,7 @@ export const CreatePost = async (user: any, post: PostInterface) => {
         throw error;
     }
 }
+
 
 export const GetPostById = async (user: any, id: string) => {
     try {

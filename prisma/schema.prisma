@@ -48,8 +48,8 @@ model User {
   Comment   Comment[]
   Like      Like[]
   Bookmark  Bookmark[]
-  Follower  Follow[]  @relation("Follower")
-  Following Follow[]  @relation("Following")
+  Follower  Follow[]   @relation("Follower")
+  Following Follow[]   @relation("Following")
   Feed      Feed[]
 }
 
@@ -76,12 +76,11 @@ model Profile {
 }
 
 model ProfileAttachment {
-  id           String   @id @default(cuid())
+  id           String    @id @default(cuid())
   profileId    String
   attachmentId String
-  createdAt    DateTime @default(now())
-  deletedAt DateTime?
-
+  createdAt    DateTime  @default(now())
+  deletedAt    DateTime?
 
   profile    Profile    @relation(fields: [profileId], references: [id])
   attachment Attachment @relation(fields: [attachmentId], references: [id])
@@ -89,7 +88,7 @@ model ProfileAttachment {
 
 model Post {
   id        String    @id @default(cuid())
-  content   String
+  content   String?
   userId    String
   parentId  String? // for reposts or quotes
   createdAt DateTime  @default(now())
@@ -107,12 +106,11 @@ model Post {
 }
 
 model PostAttachment {
-  id           String   @id @default(cuid())
+  id           String    @id @default(cuid())
   postId       String
   attachmentId String
-  createdAt    DateTime @default(now())
-  deletedAt DateTime?
-
+  createdAt    DateTime  @default(now())
+  deletedAt    DateTime?
 
   post       Post       @relation(fields: [postId], references: [id])
   attachment Attachment @relation(fields: [attachmentId], references: [id])
@@ -136,21 +134,21 @@ model Comment {
 }
 
 model CommentAttachment {
-  id           String   @id @default(cuid())
+  id           String    @id @default(cuid())
   commentId    String
   attachmentId String
-  createdAt    DateTime @default(now())
-  deletedAt DateTime?
+  createdAt    DateTime  @default(now())
+  deletedAt    DateTime?
 
   comment    Comment    @relation(fields: [commentId], references: [id])
   attachment Attachment @relation(fields: [attachmentId], references: [id])
 }
 
 model Like {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   postId    String
   userId    String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   deletedAt DateTime?
 
   post Post @relation(fields: [postId], references: [id])
@@ -158,10 +156,10 @@ model Like {
 }
 
 model Bookmark {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   postId    String
   userId    String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   deletedAt DateTime?
 
   post Post @relation(fields: [postId], references: [id])

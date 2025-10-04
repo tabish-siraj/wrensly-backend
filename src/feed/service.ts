@@ -1,8 +1,4 @@
 import prisma from "../lib/prisma";
-import logger from "../utils/logger";
-import { NotFoundError, BadRequestError, ForbiddenError, UnauthorizedError, InternalServerError } from "../utils/errors";
-import { FollowSchema } from "./schema";
-
 
 interface NormalizedUser {
     id: string;
@@ -16,6 +12,7 @@ interface NormalizedPost {
     content: string;
     createdAt: Date;
     user: NormalizedUser;
+    parentId?: string | null;
     stats: {
         likes: number;
         comments: number;
@@ -37,6 +34,7 @@ export const GetFeed = async (user: any) => {
         });
 
         const followingIds = follows.map(follow => follow.followingId);
+        followingIds.push(user.id); // Include user's own posts
 
         if (followingIds.length === 0) return [];
 
@@ -85,8 +83,9 @@ export const GetFeed = async (user: any) => {
 
         const normalizedFeed = feed.map(post => ({
             id: post.id,
-            content: post.content,
             createdAt: post.createdAt,
+            content: post.content,
+            parentId: post.parentId,
             user: {
                 id: post.user.id,
                 username: post.user.username,
