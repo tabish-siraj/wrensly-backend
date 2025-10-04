@@ -6,6 +6,7 @@ import commentRoutes from '../comment/route';
 import feedRoutes from '../feed/route';
 import followRoutes from '../follow/route';
 import likeRoutes from '../like/route';
+import bookmarkRoutes from '../bookmark/route';
 import { authenticateJWT } from '../middlewares/auth';
 
 
@@ -18,5 +19,6 @@ router.use('/comment', authenticateJWT, commentRoutes); // /api/comment
 router.use('/feed', authenticateJWT, feedRoutes); // /api/feed
 router.use('/follow', authenticateJWT, followRoutes); // /api/follow
 router.use('/like', authenticateJWT, likeRoutes); // /api/like
+router.use('/bookmark', authenticateJWT, bookmarkRoutes); // /api/bookmark
 
 export default router;
