@@ -24,6 +24,7 @@ interface NormalizedPost {
         comments: number;
     };
     isLiked: boolean;
+    isReposted: boolean;
     isBookmarked: boolean;
 }
 
@@ -135,6 +136,7 @@ export const GetFeed = async (user: any) => {
                 comments: post._count.Comment
             },
             isLiked: post.Like.length > 0,
+            isReposted: post._count.Post > 0,
             isBookmarked: post.Bookmark.length > 0
         })) as NormalizedPost[];
 
