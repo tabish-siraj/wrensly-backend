@@ -133,6 +133,7 @@ export const GetFeed = async (user: any) => {
             },
             stats: {
                 likes: post._count.Like,
+                reposts: post._count.Post,
                 comments: post._count.Comment
             },
             isLiked: post.Like.length > 0,
