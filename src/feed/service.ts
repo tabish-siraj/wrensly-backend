@@ -13,6 +13,12 @@ interface NormalizedPost {
     createdAt: Date;
     user: NormalizedUser;
     parentId?: string | null;
+    parent?: {
+        id: string;
+        content: string;
+        createdAt: Date;
+        user: NormalizedUser;
+    } | null;
     stats: {
         likes: number;
         comments: number;
@@ -63,7 +69,9 @@ export const GetFeed = async (user: any) => {
                 _count: {
                     select: {
                         Comment: true,
-                        Like: true
+                        Like: true,
+                        Post: true,
+                        Bookmark: true
                     }
                 },
                 Like: {
@@ -77,6 +85,25 @@ export const GetFeed = async (user: any) => {
                     select: {
                         id: true
                     }
+                },
+                parent: {
+                    select: {
+                        id: true,
+                        content: true,
+                        createdAt: true,
+                        user: {
+                            select: {
+                                id: true,
+                                username: true,
+                                Profile: {
+                                    select: {
+                                        firstName: true,
+                                        lastName: true
+                                    }
+                                }
+                            }
+                        },
+                    }
                 }
             }
         });
@@ -86,6 +113,17 @@ export const GetFeed = async (user: any) => {
             createdAt: post.createdAt,
             content: post.content,
             parentId: post.parentId,
+            parent: post.parent ? {
+                id: post.parent.id,
+                content: post.parent.content,
+                createdAt: post.parent.createdAt,
+                user: {
+                    id: post.parent.user.id,
+                    username: post.parent.user.username,
+                    firstName: post.parent.user.Profile?.firstName,
+                    lastName: post.parent.user.Profile?.lastName
+                }
+            } : null,
             user: {
                 id: post.user.id,
                 username: post.user.username,
