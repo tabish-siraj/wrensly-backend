@@ -7,14 +7,24 @@ import { globalErrorHandler } from './src/middlewares/errorHandler';
 const app = express();
 
 // CORS Configuration for Development and Production
+const allowedOrigins = [
+    "http://localhost:3000",              // local dev
+    "https://wrensly-frontend.vercel.app" // prod frontend
+];
+
 const corsOptions = {
-    origin: '*',  // wildcard in development
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],  // Allowed methods
-    allowedHeaders: ['Content-Type', 'Authorization'],  // Allowed headers
-    credentials: true,  // Allow cookies or credentials
+    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 };
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(requestLogger);
 app.use('/api', router);
