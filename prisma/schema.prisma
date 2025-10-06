@@ -18,18 +18,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Attachment {
-  id        String    @id @default(cuid())
-  url       String
-  type      String
-  createdAt DateTime  @default(now())
-  deletedAt DateTime?
-
-  ProfileAttachment ProfileAttachment[]
-  PostAttachment    PostAttachment[]
-  CommentAttachment CommentAttachment[]
-}
-
 model User {
   id         String    @id @default(cuid())
   username   String?   @unique
@@ -43,14 +31,15 @@ model User {
   updatedAt  DateTime  @default(now())
   deletedAt  DateTime?
 
-  Profile   Profile?
-  Post      Post[]
-  Comment   Comment[]
-  Like      Like[]
-  Bookmark  Bookmark[]
-  Follower  Follow[]   @relation("Follower")
-  Following Follow[]   @relation("Following")
-  Feed      Feed[]
+  profile   Profile?
+  posts      Post[]
+  comments   Comment[]
+  likes      Like[]
+  bookmarks  Bookmark[]
+  followers  Follow[]   @relation("Follower")
+  following Follow[]   @relation("Following")
+  feed      Feed[]
+  repost         Repost[]
 }
 
 model Profile {
@@ -72,18 +61,7 @@ model Profile {
   deletedAt   DateTime?
 
   user              User                @relation(fields: [userId], references: [id])
-  ProfileAttachment ProfileAttachment[]
-}
-
-model ProfileAttachment {
-  id           String    @id @default(cuid())
-  profileId    String
-  attachmentId String
-  createdAt    DateTime  @default(now())
-  deletedAt    DateTime?
-
-  profile    Profile    @relation(fields: [profileId], references: [id])
-  attachment Attachment @relation(fields: [attachmentId], references: [id])
+  attachments        ProfileAttachment[]
 }
 
 model Post {
@@ -97,12 +75,122 @@ model Post {
 
   user           User             @relation(fields: [userId], references: [id])
   parent         Post?            @relation("ParentPost", fields: [parentId], references: [id])
-  Post           Post[]           @relation("ParentPost")
-  PostAttachment PostAttachment[]
-  Comment        Comment[]
-  Like           Like[]
-  Bookmark       Bookmark[]
-  Feed           Feed[]
+  children           Post[]           @relation("ParentPost")
+  attachments   PostAttachment[]
+  comments        Comment[]
+  likes           Like[]
+  bookmarks       Bookmark[]
+  feeds           Feed[]
+  reposts         Repost[]
+}
+
+model Repost {
+  id        String    @id @default(cuid())
+  userId String
+  postId String
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
+
+  @@unique([userId, postId]) // prevent duplicate reposts
+  @@index([postId])
+  @@index([userId])
+}
+
+model Comment {
+  id        String    @id @default(cuid())
+  content   String
+  postId    String
+  userId    String
+  parentId  String? // for replies to comments
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  post              Post                @relation(fields: [postId], references: [id])
+  user              User                @relation(fields: [userId], references: [id])
+  parent            Comment?            @relation("ParentComment", fields: [parentId], references: [id])
+  replies                Comment[]           @relation("ParentComment")
+  attachments  CommentAttachment[]
+}
+
+model Like {
+  id        String    @id @default(cuid())
+  postId    String
+  userId    String
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, postId])
+  @@index([userId])
+  @@index([postId])
+}
+
+model Bookmark {
+  id        String    @id @default(cuid())
+  postId    String
+  userId    String
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, postId])
+
+}
+
+model Follow {
+  id          String    @id @default(cuid())
+  followerId  String
+  followingId String
+  createdAt   DateTime  @default(now())
+  deletedAt   DateTime?
+
+  follower  User @relation("Follower", fields: [followerId], references: [id])
+  following User @relation("Following", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId])
+
+}
+
+model Feed {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
+}
+
+
+model Attachment {
+  id        String    @id @default(cuid())
+  url       String
+  type      String
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  postAttachments    PostAttachment[]
+  commentAttachments CommentAttachment[]
+  profileAttachments ProfileAttachment[]
+}
+
+model ProfileAttachment {
+  id           String    @id @default(cuid())
+  profileId    String
+  attachmentId String
+  createdAt    DateTime  @default(now())
+  deletedAt    DateTime?
+
+  profile    Profile    @relation(fields: [profileId], references: [id])
+  attachment Attachment @relation(fields: [attachmentId], references: [id])
 }
 
 model PostAttachment {
@@ -116,23 +204,6 @@ model PostAttachment {
   attachment Attachment @relation(fields: [attachmentId], references: [id])
 }
 
-model Comment {
-  id        String    @id @default(cuid())
-  content   String
-  postId    String
-  userId    String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
-  deletedAt DateTime?
-  parentId  String? // for replies to comments
-
-  post              Post                @relation(fields: [postId], references: [id])
-  user              User                @relation(fields: [userId], references: [id])
-  parent            Comment?            @relation("ParentComment", fields: [parentId], references: [id])
-  Comment           Comment[]           @relation("ParentComment")
-  CommentAttachment CommentAttachment[]
-}
-
 model CommentAttachment {
   id           String    @id @default(cuid())
   commentId    String
@@ -144,45 +215,3 @@ model CommentAttachment {
   attachment Attachment @relation(fields: [attachmentId], references: [id])
 }
 
-model Like {
-  id        String    @id @default(cuid())
-  postId    String
-  userId    String
-  createdAt DateTime  @default(now())
-  deletedAt DateTime?
-
-  post Post @relation(fields: [postId], references: [id])
-  user User @relation(fields: [userId], references: [id])
-}
-
-model Bookmark {
-  id        String    @id @default(cuid())
-  postId    String
-  userId    String
-  createdAt DateTime  @default(now())
-  deletedAt DateTime?
-
-  post Post @relation(fields: [postId], references: [id])
-  user User @relation(fields: [userId], references: [id])
-}
-
-model Follow {
-  id          String    @id @default(cuid())
-  followerId  String
-  followingId String
-  createdAt   DateTime  @default(now())
-  deletedAt   DateTime?
-
-  follower  User @relation("Follower", fields: [followerId], references: [id])
-  following User @relation("Following", fields: [followingId], references: [id])
-}
-
-model Feed {
-  id        String   @id @default(cuid())
-  userId    String
-  postId    String
-  createdAt DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id])
-  post Post @relation(fields: [postId], references: [id])
-}
