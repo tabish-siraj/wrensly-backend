@@ -1,30 +1,41 @@
-import { Request, Response, NextFunction } from "express";
-import { CreateBookmark, DeleteBookmark } from "./service";
-import { successResponse } from "../utils/response";
+import { Request, Response, NextFunction } from 'express';
+import { CreateBookmark, DeleteBookmark } from './service';
+import { successResponse } from '../utils/response';
 
-export const createBookmarkController = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const user = (req as any).user;
-        const bookmarkData = req.body;
+export const createBookmarkController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = (req as any).user;
+    const bookmarkData = req.body;
 
-        const bookmark = await CreateBookmark(user, bookmarkData);
-        res.status(201).json(successResponse("Bookmark created successfully", bookmark, 201));
-    } catch (error) {
-        next(error);
-    }
+    const bookmark = await CreateBookmark(user, bookmarkData);
+    res
+      .status(201)
+      .json(successResponse('Bookmark created successfully', bookmark, 201));
+  } catch (error) {
+    next(error);
+  }
 };
 
+export const deleteBookmarkController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = (req as any).user;
+    const bookmarkId = req.params.id;
 
-export const deleteBookmarkController = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const user = (req as any).user;
-        const bookmarkId = req.params.id;
-
-        await DeleteBookmark(user, bookmarkId);
-        res.status(204).json(successResponse("Bookmark deleted successfully", null, 204));
-    } catch (error) {
-        next(error);
-    }
+    await DeleteBookmark(user, bookmarkId);
+    res
+      .status(204)
+      .json(successResponse('Bookmark deleted successfully', null, 204));
+  } catch (error) {
+    next(error);
+  }
 };
 
 // export const getCommentByIdController = async (req: Request, res: Response, next: NextFunction) => {

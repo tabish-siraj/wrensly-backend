@@ -9,7 +9,6 @@ import likeRoutes from '../like/route';
 import bookmarkRoutes from '../bookmark/route';
 import { authenticateJWT } from '../middlewares/auth';
 
-
 const router = Router();
 
 router.use('/user', userRoutes); // /api/user

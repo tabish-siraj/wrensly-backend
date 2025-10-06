@@ -4,9 +4,13 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "dev": "nodemon server",
-    "start": "node dist/server",
+    "dev": "nodemon src/server.ts",
+    "start": "node dist/server.js",
     "build": "tsc",
+    "test": "jest",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
     "postinstall": "prisma generate"
   },
   "repository": {
@@ -50,6 +54,7 @@
     "prisma": "^6.11.1",
     "ts-jest": "^29.4.4",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.45.0"
   }
 }

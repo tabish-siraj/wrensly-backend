@@ -1,8 +1,6 @@
 import { Router } from 'express';
 
-import {
-    getFeedController
-} from './controller';
+import { getFeedController } from './controller';
 
 const router = Router();
 router.get('/', getFeedController);

@@ -11,7 +11,12 @@ export type UserInterface = z.infer<typeof UserSchema>;
 export const ProfileSchema = z.object({
   firstName: z.string().nullable().optional(),
   lastName: z.string().nullable().optional(),
-  dateOfBirth: z.string().datetime({ message: "Invalid date format" }).transform((val) => new Date(val)).nullable().optional(),
+  dateOfBirth: z
+    .string()
+    .datetime({ message: 'Invalid date format' })
+    .transform((val) => new Date(val))
+    .nullable()
+    .optional(),
   gender: z.string().nullable().optional(),
   bio: z.string().nullable().optional(),
   avatar: z.string().nullable().optional(),
@@ -34,7 +39,11 @@ export const UserUpdateSchema = z.object({
   username: z.string().nullable().optional(),
   firstName: z.string().nullable().optional(),
   lastName: z.string().nullable().optional(),
-  dateOfBirth: z.string().nullable().optional().transform((val) => val ? new Date(val) : null),
+  dateOfBirth: z
+    .string()
+    .nullable()
+    .optional()
+    .transform((val) => (val ? new Date(val) : null)),
   gender: z.string().nullable().optional(),
   bio: z.string().nullable().optional(),
   avatar: z.string().nullable().optional(),
