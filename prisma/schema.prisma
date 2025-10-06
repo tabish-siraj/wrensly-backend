@@ -28,7 +28,7 @@ model User {
   isAdmin    Boolean   @default(false)
   isBanned   Boolean   @default(false)
   createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
   deletedAt  DateTime?
 
   profile   Profile?
@@ -82,6 +82,9 @@ model Post {
   bookmarks       Bookmark[]
   feeds           Feed[]
   reposts         Repost[]
+
+  @@index([userId])
+  @@index([createdAt])
 }
 
 model Repost {
@@ -114,6 +117,10 @@ model Comment {
   parent            Comment?            @relation("ParentComment", fields: [parentId], references: [id])
   replies                Comment[]           @relation("ParentComment")
   attachments  CommentAttachment[]
+
+  @@index([postId])
+  @@index([userId])
+  @@index([parentId])
 }
 
 model Like {
@@ -142,7 +149,7 @@ model Bookmark {
   user User @relation(fields: [userId], references: [id])
 
   @@unique([userId, postId])
-
+  @@index([userId])
 }
 
 model Follow {
@@ -156,7 +163,8 @@ model Follow {
   following User @relation("Following", fields: [followingId], references: [id])
 
   @@unique([followerId, followingId])
-
+  @@index([followerId])
+  @@index([followingId])
 }
 
 model Feed {
@@ -167,6 +175,8 @@ model Feed {
 
   user User @relation(fields: [userId], references: [id])
   post Post @relation(fields: [postId], references: [id])
+
+  @@index([userId, createdAt(sort: Desc)])
 }
 
 
@@ -191,6 +201,8 @@ model ProfileAttachment {
 
   profile    Profile    @relation(fields: [profileId], references: [id])
   attachment Attachment @relation(fields: [attachmentId], references: [id])
+
+  @@index([profileId])
 }
 
 model PostAttachment {
@@ -202,6 +214,8 @@ model PostAttachment {
 
   post       Post       @relation(fields: [postId], references: [id])
   attachment Attachment @relation(fields: [attachmentId], references: [id])
+
+  @@index([postId])
 }
 
 model CommentAttachment {
@@ -213,5 +227,7 @@ model CommentAttachment {
 
   comment    Comment    @relation(fields: [commentId], references: [id])
   attachment Attachment @relation(fields: [attachmentId], references: [id])
+
+  @@index([commentId])
 }
 
