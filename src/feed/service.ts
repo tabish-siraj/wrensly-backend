@@ -120,7 +120,7 @@ export const GetFeed = async (
       },
     });
 
-    const normalizedFeed = feed.map(post => ({
+    const normalizedFeed = feed.map((post) => ({
       id: post.id,
       createdAt: post.createdAt,
       content: post.content,
