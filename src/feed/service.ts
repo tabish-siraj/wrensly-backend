@@ -1,50 +1,60 @@
 import prisma from '../lib/prisma';
 import { UserPayload } from '../types/express';
+import { BadRequestError } from '../utils/errors';
 
 interface NormalizedUser {
   id: string;
   username: string;
-  firstName: string;
-  lastName: string;
+  firstName: string | null;
+  lastName: string | null;
+  avatar: string | null;
 }
 
 interface NormalizedPost {
   id: string;
-  content: string;
+  content: string | null;
   createdAt: Date;
   user: NormalizedUser;
   parentId?: string | null;
   parent?: {
     id: string;
-    content: string;
+    content: string | null;
     createdAt: Date;
     user: NormalizedUser;
   } | null;
   stats: {
     likes: number;
     comments: number;
+    reposts: number;
   };
   isLiked: boolean;
   isReposted: boolean;
   isBookmarked: boolean;
 }
 
-export const GetFeed = async (user: UserPayload) => {
-  try {
-    const follows = await prisma.follow.findMany({
-      where: {
-        followerId: user.id,
-        deletedAt: null,
-      },
-      select: {
-        followingId: true,
-      },
-    });
+export const GetFeed = async (
+  user: UserPayload,
+  page: number,
+  limit: number
+): Promise<NormalizedPost[]> => {
+  if (isNaN(page) || isNaN(limit) || page < 1 || limit < 1) {
+    throw new BadRequestError('Invalid pagination parameters.');
+  }
 
-    const followingIds = follows.map((follow) => follow.followingId);
-    followingIds.push(user.id); // Include user's own posts
+  const skip = (page - 1) * limit;
 
-    if (followingIds.length === 0) return [];
+  const follows = await prisma.follow.findMany({
+    where: {
+      followerId: user.id,
+      deletedAt: null,
+    },
+    select: {
+      followingId: true,
+    },
+  });
+
+  const followingIds = follows.map((follow) => follow.followingId);
+  followingIds.push(user.id); // Include user's own posts
 
     const feed = await prisma.post.findMany({
       where: {
@@ -122,27 +132,25 @@ export const GetFeed = async (user: UserPayload) => {
         user: {
           id: post.parent.user.id,
           username: post.parent.user.username,
-          firstName: post.parent.user.Profile?.firstName,
-          lastName: post.parent.user.Profile?.lastName
+          firstName: post.parent.user.profile?.firstName,
+          lastName: post.parent.user.profile?.lastName
         }
       } : null,
       user: {
         id: post.user.id,
         username: post.user.username,
-        firstName: post?.user?.Profile?.firstName,
-        lastName: post?.user?.Profile?.lastName
+        firstName: post?.user?.profile?.firstName,
+        lastName: post?.user?.profile?.lastName
       },
       stats: {
-        likes: post._count.Like,
-        comments: post._count.Comment
+        likes: post._count.likes,
+        reposts: post._count.reposts,
+        comments: post._count.comments
       },
-      isLiked: post.Like.length > 0,
-      isReposted: post._count.Post > 0,
-      isBookmarked: post.Bookmark.length > 0
+      isLiked: post.likes.length > 0,
+      isReposted: post._count.reposts > 0,
+      isBookmarked: post.bookmarks.length > 0
     })) as NormalizedPost[];
 
-    return normalizedFeed;
-  } catch (error) {
-    throw error;
-  }
+  return normalizedFeed;
 };
