@@ -34,12 +34,9 @@ interface NormalizedPost {
 
 export const GetFeed = async (
   user: UserPayload,
-  page: number,
-  limit: number
+  page: number = 0,
+  limit: number = 10
 ): Promise<NormalizedPost[]> => {
-  if (isNaN(page) || isNaN(limit) || page < 1 || limit < 1) {
-    throw new BadRequestError('Invalid pagination parameters.');
-  }
 
   const skip = (page - 1) * limit;
 
@@ -62,6 +59,8 @@ export const GetFeed = async (
           in: followingIds,
         },
       },
+      skip,
+      take: limit,
       orderBy: {
         createdAt: 'desc',
       },

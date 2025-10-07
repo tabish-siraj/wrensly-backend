@@ -12,7 +12,12 @@ export const getFeedController = async (
     throw new UnauthorizedError('You must be logged in to perform this action');
   }
   try {
-    const feed = await GetFeed(req.user);
+    // Parse pagination parameters from the query string, with defaults
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const limit = parseInt(req.query.limit as string, 10) || 10;
+
+    // Call the service with the user and pagination details
+    const feed = await GetFeed(req.user, page, limit);
     res
       .status(200)
       .json(successResponse('Feed retrieved successfully', feed, 200));
