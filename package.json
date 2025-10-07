@@ -8,8 +8,6 @@
     "start": "node dist/server.js",
     "build": "tsc",
     "test": "jest",
-    "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --write \"src/**/*.ts\"",
     "postinstall": "prisma generate"
   },
