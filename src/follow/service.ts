@@ -2,9 +2,10 @@ import prisma from '../lib/prisma';
 import { FollowInterface, FollowSchema } from './schema';
 import logger from '../utils/logger';
 import { NotFoundError, BadRequestError } from '../utils/errors';
+import { UserPayload } from '../types/express';
 
 export const CreateFollowUnfollow = async (
-  user: any,
+  user: UserPayload,
   payload: FollowInterface
 ) => {
   try {
@@ -24,14 +25,10 @@ export const CreateFollowUnfollow = async (
     });
     if (!followedUser) {
       logger.warn(
-        `User you're trying to ${
-          parsed.data.operation ? 'follow' : 'unfollow'
-        } with ID ${parsed.data.following} not found`
+        `User you're trying to ${parsed.data.operation ? 'follow' : 'unfollow'} with ID ${parsed.data.following} not found`
       );
       throw new NotFoundError(
-        `User you're trying to ${
-          parsed.data.operation ? 'follow' : 'unfollow'
-        } with ID ${parsed.data.following} not found`
+        `User you're trying to ${parsed.data.operation ? 'follow' : 'unfollow'} with ID ${parsed.data.following} not found`
       );
     }
 
@@ -69,7 +66,10 @@ export const CreateFollowUnfollow = async (
   }
 };
 
-export const GetFollowsByUsername = async (user: any, username: string) => {
+export const GetFollowsByUsername = async (
+  _user: UserPayload,
+  username: string
+) => {
   try {
     // Validate the username format
     if (!username || typeof username !== 'string') {
@@ -102,7 +102,7 @@ export const GetFollowsByUsername = async (user: any, username: string) => {
 
     const followingUsers = await prisma.user.findMany({
       where: {
-        id: { 
+        id: {
           in: followingIds,
         },
       },
@@ -111,7 +111,7 @@ export const GetFollowsByUsername = async (user: any, username: string) => {
         username: true,
         email: true,
         createdAt: true,
-        Profile: {
+        profile: {
           select: {
             firstName: true,
             lastName: true,
@@ -130,9 +130,9 @@ export const GetFollowsByUsername = async (user: any, username: string) => {
         username: user.username,
         email: user.email,
         createdAt: user.createdAt,
-        firstName: user.Profile?.firstName,
-        lastName: user.Profile?.lastName,
-        avatar: user.Profile?.avatar,
+        firstName: user.profile?.firstName,
+        lastName: user.profile?.lastName,
+        avatar: user.profile?.avatar,
       };
     });
   } catch (error) {
@@ -141,7 +141,10 @@ export const GetFollowsByUsername = async (user: any, username: string) => {
   }
 };
 
-export const GetFollowersByUsername = async (user: any, username: string) => {
+export const GetFollowersByUsername = async (
+  _user: UserPayload,
+  username: string
+) => {
   try {
     // Validate the username format
     if (!username || typeof username !== 'string') {
@@ -183,7 +186,7 @@ export const GetFollowersByUsername = async (user: any, username: string) => {
         username: true,
         email: true,
         createdAt: true,
-        Profile: {
+        profile: {
           select: {
             firstName: true,
             lastName: true,
@@ -202,9 +205,9 @@ export const GetFollowersByUsername = async (user: any, username: string) => {
         username: user.username,
         email: user.email,
         createdAt: user.createdAt,
-        firstName: user.Profile?.firstName,
-        lastName: user.Profile?.lastName,
-        avatar: user.Profile?.avatar,
+        firstName: user.profile?.firstName,
+        lastName: user.profile?.lastName,
+        avatar: user.profile?.avatar,
       };
     });
   } catch (error) {

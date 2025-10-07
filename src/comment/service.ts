@@ -6,8 +6,12 @@ import {
   BadRequestError,
   InternalServerError,
 } from '../utils/errors';
+import { UserPayload } from '../types/express';
 
-export const CreateComment = async (user: any, comment: CommentInterface) => {
+export const CreateComment = async (
+  user: UserPayload,
+  comment: CommentInterface
+) => {
   const parsed = CommentSchema.safeParse(comment);
   if (!parsed.success) {
     // const validationErrors = parsed.error.errors.map(err => `${err.path.join('.')} - ${err.message}`).join(', ');
@@ -59,7 +63,7 @@ export const CreateComment = async (user: any, comment: CommentInterface) => {
   }
 };
 
-export const GetCommentById = async (user: any, id: string) => {
+export const GetCommentById = async (user: UserPayload, id: string) => {
   if (!id || typeof id !== 'string') {
     logger.warn(`Invalid comment ID: ${id}`);
     throw new BadRequestError('Invalid comment ID');
@@ -82,7 +86,7 @@ export const GetCommentById = async (user: any, id: string) => {
   }
 };
 
-export const GetCommentsByPostId = async (user: any, postId: string) => {
+export const GetCommentsByPostId = async (_: UserPayload, postId: string) => {
   if (!postId) {
     logger.warn(`Invalid post ID: ${postId}`);
     throw new BadRequestError('Invalid post ID');
@@ -106,7 +110,7 @@ export const GetCommentsByPostId = async (user: any, postId: string) => {
   }
 };
 
-export const DeleteComment = async (user: any, commentId: string) => {
+export const DeleteComment = async (user: UserPayload, commentId: string) => {
   if (!commentId || typeof commentId !== 'string') {
     logger.warn(`Invalid comment ID: ${commentId}`);
     throw new BadRequestError('Invalid comment ID');

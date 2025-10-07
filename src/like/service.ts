@@ -7,8 +7,12 @@ import {
   ForbiddenError,
   InternalServerError,
 } from '../utils/errors';
+import { UserPayload } from '../types/express';
 
-export const CreateLike = async (user: any, likePayload: LikeInterface) => {
+export const CreateLike = async (
+  user: UserPayload,
+  likePayload: LikeInterface
+) => {
   const parsed = LikeSchema.safeParse(likePayload);
   if (!parsed.success) {
     const validationErrors = parsed.error.flatten().fieldErrors;
@@ -61,7 +65,7 @@ export const CreateLike = async (user: any, likePayload: LikeInterface) => {
   }
 };
 
-export const DeleteLike = async (user: any, postId: string) => {
+export const DeleteLike = async (user: UserPayload, postId: string) => {
   if (!postId || typeof postId !== 'string') {
     logger.warn(`Invalid post ID: ${postId}`);
     throw new BadRequestError('Invalid post ID');
@@ -97,7 +101,7 @@ export const DeleteLike = async (user: any, postId: string) => {
 };
 
 export const CreateDeleteLike = async (
-  user: any,
+  user: UserPayload,
   likePayload: LikeInterface
 ) => {
   const parsed = LikeSchema.safeParse(likePayload);
@@ -119,7 +123,7 @@ export const CreateDeleteLike = async (
   }
 };
 
-// export const GetCommentById = async (user: any, id: string) => {
+// export const GetCommentById = async (user: UserPayload, id: string) => {
 //     if (!id || typeof id !== 'string') {
 //         logger.warn(`Invalid comment ID: ${id}`);
 //         throw new BadRequestError('Invalid comment ID');
@@ -142,7 +146,7 @@ export const CreateDeleteLike = async (
 //     }
 // }
 
-// export const GetCommentsByPostId = async (user: any, postId: string) => {
+// export const GetCommentsByPostId = async (user: UserPayload, postId: string) => {
 //     if (!postId) {
 //         logger.warn(`Invalid post ID: ${postId}`);
 //         throw new BadRequestError('Invalid post ID');

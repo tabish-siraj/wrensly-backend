@@ -1,14 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import { CreateBookmark, DeleteBookmark } from './service';
 import { successResponse } from '../utils/response';
+import { UnauthorizedError } from '../utils/errors';
 
 export const createBookmarkController = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  if (!req.user) {
+    throw new UnauthorizedError('You must be logged in to perform this action');
+  }
   try {
-    const user = (req as any).user;
+    const user = req.user;
     const bookmarkData = req.body;
 
     const bookmark = await CreateBookmark(user, bookmarkData);
@@ -25,8 +29,11 @@ export const deleteBookmarkController = async (
   res: Response,
   next: NextFunction
 ) => {
+  if (!req.user) {
+    throw new UnauthorizedError('You must be logged in to perform this action');
+  }
   try {
-    const user = (req as any).user;
+    const user = req.user;
     const bookmarkId = req.params.id;
 
     await DeleteBookmark(user, bookmarkId);
@@ -40,7 +47,7 @@ export const deleteBookmarkController = async (
 
 // export const getCommentByIdController = async (req: Request, res: Response, next: NextFunction) => {
 //     try {
-//         const user = (req as any).user;
+//         const user = req.user;
 //         const commentId = req.params.id;
 
 //         const comment = await GetCommentById(user, commentId);
@@ -52,7 +59,7 @@ export const deleteBookmarkController = async (
 
 // export const getCommentsByPostIdController = async (req: Request, res: Response, next: NextFunction) => {
 //     try {
-//         const user = (req as any).user;
+//         const user = req.user;
 //         const postId = req.params.id;
 
 //         const comments = await GetCommentsByPostId(user, postId);

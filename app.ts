@@ -2,7 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import router from './src/routes/index';
 import requestLogger from './src/middlewares/logger';
-import { globalErrorHandler } from './src/middlewares/errorHandler';
+import { errorHandler } from './src/middlewares/errorHandler';
 
 const app = express();
 
@@ -31,6 +31,6 @@ app.use('/api', router);
 app.use('/test', (req, res) => {
   res.status(200).json({ message: 'Server is running!!!' });
 });
-app.use(globalErrorHandler);
+app.use(errorHandler);
 
 export default app;

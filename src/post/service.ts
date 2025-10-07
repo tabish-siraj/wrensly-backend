@@ -6,8 +6,9 @@ import {
   BadRequestError,
   InternalServerError,
 } from '../utils/errors';
+import { UserPayload } from '../types/express';
 
-export const CreatePost = async (user: any, post: PostInterface) => {
+export const CreatePost = async (user: UserPayload, post: PostInterface) => {
   try {
     // Validate post data against the schema
     const parsed = PostSchema.safeParse(post);
@@ -53,7 +54,7 @@ export const CreatePost = async (user: any, post: PostInterface) => {
   }
 };
 
-export const GetPostById = async (user: any, id: string) => {
+export const GetPostById = async (user: UserPayload, id: string) => {
   try {
     // Validate the ID format
     if (!id || typeof id !== 'string') {
@@ -66,7 +67,7 @@ export const GetPostById = async (user: any, id: string) => {
       where: { id, deletedAt: null }, // Ensure we only fetch non-deleted posts
       include: {
         user: true, // Include user details if needed
-        Comment: true,
+        comments: true,
       },
     });
 
@@ -81,7 +82,7 @@ export const GetPostById = async (user: any, id: string) => {
   }
 };
 
-export const GetPostsByUserId = async (user: any, userId: string) => {
+export const GetPostsByUserId = async (user: UserPayload, userId: string) => {
   try {
     // Validate the user ID format
     if (!userId || typeof userId !== 'string') {
@@ -106,7 +107,10 @@ export const GetPostsByUserId = async (user: any, userId: string) => {
   }
 };
 
-export const GetPostsByUsername = async (user: any, username: string) => {
+export const GetPostsByUsername = async (
+  user: UserPayload,
+  username: string
+) => {
   try {
     // Validate the username format
     if (!username || typeof username !== 'string') {
@@ -131,7 +135,7 @@ export const GetPostsByUsername = async (user: any, username: string) => {
   }
 };
 
-export const DeletePost = async (user: any, postId: string) => {
+export const DeletePost = async (user: UserPayload, postId: string) => {
   try {
     // Validate the post ID format
     if (!postId || typeof postId !== 'string') {
@@ -161,7 +165,8 @@ export const DeletePost = async (user: any, postId: string) => {
 };
 
 // TEMPORARY
-export const GetAllPosts = async () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const GetAllPosts = async (_user: UserPayload) => {
   try {
     // Fetch all posts from the database
     const posts = await prisma.post.findMany({
@@ -171,7 +176,7 @@ export const GetAllPosts = async () => {
           select: {
             id: true,
             username: true,
-            Profile: {
+            profile: {
               select: {
                 firstName: true,
                 lastName: true,
@@ -179,10 +184,10 @@ export const GetAllPosts = async () => {
             },
           },
         },
-        // also include comment count
+        // also include comments count
         _count: {
           select: {
-            Comment: true,
+            comments: true,
           },
         },
       },

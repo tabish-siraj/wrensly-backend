@@ -1,4 +1,5 @@
 import prisma from '../lib/prisma';
+import { UserPayload } from '../types/express';
 
 interface NormalizedUser {
   id: string;
@@ -27,7 +28,7 @@ interface NormalizedPost {
   isBookmarked: boolean;
 }
 
-export const GetFeed = async (user: any) => {
+export const GetFeed = async (user: UserPayload) => {
   try {
     const follows = await prisma.follow.findMany({
       where: {
@@ -58,7 +59,7 @@ export const GetFeed = async (user: any) => {
           select: {
             id: true,
             username: true,
-            Profile: {
+            profile: {
               select: {
                 firstName: true,
                 lastName: true,
@@ -68,19 +69,19 @@ export const GetFeed = async (user: any) => {
         },
         _count: {
           select: {
-            Comment: true,
-            Like: true,
-            Post: true,
-            Bookmark: true,
+            comments: true,
+            likes: true,
+            reposts: true,
+            bookmarks: true,
           },
         },
-        Like: {
+        likes: {
           where: { userId: user.id },
           select: {
             id: true,
           },
         },
-        Bookmark: {
+        bookmarks: {
           where: { userId: user.id },
           select: {
             id: true,
@@ -95,7 +96,7 @@ export const GetFeed = async (user: any) => {
               select: {
                 id: true,
                 username: true,
-                Profile: {
+                profile: {
                   select: {
                     firstName: true,
                     lastName: true,
@@ -113,31 +114,32 @@ export const GetFeed = async (user: any) => {
       createdAt: post.createdAt,
       content: post.content,
       parentId: post.parentId,
-      parent: post.parent
-        ? {
-            id: post.parent.id,
-            content: post.parent.content,
-            createdAt: post.parent.createdAt,
-            user: {
-              id: post.parent.user.id,
-              username: post.parent.user.username,
-              firstName: post.parent.user.Profile?.firstName,
-              lastName: post.parent.user.Profile?.lastName,
-            },
-          }
-        : null,
+      parent: post.parent,
+      // parent: post.parent
+      //   ? {
+      //     id: post.parent.id,
+      //     content: post.parent.content,
+      //     createdAt: post.parent.createdAt,
+      //     user: {
+      //       id: post.parent.user.id,
+      //       username: post.parent.user.username,
+      //       firstName: post.parent.user.profile?.firstName,
+      //       lastName: post.parent.user.profile?.lastName,
+      //     },
+      //   }
+      //   : null,
       user: {
         id: post.user.id,
         username: post.user.username,
-        firstName: post?.user?.Profile?.firstName,
-        lastName: post?.user?.Profile?.lastName,
+        firstName: post?.user?.profile?.firstName,
+        lastName: post?.user?.profile?.lastName,
       },
       stats: {
-        likes: post._count.Like,
-        comments: post._count.Comment,
+        likes: post._count.likes,
+        comments: post._count.comments,
       },
-      isLiked: post.Like.length > 0,
-      isBookmarked: post.Bookmark.length > 0,
+      isLiked: post.likes.length > 0,
+      isBookmarked: post.bookmarks.length > 0,
     })) as NormalizedPost[];
 
     return normalizedFeed;

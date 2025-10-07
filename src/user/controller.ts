@@ -9,6 +9,7 @@ import {
   getUserByUsername,
 } from './service';
 import { successResponse } from '../utils/response';
+import { UnauthorizedError } from '../utils/errors';
 
 export const registerUserController = async (
   req: Request,
@@ -18,7 +19,7 @@ export const registerUserController = async (
   try {
     const user = await createUser(req.body);
     res.status(201).json(successResponse('User created successfully', user));
-  } catch (err: any) {
+  } catch (err) {
     next(err);
   }
 };
@@ -28,15 +29,18 @@ export const updateUserController = async (
   res: Response,
   next: NextFunction
 ) => {
+  if (!req.user) {
+    throw new UnauthorizedError('You must be logged in to perform this action');
+  }
   const { id } = req.params;
-  const user = (req as any).user;
+  const user = req.user;
 
   try {
     const fetchedUser = await updateUser(user, id, req.body);
     res
       .status(200)
       .json(successResponse('User updated successfully', fetchedUser));
-  } catch (err: any) {
+  } catch (err) {
     next(err);
   }
 };
@@ -46,15 +50,18 @@ export const getMyUserController = async (
   res: Response,
   next: NextFunction
 ) => {
-  const id = (req as any).user.id; // Assuming user ID is stored in req.user
-  const user = (req as any).user;
+  if (!req.user) {
+    throw new UnauthorizedError('You must be logged in to perform this action');
+  }
+  const { id } = req.user;
+  const user = req.user;
 
   try {
     const fetchedUser = await getUserById(user, id);
     res
       .status(200)
       .json(successResponse('User retrieved successfully', fetchedUser));
-  } catch (err: any) {
+  } catch (err) {
     next(err);
   }
 };
@@ -64,15 +71,18 @@ export const getUserByIDController = async (
   res: Response,
   next: NextFunction
 ) => {
+  if (!req.user) {
+    throw new UnauthorizedError('You must be logged in to perform this action');
+  }
   const { id } = req.params;
-  const user = (req as any).user;
+  const user = req.user;
 
   try {
     const fetchedUser = await getUserById(user, id);
     res
       .status(200)
       .json(successResponse('User retrieved successfully', fetchedUser));
-  } catch (err: any) {
+  } catch (err) {
     next(err);
   }
 };
@@ -82,15 +92,18 @@ export const getUserByEmailController = async (
   res: Response,
   next: NextFunction
 ) => {
+  if (!req.user) {
+    throw new UnauthorizedError('You must be logged in to perform this action');
+  }
   const { email } = req.params;
-  const user = (req as any).user;
+  const user = req.user;
 
   try {
     const fetchedUser = await getUserByEmail(user, email);
     res
       .status(200)
       .json(successResponse('User retrieved successfully', fetchedUser));
-  } catch (err: any) {
+  } catch (err) {
     next(err);
   }
 };
@@ -100,15 +113,18 @@ export const getUserByUsernameController = async (
   res: Response,
   next: NextFunction
 ) => {
+  if (!req.user) {
+    throw new UnauthorizedError('You must be logged in to perform this action');
+  }
   const { username } = req.params;
-  const user = (req as any).user;
+  const user = req.user;
 
   try {
     const fetchedUser = await getUserByUsername(user, username);
     res
       .status(200)
       .json(successResponse('User retrieved successfully', fetchedUser));
-  } catch (err: any) {
+  } catch (err) {
     next(err);
   }
 };

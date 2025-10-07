@@ -16,6 +16,7 @@ import {
   InternalServerError,
 } from '../utils/errors';
 import { omitEmptyFields, toUserResponse } from './helper';
+import { UserPayload } from '../types/express';
 
 export async function createUser(user: UserInterface) {
   // Validate user data against the schema
@@ -36,7 +37,7 @@ export async function createUser(user: UserInterface) {
   }
 
   // Hash the password before storing it
-  const hashedPassword = hashPassword(parsed.data.password);
+  const hashedPassword = await hashPassword(parsed.data.password);
   try {
     const createdUser = await prisma.user.create({
       data: {
@@ -62,7 +63,7 @@ export async function createUser(user: UserInterface) {
 }
 
 export async function updateUser(
-  user: any,
+  user: UserPayload,
   id: string,
   payload: UserUpdateInterface
 ) {
@@ -116,7 +117,7 @@ export async function updateUser(
   }
 }
 
-export async function getUserById(user: any, id: string) {
+export async function getUserById(user: UserPayload, id: string) {
   try {
     if (user.id !== id) {
       logger.warn(
@@ -128,11 +129,11 @@ export async function getUserById(user: any, id: string) {
     const fetchedUser = await prisma.user.findUnique({
       where: { id },
       include: {
-        Profile: true,
+        profile: true,
         _count: {
           select: {
-            Follower: true,
-            Following: true,
+            followers: true,
+            following: true,
           },
         },
       },
@@ -158,18 +159,18 @@ export async function getUserById(user: any, id: string) {
   }
 }
 
-export async function getUserByEmail(user: any, email: string) {
+export async function getUserByEmail(user: UserPayload, email: string) {
   // case insensitive search
   email = email.toLowerCase();
   try {
     const fetchedUser = await prisma.user.findUnique({
       where: { email },
       include: {
-        Profile: true,
+        profile: true,
         _count: {
           select: {
-            Follower: true,
-            Following: true,
+            followers: true,
+            following: true,
           },
         },
       },
@@ -195,18 +196,18 @@ export async function getUserByEmail(user: any, email: string) {
   }
 }
 
-export async function getUserByUsername(user: any, username: string) {
+export async function getUserByUsername(user: UserPayload, username: string) {
   // case insensitive search
   username = username.toLowerCase();
   try {
     const fetchedUser = await prisma.user.findUnique({
       where: { username },
       include: {
-        Profile: true,
+        profile: true,
         _count: {
           select: {
-            Follower: true,
-            Following: true,
+            followers: true,
+            following: true,
           },
         },
       },

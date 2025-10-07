@@ -13,7 +13,7 @@ export const loginUserController = async (
     res
       .status(200)
       .json(successResponse('Login successful', { token, refreshToken }));
-  } catch (err: any) {
+  } catch (err) {
     next(err);
   }
 };
@@ -29,7 +29,7 @@ export const refreshTokenController = async (
     res
       .status(200)
       .json(successResponse('Token refreshed successfully', newToken));
-  } catch (err: any) {
+  } catch (err) {
     next(err);
   }
 };
