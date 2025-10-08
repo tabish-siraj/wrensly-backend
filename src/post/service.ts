@@ -1,5 +1,5 @@
 import prisma from '../lib/prisma';
-import { PostSchema, PostInterface } from './schema';
+import { PostSchema, PostInterface,RepostSchema, RepostInterface } from './schema';
 import logger from '../utils/logger';
 import {
   NotFoundError,
@@ -54,6 +54,55 @@ export const CreatePost = async (user: UserPayload, post: PostInterface) => {
   }
 };
 
+export const ToggleRepost = async (user: UserPayload, post: RepostInterface) => {
+  try {
+    // Validate incoming repost data
+    const parsed = RepostSchema.safeParse(post);
+    if (!parsed.success) {
+      const validationErrors = parsed.error.flatten().fieldErrors;
+      logger.warn(`Repost validation failed: ${JSON.stringify(validationErrors)}`);
+      throw new BadRequestError(validationErrors);
+    }
+
+    const postId = parsed.data.postId;
+    if (!postId || postId === "") {
+      logger.error("postId is required to repost.");
+      throw new BadRequestError("postId is required to repost.");
+    }
+
+    // Check if repost already exists
+    const existingRepost = await prisma.repost.findFirst({
+      where: {
+        userId: user.id,
+        postId,
+      },
+    });
+
+    if (existingRepost) {
+      // Delete existing repost (undo repost)
+      await prisma.repost.delete({
+        where: { id: existingRepost.id },
+      });
+
+      logger.info(`${user.id} undone repost for post ${postId}`);
+      return { action: "deleted", message: "Repost undone successfully." };
+    } else {
+      // Create a new repost
+      await prisma.repost.create({
+        data: {
+          userId: user.id,
+          postId,
+        },
+      });
+
+      logger.info(`${user.id} reposted post ${postId}`);
+      return { action: "created", message: "Repost created successfully." };
+    }
+  } catch (err) {
+    logger.error(`Error toggling repost: ${(err as Error).message}`);
+    throw err;
+  }
+};
 export const GetPostById = async (user: UserPayload, id: string) => {
   try {
     // Validate the ID format
@@ -164,7 +213,6 @@ export const DeletePost = async (user: UserPayload, postId: string) => {
   }
 };
 
-// TEMPORARY
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const GetAllPosts = async (_user: UserPayload) => {
   try {
