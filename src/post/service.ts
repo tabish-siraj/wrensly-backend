@@ -94,8 +94,8 @@ export const ToggleRepost = async (
         where: { id: existingRepost.id },
       });
 
-      logger.info(`${user.id} undone repost for post ${postId}`);
-      return { action: 'deleted', message: 'Repost undone successfully.' };
+      logger.info(`${user.id} undo repost for post ${postId}`);
+      return { action: 'deleted', message: 'Repost undo successfully.' };
     } else {
       // Create a new repost
       await prisma.repost.create({
@@ -113,6 +113,7 @@ export const ToggleRepost = async (
     throw err;
   }
 };
+
 export const GetPostById = async (user: UserPayload, id: string) => {
   try {
     // Validate the ID format
