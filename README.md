@@ -8,9 +8,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-*   [Node.js](https://nodejs.org/)
-*   [NPM](https://www.npmjs.com/)
-*   [Prisma](https://www.prisma.io/)
+- [Node.js](https://nodejs.org/)
+- [NPM](https://www.npmjs.com/)
+- [Prisma](https://www.prisma.io/)
 
 ### Installation
 
@@ -55,23 +55,23 @@ Generates Prisma client.
 
 The API includes endpoints for:
 
-*   **Authentication**: User registration, login, and password management.
-*   **Users**: Get user profiles, follow/unfollow users.
-*   **Posts**: Create, read, update, and delete posts.
-*   **Comments**: Add comments to posts.
-*   **Likes**: Like and unlike posts.
-*   **Bookmarks**: Bookmark posts.
-*   **Feed**: Get a personalized feed of posts.
+- **Authentication**: User registration, login, and password management.
+- **Users**: Get user profiles, follow/unfollow users.
+- **Posts**: Create, read, update, and delete posts.
+- **Comments**: Add comments to posts.
+- **Likes**: Like and unlike posts.
+- **Bookmarks**: Bookmark posts.
+- **Feed**: Get a personalized feed of posts.
 
 ## Technologies Used
 
-*   [Node.js](https://nodejs.org/)
-*   [Express](https://expressjs.com/)
-*   [TypeScript](https://www.typescriptlang.org/)
-*   [Prisma](https://www.prisma.io/)
-*   [Zod](https://zod.dev/)
-*   [JWT](https://jwt.io/)
-*   [Bcrypt](https://www.npmjs.com/package/bcrypt)
+- [Node.js](https://nodejs.org/)
+- [Express](https://expressjs.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Prisma](https://www.prisma.io/)
+- [Zod](https://zod.dev/)
+- [JWT](https://jwt.io/)
+- [Bcrypt](https://www.npmjs.com/package/bcrypt)
 
 ## Contributing
 

@@ -6,13 +6,13 @@ import {
   getPostsByUsernameController,
   deletePostController,
   getAllPostsController,
-  toggleRepostController
+  toggleRepostController,
 } from './controller';
 import { authenticateJWT } from '../middlewares/auth';
 
 const router = Router();
 router.post('/', authenticateJWT, createPostController);
-router.post('/repost', authenticateJWT, toggleRepostController)
+router.post('/repost', authenticateJWT, toggleRepostController);
 router.get('/', getAllPostsController);
 router.get('/:id', getPostByIdController);
 router.get('/username/:username', getPostsByUsernameController);

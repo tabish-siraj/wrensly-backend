@@ -1,0 +1,10 @@
+# Enforce LF (Unix-style) line endings for all text files
+* text eol=lf
+
+# Binary files should not be converted
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary

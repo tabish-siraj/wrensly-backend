@@ -1,7 +1,4 @@
 import tseslint from 'typescript-eslint';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 
-export default tseslint.config(
-    ...tseslint.configs.recommended,
-    eslintPluginPrettierRecommended
-);
+export default [...tseslint.configs.recommended, eslintPluginPrettier];

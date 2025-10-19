@@ -1,5 +1,10 @@
 import prisma from '../lib/prisma';
-import { PostSchema, PostInterface,RepostSchema, RepostInterface } from './schema';
+import {
+  PostSchema,
+  PostInterface,
+  RepostSchema,
+  RepostInterface,
+} from './schema';
 import logger from '../utils/logger';
 import {
   NotFoundError,
@@ -54,20 +59,25 @@ export const CreatePost = async (user: UserPayload, post: PostInterface) => {
   }
 };
 
-export const ToggleRepost = async (user: UserPayload, post: RepostInterface) => {
+export const ToggleRepost = async (
+  user: UserPayload,
+  post: RepostInterface
+) => {
   try {
     // Validate incoming repost data
     const parsed = RepostSchema.safeParse(post);
     if (!parsed.success) {
       const validationErrors = parsed.error.flatten().fieldErrors;
-      logger.warn(`Repost validation failed: ${JSON.stringify(validationErrors)}`);
+      logger.warn(
+        `Repost validation failed: ${JSON.stringify(validationErrors)}`
+      );
       throw new BadRequestError(validationErrors);
     }
 
     const postId = parsed.data.postId;
-    if (!postId || postId === "") {
-      logger.error("postId is required to repost.");
-      throw new BadRequestError("postId is required to repost.");
+    if (!postId || postId === '') {
+      logger.error('postId is required to repost.');
+      throw new BadRequestError('postId is required to repost.');
     }
 
     // Check if repost already exists
@@ -85,7 +95,7 @@ export const ToggleRepost = async (user: UserPayload, post: RepostInterface) => 
       });
 
       logger.info(`${user.id} undone repost for post ${postId}`);
-      return { action: "deleted", message: "Repost undone successfully." };
+      return { action: 'deleted', message: 'Repost undone successfully.' };
     } else {
       // Create a new repost
       await prisma.repost.create({
@@ -96,7 +106,7 @@ export const ToggleRepost = async (user: UserPayload, post: RepostInterface) => 
       });
 
       logger.info(`${user.id} reposted post ${postId}`);
-      return { action: "created", message: "Repost created successfully." };
+      return { action: 'created', message: 'Repost created successfully.' };
     }
   } catch (err) {
     logger.error(`Error toggling repost: ${(err as Error).message}`);
