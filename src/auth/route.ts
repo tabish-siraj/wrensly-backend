@@ -1,8 +1,5 @@
 import { Router } from 'express';
-import {
-    loginUserController,
-    refreshTokenController
-} from './controller';
+import { loginUserController, refreshTokenController } from './controller';
 
 const router = Router();
 router.post('/login', loginUserController);
