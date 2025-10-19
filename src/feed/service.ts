@@ -1,6 +1,6 @@
-import prisma from '../lib/prisma';
-import { UserPayload } from '../types/express';
-import { BadRequestError } from '../utils/errors';
+import prisma from '../lib/prisma'
+import { UserPayload } from '../types/express'
+// import { BadRequestError } from '../utils/errors'
 
 interface NormalizedUser {
     id: string;
