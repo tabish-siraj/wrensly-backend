@@ -155,7 +155,7 @@ export const GetFeed = async (
       comments: post._count.comments,
     },
     isLiked: post.likes.length > 0,
-    isReposted: post._count.reposts > 0,
+    isReposted: post.reposts.length > 0,
     isBookmarked: post.bookmarks.length > 0,
   })) as NormalizedPost[];
 
