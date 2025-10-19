@@ -9,7 +9,6 @@ export type PostInterface = z.infer<typeof PostSchema>;
 
 export const RepostSchema = z.object({
   postId: z.string(),
-  action: z.string(),
 });
 
 export type RepostInterface = z.infer<typeof RepostSchema>;
