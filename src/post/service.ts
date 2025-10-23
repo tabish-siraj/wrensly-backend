@@ -190,13 +190,12 @@ export const GetPostById = async (user: UserPayload, id: string) => {
       logger.warn(`Post with ID ${id} not found`);
       throw new NotFoundError(`Post with ID ${id} not found`);
     }
-
-    const normalizedPost = (post: any) => ({
+    // prettier-ignore
+    const normalizedPost = {
       id: post.id,
       createdAt: post.createdAt,
       content: post.content,
       parentId: post.parentId,
-      // prettier-ignore
       parent: post.parent
         ? {
           id: post.parent.id,
@@ -224,9 +223,9 @@ export const GetPostById = async (user: UserPayload, id: string) => {
       isLiked: post.likes.length > 0,
       isReposted: post.reposts.length > 0,
       isBookmarked: post.bookmarks.length > 0,
-    }) as NormalizedPost;
+    } as NormalizedPost;
 
-  return normalizedPost;
+    return normalizedPost;
   } catch (error) {
     throw error;
   }
