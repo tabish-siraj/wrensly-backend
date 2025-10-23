@@ -1,36 +1,6 @@
 import prisma from '../lib/prisma';
-import { UserPayload } from '../types/express';
+import { UserPayload, NormalizedPost } from '../types/express';
 // import { BadRequestError } from '../utils/errors'
-
-interface NormalizedUser {
-  id: string;
-  username: string;
-  firstName: string | null;
-  lastName: string | null;
-  avatar: string | null;
-}
-
-interface NormalizedPost {
-  id: string;
-  content: string | null;
-  createdAt: Date;
-  user: NormalizedUser;
-  parentId?: string | null;
-  parent?: {
-    id: string;
-    content: string | null;
-    createdAt: Date;
-    user: NormalizedUser;
-  } | null;
-  stats: {
-    likes: number;
-    comments: number;
-    reposts: number;
-  };
-  isLiked: boolean;
-  isReposted: boolean;
-  isBookmarked: boolean;
-}
 
 export const GetFeed = async (
   user: UserPayload,
