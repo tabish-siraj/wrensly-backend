@@ -1,7 +1,10 @@
 import { NormalizedPost } from '../types/express';
 
 // Helper function to normalize post data
-export const normalizePostData = (post: any, currentUserId: string): NormalizedPost => {
+export const normalizePostData = (
+  post: any,
+  currentUserId: string
+): NormalizedPost => {
   return {
     id: post.id,
     createdAt: post.createdAt,
