@@ -40,6 +40,8 @@ model User {
   following Follow[]   @relation("Following")
   feed      Feed[]
   repost         Repost[]
+  passwordResetToken String?
+  passwordResetExpires DateTime?
 }
 
 model Profile {
