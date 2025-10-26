@@ -2,10 +2,10 @@ import nodemailer from 'nodemailer';
 import logger from './logger';
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
+  host: process.env.SMTP_HOST || 'smtp.gmail.com',
+  port: process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT) : 587,
   auth: {
-    user: 'tabish1226@gmail.com',
+    user: process.env.SMTP_EMAIL || '',
     pass: process.env.APP_PASSWORD || '',
   },
 });
