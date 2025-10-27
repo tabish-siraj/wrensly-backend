@@ -33,7 +33,7 @@ export const sendPasswordResetEmail = async (
 ) => {
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const resetUrl = `${process.env.APP_URL}/reset-password?token=${token}`;
+    const resetUrl = `${process.env.APP_URL}/auth/reset-password?token=${token}`;
 
     const response = await resend.emails.send({
       from: '"Wrensly" <onboarding@resend.dev>',
