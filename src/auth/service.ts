@@ -71,6 +71,9 @@ export const forgotPassword = async (email: string) => {
           mode: 'insensitive',
         },
       },
+      include: {
+        profile: true,
+      },
     });
 
     if (!user) {
@@ -93,8 +96,13 @@ export const forgotPassword = async (email: string) => {
         passwordResetExpires,
       },
     });
+
     // Send email to user with the reset token
-    await sendPasswordResetEmail(user.email, resetToken);
+    await sendPasswordResetEmail(
+      user.profile?.firstName || 'User',
+      user.email,
+      resetToken
+    );
 
     logger.info(`Password reset requested for user: ${email}`);
     return { message: 'Password reset link has been sent to your email.' };
