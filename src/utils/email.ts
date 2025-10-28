@@ -14,7 +14,7 @@ const sendEmail = async (options: EmailOptions) => {
       from: '"Wrensly" <onboarding@resend.dev>',
       ...options,
     });
-    logger.info(`Email sent to ${options.to}: ${response.data?.id}`);
+    logger.info(`Email sent to ${options.to}: ${response}`);
   } catch (error) {
     logger.error(`Error sending email to ${options.to}: ${error}`);
     throw new Error('Error sending email');
