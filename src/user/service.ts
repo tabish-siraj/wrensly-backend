@@ -293,3 +293,44 @@ export async function verifyEmail(token: string) {
     throw error;
   }
 }
+
+export async function resendVerifyEmail(username: string, email: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+    if (!user) {
+      logger.warn(`User with email ${email} not found`);
+      throw new NotFoundError({ email });
+    }
+
+    if (user.isEmailVerified) {
+      logger.warn(`Email ${email} is already verified`);
+      throw new BadRequestError('Email is already verified');
+    }
+
+    // Generate a new verification token
+    const token = randomBytes(32).toString('hex');
+    const emailVerificationToken = token;
+    const emailVerificationExpires = new Date(Date.now() + 3600000 * 6); // 6 hour
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        emailVerificationToken: emailVerificationToken,
+        emailVerificationExpires: emailVerificationExpires,
+      },
+    });
+
+    // Send the verification email
+    await sendEmailVerificationEmail(
+      user.username || 'User',
+      user.email,
+      emailVerificationToken
+    );
+
+    return;
+  } catch (error) {
+    throw error;
+  }
+}

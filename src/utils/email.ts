@@ -40,13 +40,21 @@ export const sendPasswordResetEmail = async (
 export const sendEmailVerificationEmail = async (
   username: string,
   email: string,
-  token: string
+  token: string,
+  resend = false
 ) => {
   const verificationUrl = `${process.env.APP_URL}/auth/verify-email?token=${token}`;
-  const html = `
+  let subject = 'Verify your email address';
+  if (resend) {
+    subject = 'Resend: Verify your email address';
+  }
+  let html = `
     <p>Hi, @${username}</p>
     <p>Thanks for signing up to Wrensly! Please verify your email address by clicking the link below:</p>
     <a href="${verificationUrl}">${verificationUrl}</a>
   `;
-  await sendEmail({ to: email, subject: 'Verify your email address', html });
+  if (resend) {
+    html += `<p>This is a resend of the verification email.</p>`;
+  }
+  await sendEmail({ to: email, subject, html });
 };

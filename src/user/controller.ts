@@ -8,6 +8,7 @@ import {
   updateUser,
   getUserByUsername,
   verifyEmail,
+  resendVerifyEmail,
 } from './service';
 import { successResponse } from '../utils/response';
 import { UnauthorizedError } from '../utils/errors';
@@ -143,6 +144,23 @@ export const verifyEmailController = async (
     }
     await verifyEmail(token);
     res.status(200).json(successResponse('Email verified successfully', null));
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const resendVerifyEmailController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { username, email } = req.body;
+
+  try {
+    await resendVerifyEmail(username, email);
+    res
+      .status(200)
+      .json(successResponse('Verification email resent successfully', null));
   } catch (err) {
     next(err);
   }
