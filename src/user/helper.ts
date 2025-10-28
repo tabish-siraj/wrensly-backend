@@ -14,6 +14,7 @@ export function toUserResponse(user: any): UserResponseInterface {
     id: user.id || '',
     username: user.username || '',
     email: user.email || '',
+    isEmailVerified: user.isEmailVerified || false,
     firstName: user.Profile?.firstName || '',
     lastName: user.Profile?.lastName || '',
     dateOfBirth: user.Profile?.dateOfBirth?.toString() || '',

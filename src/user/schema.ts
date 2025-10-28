@@ -66,6 +66,7 @@ export const UserResponse = z.object({
   id: z.string(),
   username: z.string(),
   email: z.string().email(),
+  isEmailVerified: z.boolean(),
   firstName: z.string(),
   lastName: z.string(),
   dateOfBirth: z.string(),
