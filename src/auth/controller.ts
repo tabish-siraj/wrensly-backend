@@ -59,8 +59,8 @@ export const resetPasswordController = async (
   next: NextFunction
 ) => {
   try {
-    const { token, newPassword } = req.body;
-    const result = await resetPassword(token, newPassword);
+    const { token, password } = req.body;
+    const result = await resetPassword(token, password);
     res.status(200).json(successResponse(result.message, null));
   } catch (err) {
     next(err);
