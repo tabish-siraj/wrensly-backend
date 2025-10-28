@@ -19,29 +19,32 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(cuid())
-  username   String?   @unique
-  email      String    @unique
-  password   String
-  isActive   Boolean   @default(true)
-  isVerified Boolean   @default(false)
-  isAdmin    Boolean   @default(false)
-  isBanned   Boolean   @default(false)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  deletedAt  DateTime?
+  id                       String    @id @default(cuid())
+  username                 String?   @unique
+  email                    String    @unique
+  password                 String
+  isActive                 Boolean   @default(true)
+  isVerified               Boolean   @default(false)
+  isEmailVerified          Boolean   @default(false)
+  isAdmin                  Boolean   @default(false)
+  isBanned                 Boolean   @default(false)
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
+  deletedAt                DateTime?
+  passwordResetToken       String?
+  passwordResetExpires     DateTime?
+  emailVerificationToken   String?
+  emailVerificationExpires DateTime?
 
   profile   Profile?
-  posts      Post[]
-  comments   Comment[]
-  likes      Like[]
-  bookmarks  Bookmark[]
-  followers  Follow[]   @relation("Follower")
+  posts     Post[]
+  comments  Comment[]
+  likes     Like[]
+  bookmarks Bookmark[]
+  followers Follow[]   @relation("Follower")
   following Follow[]   @relation("Following")
   feed      Feed[]
-  repost         Repost[]
-  passwordResetToken String?
-  passwordResetExpires DateTime?
+  repost    Repost[]
 }
 
 model Profile {
@@ -62,8 +65,8 @@ model Profile {
   updatedAt   DateTime  @default(now())
   deletedAt   DateTime?
 
-  user              User                @relation(fields: [userId], references: [id])
-  attachments        ProfileAttachment[]
+  user        User                @relation(fields: [userId], references: [id])
+  attachments ProfileAttachment[]
 }
 
 model Post {
@@ -75,15 +78,15 @@ model Post {
   updatedAt DateTime  @default(now())
   deletedAt DateTime?
 
-  user           User             @relation(fields: [userId], references: [id])
-  parent         Post?            @relation("ParentPost", fields: [parentId], references: [id])
-  children           Post[]           @relation("ParentPost")
-  attachments   PostAttachment[]
-  comments        Comment[]
-  likes           Like[]
-  bookmarks       Bookmark[]
-  feeds           Feed[]
-  reposts         Repost[]
+  user        User             @relation(fields: [userId], references: [id])
+  parent      Post?            @relation("ParentPost", fields: [parentId], references: [id])
+  children    Post[]           @relation("ParentPost")
+  attachments PostAttachment[]
+  comments    Comment[]
+  likes       Like[]
+  bookmarks   Bookmark[]
+  feeds       Feed[]
+  reposts     Repost[]
 
   @@index([userId])
   @@index([createdAt])
@@ -91,8 +94,8 @@ model Post {
 
 model Repost {
   id        String    @id @default(cuid())
-  userId String
-  postId String
+  userId    String
+  postId    String
   createdAt DateTime  @default(now())
   deletedAt DateTime?
 
@@ -114,11 +117,11 @@ model Comment {
   updatedAt DateTime  @default(now())
   deletedAt DateTime?
 
-  post              Post                @relation(fields: [postId], references: [id])
-  user              User                @relation(fields: [userId], references: [id])
-  parent            Comment?            @relation("ParentComment", fields: [parentId], references: [id])
-  replies                Comment[]           @relation("ParentComment")
-  attachments  CommentAttachment[]
+  post        Post                @relation(fields: [postId], references: [id])
+  user        User                @relation(fields: [userId], references: [id])
+  parent      Comment?            @relation("ParentComment", fields: [parentId], references: [id])
+  replies     Comment[]           @relation("ParentComment")
+  attachments CommentAttachment[]
 
   @@index([postId])
   @@index([userId])
@@ -181,7 +184,6 @@ model Feed {
   @@index([userId, createdAt(sort: Desc)])
 }
 
-
 model Attachment {
   id        String    @id @default(cuid())
   url       String
@@ -232,4 +234,3 @@ model CommentAttachment {
 
   @@index([commentId])
 }
-

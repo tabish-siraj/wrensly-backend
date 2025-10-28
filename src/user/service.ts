@@ -1,4 +1,5 @@
 // src/services/users/service.ts
+import { randomBytes } from 'crypto';
 import prisma from '../lib/prisma';
 import {
   UserInterface,
@@ -17,6 +18,7 @@ import {
 } from '../utils/errors';
 import { omitEmptyFields, toUserResponse } from './helper';
 import { UserPayload } from '../types/express';
+import { sendEmailVerificationEmail } from '../utils/email';
 
 export async function createUser(user: UserInterface) {
   // Validate user data against the schema
@@ -55,6 +57,26 @@ export async function createUser(user: UserInterface) {
     await prisma.profile.create({
       data: { userId: userId },
     });
+
+    // Generate a verification token
+    const token = randomBytes(32).toString('hex');
+    const emailVerificationToken = token;
+    const emailVerificationExpires = new Date(Date.now() + 3600000 * 6); // 6 hour
+
+    await prisma.user.update({
+      where: { id: createdUser.id },
+      data: {
+        emailVerificationToken: emailVerificationToken,
+        emailVerificationExpires: emailVerificationExpires,
+      },
+    });
+
+    // Send the verification email
+    await sendEmailVerificationEmail(
+      createdUser.username || 'User',
+      createdUser.email,
+      emailVerificationToken
+    );
 
     return createdUser;
   } catch (error) {
@@ -237,6 +259,36 @@ export async function getUserByUsername(user: UserPayload, username: string) {
     followingBy = !!followBy;
 
     return { ...toUserResponse(fetchedUser), isFollowing, followingBy };
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function verifyEmail(token: string) {
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        emailVerificationToken: token,
+        emailVerificationExpires: {
+          gt: new Date(),
+        },
+      },
+    });
+    if (!user) {
+      logger.warn(`Invalid or expired email verification token`);
+      throw new BadRequestError('Invalid or expired token');
+    }
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        isEmailVerified: true,
+        emailVerificationToken: null,
+        emailVerificationExpires: null,
+      },
+    });
+
+    return;
   } catch (error) {
     throw error;
   }

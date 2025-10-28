@@ -7,6 +7,7 @@ import {
   getUserById,
   updateUser,
   getUserByUsername,
+  verifyEmail,
 } from './service';
 import { successResponse } from '../utils/response';
 import { UnauthorizedError } from '../utils/errors';
@@ -124,6 +125,24 @@ export const getUserByUsernameController = async (
     res
       .status(200)
       .json(successResponse('User retrieved successfully', fetchedUser));
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const verifyEmailController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { token } = req.query;
+
+  try {
+    if (typeof token !== 'string') {
+      throw new UnauthorizedError('Invalid token');
+    }
+    await verifyEmail(token);
+    res.status(200).json(successResponse('Email verified successfully', null));
   } catch (err) {
     next(err);
   }

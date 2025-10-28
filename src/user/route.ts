@@ -6,11 +6,13 @@ import {
   updateUserController,
   getMyUserController,
   getUserByUsernameController,
+  verifyEmailController,
 } from './controller';
 import { authenticateJWT } from '../middlewares/auth';
 
 const router = Router();
 router.post('/', registerUserController); // Create user
+router.get('/verify-email', verifyEmailController); // Verify email
 router.put('/:id', authenticateJWT, updateUserController); // Update user by ID
 router.get('/email/:email', authenticateJWT, getUserByEmailController); // Get user by email
 router.get('/username/:username', authenticateJWT, getUserByUsernameController); // Get user by username
