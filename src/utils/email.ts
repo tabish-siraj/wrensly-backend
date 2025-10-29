@@ -1,4 +1,3 @@
-import { Resend } from 'resend';
 import logger from './logger';
 
 interface EmailOptions {
@@ -9,17 +8,53 @@ interface EmailOptions {
 
 const sendEmail = async (options: EmailOptions) => {
   try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    const response = await resend.emails.send({
-      from: '"Wrensly" <onboarding@resend.dev>',
-      ...options,
-    });
-    if (!response.data?.id) {
+    const MJ_APIKEY_PUBLIC = process.env.MJ_APIKEY_PUBLIC;
+    const MJ_APIKEY_PRIVATE = process.env.MJ_APIKEY_PRIVATE;
+    const fromEmail = process.env.MAILJET_FROM_EMAIL;
+
+    if (!MJ_APIKEY_PUBLIC || !MJ_APIKEY_PRIVATE || !fromEmail) {
       throw new Error(
-        `Failed to send email due to: ${JSON.stringify(response.data)}`
+        'Mailjet API keys or FROM email are not defined in environment variables.'
       );
     }
-    logger.info(`Email sent to ${options.to}: ${response.data?.id}`);
+
+    const body = {
+      Messages: [
+        {
+          From: {
+            Email: fromEmail,
+            Name: 'Wrensly',
+          },
+          To: [
+            {
+              Email: options.to,
+            },
+          ],
+          Subject: options.subject,
+          HTMLPart: options.html,
+        },
+      ],
+    };
+
+    const response = await fetch('https://api.mailjet.com/v3.1/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization:
+          'Basic ' +
+          Buffer.from(MJ_APIKEY_PUBLIC + ':' + MJ_APIKEY_PRIVATE).toString(
+            'base64'
+          ),
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(`Failed to send email: ${JSON.stringify(data)}`);
+    }
+
+    logger.info(`Email sent to ${options.to}`);
   } catch (error) {
     logger.error(`Error sending email to ${options.to}: ${error}`);
     throw new Error('Error sending email');
