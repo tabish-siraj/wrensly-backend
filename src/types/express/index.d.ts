@@ -6,10 +6,22 @@ export interface UserPayload {
   email: string;
 }
 
+export interface GlobalParams {
+  id?: string;
+  username?: string;
+  type?: string;
+  search?: string;
+  limit: number;
+  offset: number;
+  sortBy: string;
+  sortOrder: 'asc' | 'desc';
+}
+
 declare global {
   namespace Express {
     interface Request {
       user?: UserPayload;
+      gParams: GlobalParams;
     }
   }
 }

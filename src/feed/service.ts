@@ -1,14 +1,10 @@
 import prisma from '../lib/prisma';
-import { UserPayload, NormalizedPost } from '../types/express';
-// import { BadRequestError } from '../utils/errors'
+import { UserPayload, NormalizedPost, GlobalParams } from '../types/express';
 
 export const GetFeed = async (
   user: UserPayload,
-  page: number = 0,
-  limit: number = 10
+  params: GlobalParams
 ): Promise<NormalizedPost[]> => {
-  const skip = (page - 1) * limit;
-
   const follows = await prisma.follow.findMany({
     where: {
       followerId: user.id,
@@ -28,10 +24,10 @@ export const GetFeed = async (
         in: followingIds,
       },
     },
-    skip,
-    take: limit,
+    skip: params.offset,
+    take: params.limit,
     orderBy: {
-      createdAt: 'desc',
+      [params.sortBy]: params.sortOrder,
     },
     include: {
       user: {
@@ -48,9 +44,7 @@ export const GetFeed = async (
       },
       _count: {
         select: {
-          comments: true,
           likes: true,
-          reposts: true,
           bookmarks: true,
         },
       },
@@ -61,12 +55,6 @@ export const GetFeed = async (
         },
       },
       bookmarks: {
-        where: { userId: user.id },
-        select: {
-          id: true,
-        },
-      },
-      reposts: {
         where: { userId: user.id },
         select: {
           id: true,
@@ -121,11 +109,8 @@ export const GetFeed = async (
     },
     stats: {
       likes: post._count.likes,
-      reposts: post._count.reposts,
-      comments: post._count.comments,
     },
     isLiked: post.likes.length > 0,
-    isReposted: post.reposts.length > 0,
     isBookmarked: post.bookmarks.length > 0,
   })) as NormalizedPost[];
 

@@ -3,6 +3,7 @@ import express from 'express';
 import router from './src/routes/index';
 import requestLogger from './src/middlewares/logger';
 import { errorHandler } from './src/middlewares/errorHandler';
+import { globalParamsHandler } from './src/middlewares/params';
 
 const app = express();
 
@@ -27,7 +28,7 @@ app.use(
 
 app.use(express.json());
 app.use(requestLogger);
-app.use('/api', router);
+app.use('/api', globalParamsHandler, router);
 app.use('/test', (req, res) => {
   res.status(200).json({ message: 'Server is running!!!' });
 });
