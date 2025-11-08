@@ -2,8 +2,8 @@ import prisma from '../lib/prisma';
 import {
   PostSchema,
   PostInterface,
-  RepostSchema,
-  RepostInterface,
+  // RepostSchema,
+  // RepostInterface,
 } from './schema';
 import logger from '../utils/logger';
 import {
@@ -15,10 +15,8 @@ import { UserPayload, NormalizedPost } from '../types/express';
 
 export const CreatePost = async (user: UserPayload, post: PostInterface) => {
   try {
-    // Validate post data against the schema
     const parsed = PostSchema.safeParse(post);
     if (!parsed.success) {
-      // const validationErrors = parsed.error.errors.map(err => `${err.path.join('.')} - ${err.message}`).join(', ');
       const validationErrors = parsed.error.flatten().fieldErrors;
       logger.warn(
         `Post validation failed: ${JSON.stringify(validationErrors)}`
@@ -26,24 +24,12 @@ export const CreatePost = async (user: UserPayload, post: PostInterface) => {
       throw new BadRequestError(validationErrors);
     }
 
-    if (post.parentId) {
-      // Check if the parent post exists
-      const parentPost = await prisma.post.findUnique({
-        where: { id: post.parentId },
-      });
-      if (!parentPost) {
-        logger.warn(`Parent post with ID ${post.parentId} not found`);
-        throw new NotFoundError(
-          `Parent post with ID ${post.parentId} not found`
-        );
-      }
-    }
-
-    // Create the post in the database
     const createdPost = await prisma.post.create({
       data: {
         content: parsed.data.content,
         parentId: parsed.data.parentId,
+        type: parsed.data.type,
+        rootId: parsed.data.rootId,
         userId: user.id,
       },
     });
@@ -59,60 +45,106 @@ export const CreatePost = async (user: UserPayload, post: PostInterface) => {
   }
 };
 
-export const ToggleRepost = async (
-  user: UserPayload,
-  post: RepostInterface
-) => {
-  try {
-    // Validate incoming repost data
-    const parsed = RepostSchema.safeParse(post);
-    if (!parsed.success) {
-      const validationErrors = parsed.error.flatten().fieldErrors;
-      logger.warn(
-        `Repost validation failed: ${JSON.stringify(validationErrors)}`
-      );
-      throw new BadRequestError(validationErrors);
-    }
+// export const CreatePost = async (user: UserPayload, post: PostInterface) => {
+//   try {
+//     // Validate post data against the schema
+//     const parsed = PostSchema.safeParse(post);
+//     if (!parsed.success) {
+//       // const validationErrors = parsed.error.errors.map(err => `${err.path.join('.')} - ${err.message}`).join(', ');
+//       const validationErrors = parsed.error.flatten().fieldErrors;
+//       logger.warn(
+//         `Post validation failed: ${JSON.stringify(validationErrors)}`
+//       );
+//       throw new BadRequestError(validationErrors);
+//     }
 
-    const postId = parsed.data.postId;
-    if (!postId || postId === '') {
-      logger.error('postId is required to repost.');
-      throw new BadRequestError('postId is required to repost.');
-    }
+//     if (post.parentId) {
+//       // Check if the parent post exists
+//       const parentPost = await prisma.post.findUnique({
+//         where: { id: post.parentId },
+//       });
+//       if (!parentPost) {
+//         logger.warn(`Parent post with ID ${post.parentId} not found`);
+//         throw new NotFoundError(
+//           `Parent post with ID ${post.parentId} not found`
+//         );
+//       }
+//     }
 
-    // Check if repost already exists
-    const existingRepost = await prisma.repost.findFirst({
-      where: {
-        userId: user.id,
-        postId,
-      },
-    });
+//     // Create the post in the database
+//     const createdPost = await prisma.post.create({
+//       data: {
+//         content: parsed.data.content,
+//         parentId: parsed.data.parentId,
+//         userId: user.id,
+//       },
+//     });
 
-    if (existingRepost) {
-      // Delete existing repost (undo repost)
-      await prisma.repost.delete({
-        where: { id: existingRepost.id },
-      });
+//     if (!createdPost) {
+//       logger.warn('Failed to create post in the database');
+//       throw new InternalServerError('Failed to create post');
+//     }
 
-      logger.info(`${user.id} undo repost for post ${postId}`);
-      return { action: 'deleted', message: 'Repost undo successfully.' };
-    } else {
-      // Create a new repost
-      await prisma.repost.create({
-        data: {
-          userId: user.id,
-          postId,
-        },
-      });
+//     return createdPost;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
-      logger.info(`${user.id} reposted post ${postId}`);
-      return { action: 'created', message: 'Repost created successfully.' };
-    }
-  } catch (err) {
-    logger.error(`Error toggling repost: ${(err as Error).message}`);
-    throw err;
-  }
-};
+// export const ToggleRepost = async (
+//   user: UserPayload,
+//   post: RepostInterface
+// ) => {
+//   try {
+//     // Validate incoming repost data
+//     const parsed = RepostSchema.safeParse(post);
+//     if (!parsed.success) {
+//       const validationErrors = parsed.error.flatten().fieldErrors;
+//       logger.warn(
+//         `Repost validation failed: ${JSON.stringify(validationErrors)}`
+//       );
+//       throw new BadRequestError(validationErrors);
+//     }
+
+//     const postId = parsed.data.postId;
+//     if (!postId || postId === '') {
+//       logger.error('postId is required to repost.');
+//       throw new BadRequestError('postId is required to repost.');
+//     }
+
+//     // Check if repost already exists
+//     const existingRepost = await prisma.repost.findFirst({
+//       where: {
+//         userId: user.id,
+//         postId,
+//       },
+//     });
+
+//     if (existingRepost) {
+//       // Delete existing repost (undo repost)
+//       await prisma.repost.delete({
+//         where: { id: existingRepost.id },
+//       });
+
+//       logger.info(`${user.id} undo repost for post ${postId}`);
+//       return { action: 'deleted', message: 'Repost undo successfully.' };
+//     } else {
+//       // Create a new repost
+//       await prisma.repost.create({
+//         data: {
+//           userId: user.id,
+//           postId,
+//         },
+//       });
+
+//       logger.info(`${user.id} reposted post ${postId}`);
+//       return { action: 'created', message: 'Repost created successfully.' };
+//     }
+//   } catch (err) {
+//     logger.error(`Error toggling repost: ${(err as Error).message}`);
+//     throw err;
+//   }
+// };
 
 export const GetPostById = async (user: UserPayload, id: string) => {
   try {
@@ -140,9 +172,7 @@ export const GetPostById = async (user: UserPayload, id: string) => {
         },
         _count: {
           select: {
-            comments: true,
             likes: true,
-            reposts: true,
             bookmarks: true,
           },
         },
@@ -153,12 +183,6 @@ export const GetPostById = async (user: UserPayload, id: string) => {
           },
         },
         bookmarks: {
-          where: { userId: user.id },
-          select: {
-            id: true,
-          },
-        },
-        reposts: {
           where: { userId: user.id },
           select: {
             id: true,
@@ -217,11 +241,8 @@ export const GetPostById = async (user: UserPayload, id: string) => {
       },
       stats: {
         likes: post._count.likes,
-        reposts: post._count.reposts,
-        comments: post._count.comments,
       },
       isLiked: post.likes.length > 0,
-      isReposted: post.reposts.length > 0,
       isBookmarked: post.bookmarks.length > 0,
     } as NormalizedPost;
 
@@ -330,12 +351,6 @@ export const GetAllPosts = async (_user: UserPayload) => {
                 lastName: true,
               },
             },
-          },
-        },
-        // also include comments count
-        _count: {
-          select: {
-            comments: true,
           },
         },
       },

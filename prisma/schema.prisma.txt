@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider        = "prisma-client-js"
+  provider        = "demo"
   previewFeatures = ["strictUndefinedChecks"]
 }
 
@@ -38,11 +38,13 @@ model User {
 
   profile   Profile?
   posts     Post[]
+  comments  Comment[]
   likes     Like[]
   bookmarks Bookmark[]
   followers Follow[]   @relation("Follower")
   following Follow[]   @relation("Following")
   feed      Feed[]
+  repost    Repost[]
 }
 
 model Profile {
@@ -67,20 +69,11 @@ model Profile {
   attachments ProfileAttachment[]
 }
 
-enum PostType {
-  POST
-  COMMENT
-  QUOTE
-  REPOST
-}
-
 model Post {
   id        String    @id @default(cuid())
   content   String?
-  type      PostType  @default(POST)
   userId    String
-  parentId  String?
-  rootId    String?
+  parentId  String? // for reposts or quotes
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now())
   deletedAt DateTime?
@@ -89,14 +82,50 @@ model Post {
   parent      Post?            @relation("ParentPost", fields: [parentId], references: [id])
   children    Post[]           @relation("ParentPost")
   attachments PostAttachment[]
+  comments    Comment[]
   likes       Like[]
   bookmarks   Bookmark[]
   feeds       Feed[]
+  reposts     Repost[]
 
   @@index([userId])
   @@index([createdAt])
+}
+
+model Repost {
+  id        String    @id @default(cuid())
+  userId    String
+  postId    String
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
+
+  @@unique([userId, postId]) // prevent duplicate reposts
+  @@index([postId])
+  @@index([userId])
+}
+
+model Comment {
+  id        String    @id @default(cuid())
+  content   String
+  postId    String
+  userId    String
+  parentId  String? // for replies to comments
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  post        Post                @relation(fields: [postId], references: [id])
+  user        User                @relation(fields: [userId], references: [id])
+  parent      Comment?            @relation("ParentComment", fields: [parentId], references: [id])
+  replies     Comment[]           @relation("ParentComment")
+  attachments CommentAttachment[]
+
+  @@index([postId])
+  @@index([userId])
   @@index([parentId])
-  @@index([rootId])
 }
 
 model Like {
@@ -163,6 +192,7 @@ model Attachment {
   deletedAt DateTime?
 
   postAttachments    PostAttachment[]
+  commentAttachments CommentAttachment[]
   profileAttachments ProfileAttachment[]
 }
 
@@ -190,4 +220,17 @@ model PostAttachment {
   attachment Attachment @relation(fields: [attachmentId], references: [id])
 
   @@index([postId])
+}
+
+model CommentAttachment {
+  id           String    @id @default(cuid())
+  commentId    String
+  attachmentId String
+  createdAt    DateTime  @default(now())
+  deletedAt    DateTime?
+
+  comment    Comment    @relation(fields: [commentId], references: [id])
+  attachment Attachment @relation(fields: [attachmentId], references: [id])
+
+  @@index([commentId])
 }
