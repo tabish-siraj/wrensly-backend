@@ -54,4 +54,5 @@ interface NormalizedPost {
   isLiked: boolean;
   isReposted: boolean;
   isBookmarked: boolean;
+  hasReplies: boolean;
 }

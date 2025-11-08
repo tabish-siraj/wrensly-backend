@@ -158,13 +158,13 @@ export const GetPostById = async (user: UserPayload, id: string) => {
       },
       stats: {
         likes: post._count.likes,
-        comments:
-          counts.find((c) => c.type === 'COMMENT' || c.type === 'QUOTE')?._count
-            .type || 0,
-        reposts: counts.find((c) => c.type === 'REPOST')?._count || 0,
+        comments: counts.find((c) => c.type === 'COMMENT')?._count.type || 0,
+        reposts: counts.find((c) => c.type === 'REPOST')?._count.type || 0,
       },
       isLiked: post.likes.length > 0,
       isBookmarked: post.bookmarks.length > 0,
+      hasReplies:
+        (counts.find((c) => c.type === 'COMMENT')?._count.type || 0) > 0,
     } as NormalizedPost;
 
     return normalizedPost;
