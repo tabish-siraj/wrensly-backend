@@ -19,18 +19,38 @@ export const CreatePost = async (user: UserPayload, post: PostInterface) => {
       throw new BadRequestError(validationErrors);
     }
 
+    let { rootId } = parsed.data;
+    const { content, type, parentId } = parsed.data;
+
+    if (type !== 'POST' && parentId) {
+      const parentPost = await prisma.post.findUnique({
+        where: { id: parentId },
+      });
+      if (!parentPost) throw new BadRequestError('Parent post not found');
+
+      rootId = parentPost.rootId || parentPost.id;
+    }
+
     const createdPost = await prisma.post.create({
       data: {
-        content: parsed.data.content,
-        parentId: parsed.data.parentId,
-        type: parsed.data.type,
-        rootId: parsed.data.rootId,
+        content,
+        type,
+        parentId: parentId || null,
+        rootId,
         userId: user.id,
       },
     });
 
+    if (type === 'POST' && !createdPost.rootId) {
+      await prisma.post.update({
+        where: { id: createdPost.id },
+        data: { rootId: createdPost.id },
+      });
+      createdPost.rootId = createdPost.id;
+    }
+
     if (!createdPost) {
-      logger.warn('Failed to create post in the database');
+      logger.error(`Failed to create post: ${JSON.stringify(post)}`);
       throw new InternalServerError('Failed to create post');
     }
 
@@ -106,6 +126,12 @@ export const GetPostById = async (user: UserPayload, id: string) => {
       logger.warn(`Post with ID ${id} not found`);
       throw new NotFoundError(`Post with ID ${id} not found`);
     }
+    const counts = await prisma.post.groupBy({
+      by: ['type'],
+      where: { parentId: post.id, deletedAt: null },
+      _count: { type: true },
+    });
+
     const normalizedPost = {
       id: post.id,
       createdAt: post.createdAt,
@@ -132,6 +158,10 @@ export const GetPostById = async (user: UserPayload, id: string) => {
       },
       stats: {
         likes: post._count.likes,
+        comments:
+          counts.find((c) => c.type === 'COMMENT' || c.type === 'QUOTE')?._count
+            .type || 0,
+        reposts: counts.find((c) => c.type === 'REPOST')?._count || 0,
       },
       isLiked: post.likes.length > 0,
       isBookmarked: post.bookmarks.length > 0,
