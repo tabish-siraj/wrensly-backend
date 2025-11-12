@@ -87,19 +87,18 @@ export const GetFeed = async (
     createdAt: post.createdAt,
     content: post.content,
     parentId: post.parentId,
-    // prettier-ignore
     parent: post.parent
       ? {
-        id: post.parent.id,
-        content: post.parent.content,
-        createdAt: post.parent.createdAt,
-        user: {
-          id: post.parent.user.id,
-          username: post.parent.user.username,
-          firstName: post.parent.user.profile?.firstName,
-          lastName: post.parent.user.profile?.lastName,
-        },
-      }
+          id: post.parent.id,
+          content: post.parent.content,
+          createdAt: post.parent.createdAt,
+          user: {
+            id: post.parent.user.id,
+            username: post.parent.user.username,
+            firstName: post.parent.user.profile?.firstName,
+            lastName: post.parent.user.profile?.lastName,
+          },
+        }
       : null,
     user: {
       id: post.user.id,

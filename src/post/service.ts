@@ -60,118 +60,248 @@ export const CreatePost = async (user: UserPayload, post: PostInterface) => {
   }
 };
 
-export const GetPostById = async (user: UserPayload, id: string) => {
+export const GetPostById = async (
+  user: UserPayload,
+  id: string
+): Promise<NormalizedPost | null> => {
   try {
     if (!id || typeof id !== 'string') {
       logger.warn(`Invalid post ID: ${id}`);
       throw new BadRequestError('Invalid post ID');
     }
 
-    const post = await prisma.post.findUnique({
-      where: { id, deletedAt: null },
-      include: {
-        user: {
-          select: {
-            id: true,
-            username: true,
-            profile: {
-              select: {
-                firstName: true,
-                lastName: true,
-              },
-            },
-          },
-        },
-        _count: {
-          select: {
-            likes: true,
-            bookmarks: true,
-          },
-        },
-        likes: {
-          where: { userId: user.id },
-          select: {
-            id: true,
-          },
-        },
-        bookmarks: {
-          where: { userId: user.id },
-          select: {
-            id: true,
-          },
-        },
-        parent: {
-          select: {
-            id: true,
-            content: true,
-            createdAt: true,
-            user: {
-              select: {
-                id: true,
-                username: true,
-                profile: {
-                  select: {
-                    firstName: true,
-                    lastName: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    });
+    const post = await prisma.$queryRaw<NormalizedPost[]>`
+      SELECT
+        p.id,
+        p."createdAt",
+        p.content,
+        p.type,
 
-    if (!post) {
-      logger.warn(`Post with ID ${id} not found`);
-      throw new NotFoundError(`Post with ID ${id} not found`);
-    }
-    const counts = await prisma.post.groupBy({
-      by: ['type'],
-      where: { parentId: post.id, deletedAt: null },
-      _count: { type: true },
-    });
+        json_build_object(
+          'id', u.id,
+          'username', u.username,
+          'firstName', pr."firstName",
+          'lastName', pr."lastName"
+        ) AS user,
 
-    const normalizedPost = {
-      id: post.id,
-      createdAt: post.createdAt,
-      content: post.content,
-      parentId: post.parentId,
-      parent: post.parent
-        ? {
-            id: post.parent.id,
-            content: post.parent.content,
-            createdAt: post.parent.createdAt,
-            user: {
-              id: post.parent.user.id,
-              username: post.parent.user.username,
-              firstName: post.parent.user.profile?.firstName,
-              lastName: post.parent.user.profile?.lastName,
-            },
-          }
-        : null,
-      user: {
-        id: post.user.id,
-        username: post.user.username,
-        firstName: post?.user?.profile?.firstName,
-        lastName: post?.user?.profile?.lastName,
-      },
-      stats: {
-        likes: post._count.likes,
-        comments: counts.find((c) => c.type === 'COMMENT')?._count.type || 0,
-        reposts: counts.find((c) => c.type === 'REPOST')?._count.type || 0,
-      },
-      isLiked: post.likes.length > 0,
-      isBookmarked: post.bookmarks.length > 0,
-      hasReplies:
-        (counts.find((c) => c.type === 'COMMENT')?._count.type || 0) > 0,
-    } as NormalizedPost;
+        CASE
+          WHEN p."parentId" IS NOT NULL THEN (
+            SELECT json_build_object(
+              'id', pp.id,
+              'content', pp.content,
+              'createdAt', pp."createdAt",
+              'user', json_build_object(
+                'id', pu.id,
+                'username', pu.username,
+                'firstName', ppr."firstName",
+                'lastName', ppr."lastName"
+              )
+            )
+            FROM "Post" pp
+            JOIN "User" pu ON pu.id = pp."userId"
+            LEFT JOIN "Profile" ppr ON ppr."userId" = pu.id
+            WHERE pp.id = p."parentId" AND pp."deletedAt" IS NULL
+          )
+        END AS parent,
 
-    return normalizedPost;
+        json_build_object(
+          'likes', (SELECT COUNT(*) FROM "Like" l WHERE l."postId" = p.id),
+          'comments', (SELECT COUNT(*) FROM "Post" c WHERE c."parentId" = p.id AND c.type = 'COMMENT' AND c."deletedAt" IS NULL),
+          'reposts', (SELECT COUNT(*) FROM "Post" r WHERE r."parentId" = p.id AND r.type = 'REPOST' AND r."deletedAt" IS NULL)
+        ) AS stats,
+
+        EXISTS (
+          SELECT 1 FROM "Like" l WHERE l."postId" = p.id AND l."userId" = ${user.id}
+        ) AS "isLiked",
+
+        EXISTS (
+          SELECT 1 FROM "Bookmark" b WHERE b."postId" = p.id AND b."userId" = ${user.id}
+        ) AS "isBookmarked",
+
+        (
+          SELECT json_agg(json_build_object(
+            'id', c.id,
+            'content', c.content,
+            'type', c.type,
+            'createdAt', c."createdAt",
+            'user', json_build_object(
+              'id', cu.id,
+              'username', cu.username,
+              'firstName', cpr."firstName",
+              'lastName', cpr."lastName"
+            ),
+            'stats', json_build_object(
+              'likes', (SELECT COUNT(*) FROM "Like" l2 WHERE l2."postId" = c.id),
+              'comments', (SELECT COUNT(*) FROM "Post" cc WHERE cc."parentId" = c.id AND cc.type = 'COMMENT' AND cc."deletedAt" IS NULL),
+              'reposts', (SELECT COUNT(*) FROM "Post" cr WHERE cr."parentId" = c.id AND cr.type = 'REPOST' AND cr."deletedAt" IS NULL)
+            ),
+            'isLiked', EXISTS (
+              SELECT 1 FROM "Like" l3 WHERE l3."postId" = c.id AND l3."userId" = ${user.id}
+            ),
+            'isBookmarked', EXISTS (
+              SELECT 1 FROM "Bookmark" b3 WHERE b3."postId" = c.id AND b3."userId" = ${user.id}
+            )
+          ))
+          FROM "Post" c
+          JOIN "User" cu ON cu.id = c."userId"
+          LEFT JOIN "Profile" cpr ON cpr."userId" = cu.id
+          WHERE c."parentId" = p.id AND c.type = 'COMMENT' AND c."deletedAt" IS NULL
+        ) AS comments
+
+      FROM "Post" p
+      JOIN "User" u ON u.id = p."userId"
+      LEFT JOIN "Profile" pr ON pr."userId" = u.id
+      WHERE p.id = ${id} AND p."deletedAt" IS NULL
+      LIMIT 1;
+    `;
+
+    return post[0] || null;
   } catch (error) {
     throw error;
   }
 };
+
+// export const GetPostById = async (user: UserPayload, id: string) => {
+//   try {
+//     if (!id || typeof id !== 'string') {
+//       logger.warn(`Invalid post ID: ${id}`);
+//       throw new BadRequestError('Invalid post ID');
+//     }
+
+//     const post = await prisma.post.findUnique({
+//       where: { id, deletedAt: null },
+//       include: {
+//         user: {
+//           select: {
+//             id: true,
+//             username: true,
+//             profile: { select: { firstName: true, lastName: true } },
+//           },
+//         },
+//         _count: { select: { likes: true, bookmarks: true } },
+//         likes: { where: { userId: user.id }, select: { id: true } },
+//         bookmarks: { where: { userId: user.id }, select: { id: true } },
+//         parent: {
+//           select: {
+//             id: true,
+//             content: true,
+//             createdAt: true,
+//             user: {
+//               select: {
+//                 id: true,
+//                 username: true,
+//                 profile: { select: { firstName: true, lastName: true } },
+//               },
+//             },
+//           },
+//         },
+//       },
+//     });
+
+//     if (!post) {
+//       logger.warn(`Post with ID ${id} not found`);
+//       throw new NotFoundError(`Post with ID ${id} not found`);
+//     }
+
+//     const comments = await prisma.post.findMany({
+//       where: { parentId: post.id, type: 'COMMENT', deletedAt: null },
+//       include: {
+//         user: {
+//           select: {
+//             id: true,
+//             username: true,
+//             profile: { select: { firstName: true, lastName: true } },
+//           },
+//         },
+//         _count: { select: { likes: true, bookmarks: true } },
+//         likes: { where: { userId: user.id }, select: { id: true } },
+//         bookmarks: { where: { userId: user.id }, select: { id: true } },
+//       },
+//     });
+
+//     const postCounts = await prisma.post.groupBy({
+//       by: ['type'],
+//       where: { id, deletedAt: null },
+//       _count: { type: true },
+//     });
+
+//     const commentCounts = await prisma.post.groupBy({
+//       by: ['parentId', 'type'],
+//       where: {
+//         parentId: { in: comments.map((c) => c.id) },
+//         deletedAt: null,
+//       },
+//       _count: { type: true },
+//     });
+
+//     const normalizedComments = comments.map((comment) => ({
+//       id: comment.id,
+//       createdAt: comment.createdAt,
+//       content: comment.content,
+//       type: comment.type,
+//       parentId: comment.parentId,
+//       user: {
+//         id: comment.user.id,
+//         username: comment.user.username,
+//         firstName: comment?.user?.profile?.firstName,
+//         lastName: comment?.user?.profile?.lastName,
+//       },
+//       stats: {
+//         likes: comment._count.likes,
+//         comments:
+//           commentCounts.find((c) => c.type === 'COMMENT')?._count.type || 0,
+//         reposts:
+//           commentCounts.find((c) => c.type === 'REPOST')?._count.type || 0,
+//       },
+//       isLiked: comment.likes.length > 0,
+//       isBookmarked: comment.bookmarks.length > 0,
+//       hasReplies:
+//         (commentCounts.find((c) => c.type === 'COMMENT')?._count.type || 0) > 0,
+//     }));
+
+//     const normalizedPost = {
+//       id: post.id,
+//       createdAt: post.createdAt,
+//       content: post.content,
+//       type: post.type,
+//       parentId: post.parentId,
+//       parent: post.parent
+//         ? {
+//             id: post.parent.id,
+//             content: post.parent.content,
+//             createdAt: post.parent.createdAt,
+//             user: {
+//               id: post.parent.user.id,
+//               username: post.parent.user.username,
+//               firstName: post.parent.user.profile?.firstName,
+//               lastName: post.parent.user.profile?.lastName,
+//             },
+//           }
+//         : null,
+//       user: {
+//         id: post.user.id,
+//         username: post.user.username,
+//         firstName: post?.user?.profile?.firstName,
+//         lastName: post?.user?.profile?.lastName,
+//       },
+//       stats: {
+//         likes: post._count.likes,
+//         comments:
+//           postCounts.find((c) => c.type === 'COMMENT')?._count.type || 0,
+//         reposts: postCounts.find((c) => c.type === 'REPOST')?._count.type || 0,
+//       },
+//       isLiked: post.likes.length > 0,
+//       isBookmarked: post.bookmarks.length > 0,
+//       hasReplies:
+//         (postCounts.find((c) => c.type === 'COMMENT')?._count.type || 0) > 0,
+//       comments: normalizedComments,
+//     } as NormalizedPost;
+
+//     return normalizedPost;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 export const DeletePost = async (user: UserPayload, postId: string) => {
   try {

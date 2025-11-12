@@ -14,6 +14,8 @@ export async function globalParamsHandler(
       type: req.query.type as string,
       limit: Number(req.query.limit) || 20,
       offset: Number(req.query.offset) || 0,
+      cursor: req.query.cursor as string | null,
+      page: Number(req.query.page) || 1,
       sortBy: (req.query.sortBy as string) || 'createdAt',
       sortOrder: (req.query.sortOrder as 'asc' | 'desc') || 'desc',
     };

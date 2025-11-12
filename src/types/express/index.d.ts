@@ -13,6 +13,8 @@ export interface GlobalParams {
   search?: string;
   limit: number;
   offset: number;
+  cursor: string | null;
+  page: number;
   sortBy: string;
   sortOrder: 'asc' | 'desc';
 }
@@ -37,6 +39,7 @@ interface NormalizedUser {
 interface NormalizedPost {
   id: string;
   content: string | null;
+  type: string;
   createdAt: Date;
   user: NormalizedUser;
   parentId?: string | null;
@@ -46,6 +49,7 @@ interface NormalizedPost {
     createdAt: Date;
     user: NormalizedUser;
   } | null;
+  comments?: NormalizedPost[];
   stats: {
     likes: number;
     comments: number;
