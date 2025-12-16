@@ -10,19 +10,21 @@ export const normalizePostData = (
     createdAt: post.createdAt,
     content: post.content,
     parentId: post.parentId,
+    type: post.type,
+    hasReplies: post.hasReplies || false,
     parent: post.parent
       ? {
-          id: post.parent.id,
-          content: post.parent.content,
-          createdAt: post.parent.createdAt,
-          user: {
-            id: post.parent.user.id,
-            username: post.parent.user.username,
-            firstName: post.parent.user.profile?.firstName || null,
-            lastName: post.parent.user.profile?.lastName || null,
-            avatar: post.parent.user.profile?.avatar || null,
-          },
-        }
+        id: post.parent.id,
+        content: post.parent.content,
+        createdAt: post.parent.createdAt,
+        user: {
+          id: post.parent.user.id,
+          username: post.parent.user.username,
+          firstName: post.parent.user.profile?.firstName || null,
+          lastName: post.parent.user.profile?.lastName || null,
+          avatar: post.parent.user.profile?.avatar || null,
+        },
+      }
       : null,
     user: {
       id: post.user.id,
