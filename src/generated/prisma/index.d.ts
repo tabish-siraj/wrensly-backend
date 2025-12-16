@@ -1705,21 +1705,21 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    posts: number
-    likes: number
     bookmarks: number
+    feed: number
     followers: number
     following: number
-    feed: number
+    likes: number
+    posts: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    posts?: boolean | UserCountOutputTypeCountPostsArgs
-    likes?: boolean | UserCountOutputTypeCountLikesArgs
     bookmarks?: boolean | UserCountOutputTypeCountBookmarksArgs
+    feed?: boolean | UserCountOutputTypeCountFeedArgs
     followers?: boolean | UserCountOutputTypeCountFollowersArgs
     following?: boolean | UserCountOutputTypeCountFollowingArgs
-    feed?: boolean | UserCountOutputTypeCountFeedArgs
+    likes?: boolean | UserCountOutputTypeCountLikesArgs
+    posts?: boolean | UserCountOutputTypeCountPostsArgs
   }
 
   // Custom InputTypes
@@ -1736,22 +1736,15 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PostWhereInput | $Types.Skip
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: LikeWhereInput | $Types.Skip
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
   export type UserCountOutputTypeCountBookmarksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BookmarkWhereInput | $Types.Skip
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFeedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FeedWhereInput | $Types.Skip
   }
 
   /**
@@ -1771,8 +1764,15 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountFeedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FeedWhereInput | $Types.Skip
+  export type UserCountOutputTypeCountLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LikeWhereInput | $Types.Skip
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostWhereInput | $Types.Skip
   }
 
 
@@ -1812,19 +1812,19 @@ export namespace Prisma {
    */
 
   export type PostCountOutputType = {
-    children: number
-    attachments: number
-    likes: number
     bookmarks: number
     feeds: number
+    likes: number
+    children: number
+    attachments: number
   }
 
   export type PostCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    children?: boolean | PostCountOutputTypeCountChildrenArgs
-    attachments?: boolean | PostCountOutputTypeCountAttachmentsArgs
-    likes?: boolean | PostCountOutputTypeCountLikesArgs
     bookmarks?: boolean | PostCountOutputTypeCountBookmarksArgs
     feeds?: boolean | PostCountOutputTypeCountFeedsArgs
+    likes?: boolean | PostCountOutputTypeCountLikesArgs
+    children?: boolean | PostCountOutputTypeCountChildrenArgs
+    attachments?: boolean | PostCountOutputTypeCountAttachmentsArgs
   }
 
   // Custom InputTypes
@@ -1841,15 +1841,15 @@ export namespace Prisma {
   /**
    * PostCountOutputType without action
    */
-  export type PostCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PostWhereInput | $Types.Skip
+  export type PostCountOutputTypeCountBookmarksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BookmarkWhereInput | $Types.Skip
   }
 
   /**
    * PostCountOutputType without action
    */
-  export type PostCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PostAttachmentWhereInput | $Types.Skip
+  export type PostCountOutputTypeCountFeedsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FeedWhereInput | $Types.Skip
   }
 
   /**
@@ -1862,15 +1862,15 @@ export namespace Prisma {
   /**
    * PostCountOutputType without action
    */
-  export type PostCountOutputTypeCountBookmarksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BookmarkWhereInput | $Types.Skip
+  export type PostCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostWhereInput | $Types.Skip
   }
 
   /**
    * PostCountOutputType without action
    */
-  export type PostCountOutputTypeCountFeedsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FeedWhereInput | $Types.Skip
+  export type PostCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostAttachmentWhereInput | $Types.Skip
   }
 
 
@@ -1933,18 +1933,18 @@ export namespace Prisma {
     username: string | null
     email: string | null
     password: string | null
-    isActive: boolean | null
-    isVerified: boolean | null
-    isEmailVerified: boolean | null
-    isAdmin: boolean | null
-    isBanned: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    passwordResetToken: string | null
+    isActive: boolean | null
+    isAdmin: boolean | null
+    isBanned: boolean | null
+    isVerified: boolean | null
     passwordResetExpires: Date | null
-    emailVerificationToken: string | null
+    passwordResetToken: string | null
+    isEmailVerified: boolean | null
     emailVerificationExpires: Date | null
+    emailVerificationToken: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1952,18 +1952,18 @@ export namespace Prisma {
     username: string | null
     email: string | null
     password: string | null
-    isActive: boolean | null
-    isVerified: boolean | null
-    isEmailVerified: boolean | null
-    isAdmin: boolean | null
-    isBanned: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    passwordResetToken: string | null
+    isActive: boolean | null
+    isAdmin: boolean | null
+    isBanned: boolean | null
+    isVerified: boolean | null
     passwordResetExpires: Date | null
-    emailVerificationToken: string | null
+    passwordResetToken: string | null
+    isEmailVerified: boolean | null
     emailVerificationExpires: Date | null
+    emailVerificationToken: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1971,18 +1971,18 @@ export namespace Prisma {
     username: number
     email: number
     password: number
-    isActive: number
-    isVerified: number
-    isEmailVerified: number
-    isAdmin: number
-    isBanned: number
     createdAt: number
     updatedAt: number
     deletedAt: number
-    passwordResetToken: number
+    isActive: number
+    isAdmin: number
+    isBanned: number
+    isVerified: number
     passwordResetExpires: number
-    emailVerificationToken: number
+    passwordResetToken: number
+    isEmailVerified: number
     emailVerificationExpires: number
+    emailVerificationToken: number
     _all: number
   }
 
@@ -1992,18 +1992,18 @@ export namespace Prisma {
     username?: true | $Types.Skip
     email?: true | $Types.Skip
     password?: true | $Types.Skip
-    isActive?: true | $Types.Skip
-    isVerified?: true | $Types.Skip
-    isEmailVerified?: true | $Types.Skip
-    isAdmin?: true | $Types.Skip
-    isBanned?: true | $Types.Skip
     createdAt?: true | $Types.Skip
     updatedAt?: true | $Types.Skip
     deletedAt?: true | $Types.Skip
-    passwordResetToken?: true | $Types.Skip
+    isActive?: true | $Types.Skip
+    isAdmin?: true | $Types.Skip
+    isBanned?: true | $Types.Skip
+    isVerified?: true | $Types.Skip
     passwordResetExpires?: true | $Types.Skip
-    emailVerificationToken?: true | $Types.Skip
+    passwordResetToken?: true | $Types.Skip
+    isEmailVerified?: true | $Types.Skip
     emailVerificationExpires?: true | $Types.Skip
+    emailVerificationToken?: true | $Types.Skip
   }
 
   export type UserMaxAggregateInputType = {
@@ -2011,18 +2011,18 @@ export namespace Prisma {
     username?: true | $Types.Skip
     email?: true | $Types.Skip
     password?: true | $Types.Skip
-    isActive?: true | $Types.Skip
-    isVerified?: true | $Types.Skip
-    isEmailVerified?: true | $Types.Skip
-    isAdmin?: true | $Types.Skip
-    isBanned?: true | $Types.Skip
     createdAt?: true | $Types.Skip
     updatedAt?: true | $Types.Skip
     deletedAt?: true | $Types.Skip
-    passwordResetToken?: true | $Types.Skip
+    isActive?: true | $Types.Skip
+    isAdmin?: true | $Types.Skip
+    isBanned?: true | $Types.Skip
+    isVerified?: true | $Types.Skip
     passwordResetExpires?: true | $Types.Skip
-    emailVerificationToken?: true | $Types.Skip
+    passwordResetToken?: true | $Types.Skip
+    isEmailVerified?: true | $Types.Skip
     emailVerificationExpires?: true | $Types.Skip
+    emailVerificationToken?: true | $Types.Skip
   }
 
   export type UserCountAggregateInputType = {
@@ -2030,18 +2030,18 @@ export namespace Prisma {
     username?: true | $Types.Skip
     email?: true | $Types.Skip
     password?: true | $Types.Skip
-    isActive?: true | $Types.Skip
-    isVerified?: true | $Types.Skip
-    isEmailVerified?: true | $Types.Skip
-    isAdmin?: true | $Types.Skip
-    isBanned?: true | $Types.Skip
     createdAt?: true | $Types.Skip
     updatedAt?: true | $Types.Skip
     deletedAt?: true | $Types.Skip
-    passwordResetToken?: true | $Types.Skip
+    isActive?: true | $Types.Skip
+    isAdmin?: true | $Types.Skip
+    isBanned?: true | $Types.Skip
+    isVerified?: true | $Types.Skip
     passwordResetExpires?: true | $Types.Skip
-    emailVerificationToken?: true | $Types.Skip
+    passwordResetToken?: true | $Types.Skip
+    isEmailVerified?: true | $Types.Skip
     emailVerificationExpires?: true | $Types.Skip
+    emailVerificationToken?: true | $Types.Skip
     _all?: true | $Types.Skip
   }
 
@@ -2122,18 +2122,18 @@ export namespace Prisma {
     username: string | null
     email: string
     password: string
-    isActive: boolean
-    isVerified: boolean
-    isEmailVerified: boolean
-    isAdmin: boolean
-    isBanned: boolean
     createdAt: Date
     updatedAt: Date
     deletedAt: Date | null
-    passwordResetToken: string | null
+    isActive: boolean
+    isAdmin: boolean
+    isBanned: boolean
+    isVerified: boolean
     passwordResetExpires: Date | null
-    emailVerificationToken: string | null
+    passwordResetToken: string | null
+    isEmailVerified: boolean
     emailVerificationExpires: Date | null
+    emailVerificationToken: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -2158,25 +2158,25 @@ export namespace Prisma {
     username?: boolean | $Types.Skip
     email?: boolean | $Types.Skip
     password?: boolean | $Types.Skip
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     updatedAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    passwordResetToken?: boolean | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: boolean | $Types.Skip
-    emailVerificationToken?: boolean | $Types.Skip
+    passwordResetToken?: boolean | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: boolean | $Types.Skip
-    profile?: boolean | User$profileArgs<ExtArgs> | $Types.Skip
-    posts?: boolean | User$postsArgs<ExtArgs> | $Types.Skip
-    likes?: boolean | User$likesArgs<ExtArgs> | $Types.Skip
+    emailVerificationToken?: boolean | $Types.Skip
     bookmarks?: boolean | User$bookmarksArgs<ExtArgs> | $Types.Skip
+    feed?: boolean | User$feedArgs<ExtArgs> | $Types.Skip
     followers?: boolean | User$followersArgs<ExtArgs> | $Types.Skip
     following?: boolean | User$followingArgs<ExtArgs> | $Types.Skip
-    feed?: boolean | User$feedArgs<ExtArgs> | $Types.Skip
+    likes?: boolean | User$likesArgs<ExtArgs> | $Types.Skip
+    posts?: boolean | User$postsArgs<ExtArgs> | $Types.Skip
+    profile?: boolean | User$profileArgs<ExtArgs> | $Types.Skip
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs> | $Types.Skip
   }, ExtArgs["result"]["user"]>
 
@@ -2185,18 +2185,18 @@ export namespace Prisma {
     username?: boolean | $Types.Skip
     email?: boolean | $Types.Skip
     password?: boolean | $Types.Skip
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     updatedAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    passwordResetToken?: boolean | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: boolean | $Types.Skip
-    emailVerificationToken?: boolean | $Types.Skip
+    passwordResetToken?: boolean | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: boolean | $Types.Skip
+    emailVerificationToken?: boolean | $Types.Skip
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2204,18 +2204,18 @@ export namespace Prisma {
     username?: boolean | $Types.Skip
     email?: boolean | $Types.Skip
     password?: boolean | $Types.Skip
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     updatedAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    passwordResetToken?: boolean | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: boolean | $Types.Skip
-    emailVerificationToken?: boolean | $Types.Skip
+    passwordResetToken?: boolean | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: boolean | $Types.Skip
+    emailVerificationToken?: boolean | $Types.Skip
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -2223,29 +2223,29 @@ export namespace Prisma {
     username?: boolean | $Types.Skip
     email?: boolean | $Types.Skip
     password?: boolean | $Types.Skip
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     updatedAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    passwordResetToken?: boolean | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: boolean | $Types.Skip
-    emailVerificationToken?: boolean | $Types.Skip
+    passwordResetToken?: boolean | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: boolean | $Types.Skip
+    emailVerificationToken?: boolean | $Types.Skip
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "email" | "password" | "isActive" | "isVerified" | "isEmailVerified" | "isAdmin" | "isBanned" | "createdAt" | "updatedAt" | "deletedAt" | "passwordResetToken" | "passwordResetExpires" | "emailVerificationToken" | "emailVerificationExpires", ExtArgs["result"]["user"], $Types.Skip>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "email" | "password" | "createdAt" | "updatedAt" | "deletedAt" | "isActive" | "isAdmin" | "isBanned" | "isVerified" | "passwordResetExpires" | "passwordResetToken" | "isEmailVerified" | "emailVerificationExpires" | "emailVerificationToken", ExtArgs["result"]["user"], $Types.Skip>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    profile?: boolean | User$profileArgs<ExtArgs> | $Types.Skip
-    posts?: boolean | User$postsArgs<ExtArgs> | $Types.Skip
-    likes?: boolean | User$likesArgs<ExtArgs> | $Types.Skip
     bookmarks?: boolean | User$bookmarksArgs<ExtArgs> | $Types.Skip
+    feed?: boolean | User$feedArgs<ExtArgs> | $Types.Skip
     followers?: boolean | User$followersArgs<ExtArgs> | $Types.Skip
     following?: boolean | User$followingArgs<ExtArgs> | $Types.Skip
-    feed?: boolean | User$feedArgs<ExtArgs> | $Types.Skip
+    likes?: boolean | User$likesArgs<ExtArgs> | $Types.Skip
+    posts?: boolean | User$postsArgs<ExtArgs> | $Types.Skip
+    profile?: boolean | User$profileArgs<ExtArgs> | $Types.Skip
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs> | $Types.Skip
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2254,31 +2254,31 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      profile: Prisma.$ProfilePayload<ExtArgs> | null
-      posts: Prisma.$PostPayload<ExtArgs>[]
-      likes: Prisma.$LikePayload<ExtArgs>[]
       bookmarks: Prisma.$BookmarkPayload<ExtArgs>[]
+      feed: Prisma.$FeedPayload<ExtArgs>[]
       followers: Prisma.$FollowPayload<ExtArgs>[]
       following: Prisma.$FollowPayload<ExtArgs>[]
-      feed: Prisma.$FeedPayload<ExtArgs>[]
+      likes: Prisma.$LikePayload<ExtArgs>[]
+      posts: Prisma.$PostPayload<ExtArgs>[]
+      profile: Prisma.$ProfilePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       username: string | null
       email: string
       password: string
-      isActive: boolean
-      isVerified: boolean
-      isEmailVerified: boolean
-      isAdmin: boolean
-      isBanned: boolean
       createdAt: Date
       updatedAt: Date
       deletedAt: Date | null
-      passwordResetToken: string | null
+      isActive: boolean
+      isAdmin: boolean
+      isBanned: boolean
+      isVerified: boolean
       passwordResetExpires: Date | null
-      emailVerificationToken: string | null
+      passwordResetToken: string | null
+      isEmailVerified: boolean
       emailVerificationExpires: Date | null
+      emailVerificationToken: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2673,13 +2673,13 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    profile<T extends User$profileArgs<ExtArgs> = {}>(args?: Subset<T, User$profileArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    likes<T extends User$likesArgs<ExtArgs> = {}>(args?: Subset<T, User$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookmarks<T extends User$bookmarksArgs<ExtArgs> = {}>(args?: Subset<T, User$bookmarksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookmarkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    feed<T extends User$feedArgs<ExtArgs> = {}>(args?: Subset<T, User$feedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     followers<T extends User$followersArgs<ExtArgs> = {}>(args?: Subset<T, User$followersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     following<T extends User$followingArgs<ExtArgs> = {}>(args?: Subset<T, User$followingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    feed<T extends User$feedArgs<ExtArgs> = {}>(args?: Subset<T, User$feedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    likes<T extends User$likesArgs<ExtArgs> = {}>(args?: Subset<T, User$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    profile<T extends User$profileArgs<ExtArgs> = {}>(args?: Subset<T, User$profileArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2713,18 +2713,18 @@ export namespace Prisma {
     readonly username: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
-    readonly isActive: FieldRef<"User", 'Boolean'>
-    readonly isVerified: FieldRef<"User", 'Boolean'>
-    readonly isEmailVerified: FieldRef<"User", 'Boolean'>
-    readonly isAdmin: FieldRef<"User", 'Boolean'>
-    readonly isBanned: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly deletedAt: FieldRef<"User", 'DateTime'>
-    readonly passwordResetToken: FieldRef<"User", 'String'>
+    readonly isActive: FieldRef<"User", 'Boolean'>
+    readonly isAdmin: FieldRef<"User", 'Boolean'>
+    readonly isBanned: FieldRef<"User", 'Boolean'>
+    readonly isVerified: FieldRef<"User", 'Boolean'>
     readonly passwordResetExpires: FieldRef<"User", 'DateTime'>
-    readonly emailVerificationToken: FieldRef<"User", 'String'>
+    readonly passwordResetToken: FieldRef<"User", 'String'>
+    readonly isEmailVerified: FieldRef<"User", 'Boolean'>
     readonly emailVerificationExpires: FieldRef<"User", 'DateTime'>
+    readonly emailVerificationToken: FieldRef<"User", 'String'>
   }
     
 
@@ -3113,73 +3113,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.profile
-   */
-  export type User$profileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Profile
-     */
-    select?: ProfileSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Profile
-     */
-    omit?: ProfileOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProfileInclude<ExtArgs> | null
-    where?: ProfileWhereInput | $Types.Skip
-  }
-
-  /**
-   * User.posts
-   */
-  export type User$postsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Post
-     */
-    select?: PostSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Post
-     */
-    omit?: PostOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PostInclude<ExtArgs> | null
-    where?: PostWhereInput | $Types.Skip
-    orderBy?: PostOrderByWithRelationInput | PostOrderByWithRelationInput[] | $Types.Skip
-    cursor?: PostWhereUniqueInput | $Types.Skip
-    take?: number | $Types.Skip
-    skip?: number | $Types.Skip
-    distinct?: PostScalarFieldEnum | PostScalarFieldEnum[] | $Types.Skip
-  }
-
-  /**
-   * User.likes
-   */
-  export type User$likesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Like
-     */
-    select?: LikeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Like
-     */
-    omit?: LikeOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LikeInclude<ExtArgs> | null
-    where?: LikeWhereInput | $Types.Skip
-    orderBy?: LikeOrderByWithRelationInput | LikeOrderByWithRelationInput[] | $Types.Skip
-    cursor?: LikeWhereUniqueInput | $Types.Skip
-    take?: number | $Types.Skip
-    skip?: number | $Types.Skip
-    distinct?: LikeScalarFieldEnum | LikeScalarFieldEnum[] | $Types.Skip
-  }
-
-  /**
    * User.bookmarks
    */
   export type User$bookmarksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3201,6 +3134,30 @@ export namespace Prisma {
     take?: number | $Types.Skip
     skip?: number | $Types.Skip
     distinct?: BookmarkScalarFieldEnum | BookmarkScalarFieldEnum[] | $Types.Skip
+  }
+
+  /**
+   * User.feed
+   */
+  export type User$feedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feed
+     */
+    select?: FeedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feed
+     */
+    omit?: FeedOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeedInclude<ExtArgs> | null
+    where?: FeedWhereInput | $Types.Skip
+    orderBy?: FeedOrderByWithRelationInput | FeedOrderByWithRelationInput[] | $Types.Skip
+    cursor?: FeedWhereUniqueInput | $Types.Skip
+    take?: number | $Types.Skip
+    skip?: number | $Types.Skip
+    distinct?: FeedScalarFieldEnum | FeedScalarFieldEnum[] | $Types.Skip
   }
 
   /**
@@ -3252,27 +3209,70 @@ export namespace Prisma {
   }
 
   /**
-   * User.feed
+   * User.likes
    */
-  export type User$feedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$likesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Feed
+     * Select specific fields to fetch from the Like
      */
-    select?: FeedSelect<ExtArgs> | null
+    select?: LikeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Feed
+     * Omit specific fields from the Like
      */
-    omit?: FeedOmit<ExtArgs> | null
+    omit?: LikeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: FeedInclude<ExtArgs> | null
-    where?: FeedWhereInput | $Types.Skip
-    orderBy?: FeedOrderByWithRelationInput | FeedOrderByWithRelationInput[] | $Types.Skip
-    cursor?: FeedWhereUniqueInput | $Types.Skip
+    include?: LikeInclude<ExtArgs> | null
+    where?: LikeWhereInput | $Types.Skip
+    orderBy?: LikeOrderByWithRelationInput | LikeOrderByWithRelationInput[] | $Types.Skip
+    cursor?: LikeWhereUniqueInput | $Types.Skip
     take?: number | $Types.Skip
     skip?: number | $Types.Skip
-    distinct?: FeedScalarFieldEnum | FeedScalarFieldEnum[] | $Types.Skip
+    distinct?: LikeScalarFieldEnum | LikeScalarFieldEnum[] | $Types.Skip
+  }
+
+  /**
+   * User.posts
+   */
+  export type User$postsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Post
+     */
+    omit?: PostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostInclude<ExtArgs> | null
+    where?: PostWhereInput | $Types.Skip
+    orderBy?: PostOrderByWithRelationInput | PostOrderByWithRelationInput[] | $Types.Skip
+    cursor?: PostWhereUniqueInput | $Types.Skip
+    take?: number | $Types.Skip
+    skip?: number | $Types.Skip
+    distinct?: PostScalarFieldEnum | PostScalarFieldEnum[] | $Types.Skip
+  }
+
+  /**
+   * User.profile
+   */
+  export type User$profileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Profile
+     */
+    select?: ProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Profile
+     */
+    omit?: ProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfileInclude<ExtArgs> | null
+    where?: ProfileWhereInput | $Types.Skip
   }
 
   /**
@@ -4538,37 +4538,37 @@ export namespace Prisma {
   export type PostMinAggregateOutputType = {
     id: string | null
     content: string | null
-    type: $Enums.PostType | null
     userId: string | null
     parentId: string | null
-    rootId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
+    rootId: string | null
+    type: $Enums.PostType | null
   }
 
   export type PostMaxAggregateOutputType = {
     id: string | null
     content: string | null
-    type: $Enums.PostType | null
     userId: string | null
     parentId: string | null
-    rootId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
+    rootId: string | null
+    type: $Enums.PostType | null
   }
 
   export type PostCountAggregateOutputType = {
     id: number
     content: number
-    type: number
     userId: number
     parentId: number
-    rootId: number
     createdAt: number
     updatedAt: number
     deletedAt: number
+    rootId: number
+    type: number
     _all: number
   }
 
@@ -4576,37 +4576,37 @@ export namespace Prisma {
   export type PostMinAggregateInputType = {
     id?: true | $Types.Skip
     content?: true | $Types.Skip
-    type?: true | $Types.Skip
     userId?: true | $Types.Skip
     parentId?: true | $Types.Skip
-    rootId?: true | $Types.Skip
     createdAt?: true | $Types.Skip
     updatedAt?: true | $Types.Skip
     deletedAt?: true | $Types.Skip
+    rootId?: true | $Types.Skip
+    type?: true | $Types.Skip
   }
 
   export type PostMaxAggregateInputType = {
     id?: true | $Types.Skip
     content?: true | $Types.Skip
-    type?: true | $Types.Skip
     userId?: true | $Types.Skip
     parentId?: true | $Types.Skip
-    rootId?: true | $Types.Skip
     createdAt?: true | $Types.Skip
     updatedAt?: true | $Types.Skip
     deletedAt?: true | $Types.Skip
+    rootId?: true | $Types.Skip
+    type?: true | $Types.Skip
   }
 
   export type PostCountAggregateInputType = {
     id?: true | $Types.Skip
     content?: true | $Types.Skip
-    type?: true | $Types.Skip
     userId?: true | $Types.Skip
     parentId?: true | $Types.Skip
-    rootId?: true | $Types.Skip
     createdAt?: true | $Types.Skip
     updatedAt?: true | $Types.Skip
     deletedAt?: true | $Types.Skip
+    rootId?: true | $Types.Skip
+    type?: true | $Types.Skip
     _all?: true | $Types.Skip
   }
 
@@ -4685,13 +4685,13 @@ export namespace Prisma {
   export type PostGroupByOutputType = {
     id: string
     content: string | null
-    type: $Enums.PostType
     userId: string
     parentId: string | null
-    rootId: string | null
     createdAt: Date
     updatedAt: Date
     deletedAt: Date | null
+    rootId: string | null
+    type: $Enums.PostType
     _count: PostCountAggregateOutputType | null
     _min: PostMinAggregateOutputType | null
     _max: PostMaxAggregateOutputType | null
@@ -4714,104 +4714,104 @@ export namespace Prisma {
   export type PostSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean | $Types.Skip
     content?: boolean | $Types.Skip
-    type?: boolean | $Types.Skip
     userId?: boolean | $Types.Skip
     parentId?: boolean | $Types.Skip
-    rootId?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     updatedAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
-    parent?: boolean | Post$parentArgs<ExtArgs> | $Types.Skip
-    children?: boolean | Post$childrenArgs<ExtArgs> | $Types.Skip
-    attachments?: boolean | Post$attachmentsArgs<ExtArgs> | $Types.Skip
-    likes?: boolean | Post$likesArgs<ExtArgs> | $Types.Skip
+    rootId?: boolean | $Types.Skip
+    type?: boolean | $Types.Skip
     bookmarks?: boolean | Post$bookmarksArgs<ExtArgs> | $Types.Skip
     feeds?: boolean | Post$feedsArgs<ExtArgs> | $Types.Skip
+    likes?: boolean | Post$likesArgs<ExtArgs> | $Types.Skip
+    parent?: boolean | Post$parentArgs<ExtArgs> | $Types.Skip
+    children?: boolean | Post$childrenArgs<ExtArgs> | $Types.Skip
+    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
+    attachments?: boolean | Post$attachmentsArgs<ExtArgs> | $Types.Skip
     _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs> | $Types.Skip
   }, ExtArgs["result"]["post"]>
 
   export type PostSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean | $Types.Skip
     content?: boolean | $Types.Skip
-    type?: boolean | $Types.Skip
     userId?: boolean | $Types.Skip
     parentId?: boolean | $Types.Skip
-    rootId?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     updatedAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
+    rootId?: boolean | $Types.Skip
+    type?: boolean | $Types.Skip
     parent?: boolean | Post$parentArgs<ExtArgs> | $Types.Skip
+    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
   }, ExtArgs["result"]["post"]>
 
   export type PostSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean | $Types.Skip
     content?: boolean | $Types.Skip
-    type?: boolean | $Types.Skip
     userId?: boolean | $Types.Skip
     parentId?: boolean | $Types.Skip
-    rootId?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     updatedAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
+    rootId?: boolean | $Types.Skip
+    type?: boolean | $Types.Skip
     parent?: boolean | Post$parentArgs<ExtArgs> | $Types.Skip
+    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
   }, ExtArgs["result"]["post"]>
 
   export type PostSelectScalar = {
     id?: boolean | $Types.Skip
     content?: boolean | $Types.Skip
-    type?: boolean | $Types.Skip
     userId?: boolean | $Types.Skip
     parentId?: boolean | $Types.Skip
-    rootId?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     updatedAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
+    rootId?: boolean | $Types.Skip
+    type?: boolean | $Types.Skip
   }
 
-  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "type" | "userId" | "parentId" | "rootId" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["post"], $Types.Skip>
+  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "userId" | "parentId" | "createdAt" | "updatedAt" | "deletedAt" | "rootId" | "type", ExtArgs["result"]["post"], $Types.Skip>
   export type PostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
-    parent?: boolean | Post$parentArgs<ExtArgs> | $Types.Skip
-    children?: boolean | Post$childrenArgs<ExtArgs> | $Types.Skip
-    attachments?: boolean | Post$attachmentsArgs<ExtArgs> | $Types.Skip
-    likes?: boolean | Post$likesArgs<ExtArgs> | $Types.Skip
     bookmarks?: boolean | Post$bookmarksArgs<ExtArgs> | $Types.Skip
     feeds?: boolean | Post$feedsArgs<ExtArgs> | $Types.Skip
+    likes?: boolean | Post$likesArgs<ExtArgs> | $Types.Skip
+    parent?: boolean | Post$parentArgs<ExtArgs> | $Types.Skip
+    children?: boolean | Post$childrenArgs<ExtArgs> | $Types.Skip
+    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
+    attachments?: boolean | Post$attachmentsArgs<ExtArgs> | $Types.Skip
     _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs> | $Types.Skip
   }
   export type PostIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
     parent?: boolean | Post$parentArgs<ExtArgs> | $Types.Skip
+    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
   }
   export type PostIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
     parent?: boolean | Post$parentArgs<ExtArgs> | $Types.Skip
+    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
   }
 
   export type $PostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Post"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
-      parent: Prisma.$PostPayload<ExtArgs> | null
-      children: Prisma.$PostPayload<ExtArgs>[]
-      attachments: Prisma.$PostAttachmentPayload<ExtArgs>[]
-      likes: Prisma.$LikePayload<ExtArgs>[]
       bookmarks: Prisma.$BookmarkPayload<ExtArgs>[]
       feeds: Prisma.$FeedPayload<ExtArgs>[]
+      likes: Prisma.$LikePayload<ExtArgs>[]
+      parent: Prisma.$PostPayload<ExtArgs> | null
+      children: Prisma.$PostPayload<ExtArgs>[]
+      user: Prisma.$UserPayload<ExtArgs>
+      attachments: Prisma.$PostAttachmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       content: string | null
-      type: $Enums.PostType
       userId: string
       parentId: string | null
-      rootId: string | null
       createdAt: Date
       updatedAt: Date
       deletedAt: Date | null
+      rootId: string | null
+      type: $Enums.PostType
     }, ExtArgs["result"]["post"]>
     composites: {}
   }
@@ -5206,13 +5206,13 @@ export namespace Prisma {
    */
   export interface Prisma__PostClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    parent<T extends Post$parentArgs<ExtArgs> = {}>(args?: Subset<T, Post$parentArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    children<T extends Post$childrenArgs<ExtArgs> = {}>(args?: Subset<T, Post$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    attachments<T extends Post$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Post$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    likes<T extends Post$likesArgs<ExtArgs> = {}>(args?: Subset<T, Post$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookmarks<T extends Post$bookmarksArgs<ExtArgs> = {}>(args?: Subset<T, Post$bookmarksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookmarkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     feeds<T extends Post$feedsArgs<ExtArgs> = {}>(args?: Subset<T, Post$feedsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    likes<T extends Post$likesArgs<ExtArgs> = {}>(args?: Subset<T, Post$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    parent<T extends Post$parentArgs<ExtArgs> = {}>(args?: Subset<T, Post$parentArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    children<T extends Post$childrenArgs<ExtArgs> = {}>(args?: Subset<T, Post$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    attachments<T extends Post$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Post$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5244,13 +5244,13 @@ export namespace Prisma {
   interface PostFieldRefs {
     readonly id: FieldRef<"Post", 'String'>
     readonly content: FieldRef<"Post", 'String'>
-    readonly type: FieldRef<"Post", 'PostType'>
     readonly userId: FieldRef<"Post", 'String'>
     readonly parentId: FieldRef<"Post", 'String'>
-    readonly rootId: FieldRef<"Post", 'String'>
     readonly createdAt: FieldRef<"Post", 'DateTime'>
     readonly updatedAt: FieldRef<"Post", 'DateTime'>
     readonly deletedAt: FieldRef<"Post", 'DateTime'>
+    readonly rootId: FieldRef<"Post", 'String'>
+    readonly type: FieldRef<"Post", 'PostType'>
   }
     
 
@@ -5647,6 +5647,78 @@ export namespace Prisma {
   }
 
   /**
+   * Post.bookmarks
+   */
+  export type Post$bookmarksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bookmark
+     */
+    select?: BookmarkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bookmark
+     */
+    omit?: BookmarkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookmarkInclude<ExtArgs> | null
+    where?: BookmarkWhereInput | $Types.Skip
+    orderBy?: BookmarkOrderByWithRelationInput | BookmarkOrderByWithRelationInput[] | $Types.Skip
+    cursor?: BookmarkWhereUniqueInput | $Types.Skip
+    take?: number | $Types.Skip
+    skip?: number | $Types.Skip
+    distinct?: BookmarkScalarFieldEnum | BookmarkScalarFieldEnum[] | $Types.Skip
+  }
+
+  /**
+   * Post.feeds
+   */
+  export type Post$feedsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feed
+     */
+    select?: FeedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feed
+     */
+    omit?: FeedOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeedInclude<ExtArgs> | null
+    where?: FeedWhereInput | $Types.Skip
+    orderBy?: FeedOrderByWithRelationInput | FeedOrderByWithRelationInput[] | $Types.Skip
+    cursor?: FeedWhereUniqueInput | $Types.Skip
+    take?: number | $Types.Skip
+    skip?: number | $Types.Skip
+    distinct?: FeedScalarFieldEnum | FeedScalarFieldEnum[] | $Types.Skip
+  }
+
+  /**
+   * Post.likes
+   */
+  export type Post$likesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeInclude<ExtArgs> | null
+    where?: LikeWhereInput | $Types.Skip
+    orderBy?: LikeOrderByWithRelationInput | LikeOrderByWithRelationInput[] | $Types.Skip
+    cursor?: LikeWhereUniqueInput | $Types.Skip
+    take?: number | $Types.Skip
+    skip?: number | $Types.Skip
+    distinct?: LikeScalarFieldEnum | LikeScalarFieldEnum[] | $Types.Skip
+  }
+
+  /**
    * Post.parent
    */
   export type Post$parentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5711,78 +5783,6 @@ export namespace Prisma {
     take?: number | $Types.Skip
     skip?: number | $Types.Skip
     distinct?: PostAttachmentScalarFieldEnum | PostAttachmentScalarFieldEnum[] | $Types.Skip
-  }
-
-  /**
-   * Post.likes
-   */
-  export type Post$likesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Like
-     */
-    select?: LikeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Like
-     */
-    omit?: LikeOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LikeInclude<ExtArgs> | null
-    where?: LikeWhereInput | $Types.Skip
-    orderBy?: LikeOrderByWithRelationInput | LikeOrderByWithRelationInput[] | $Types.Skip
-    cursor?: LikeWhereUniqueInput | $Types.Skip
-    take?: number | $Types.Skip
-    skip?: number | $Types.Skip
-    distinct?: LikeScalarFieldEnum | LikeScalarFieldEnum[] | $Types.Skip
-  }
-
-  /**
-   * Post.bookmarks
-   */
-  export type Post$bookmarksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Bookmark
-     */
-    select?: BookmarkSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Bookmark
-     */
-    omit?: BookmarkOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: BookmarkInclude<ExtArgs> | null
-    where?: BookmarkWhereInput | $Types.Skip
-    orderBy?: BookmarkOrderByWithRelationInput | BookmarkOrderByWithRelationInput[] | $Types.Skip
-    cursor?: BookmarkWhereUniqueInput | $Types.Skip
-    take?: number | $Types.Skip
-    skip?: number | $Types.Skip
-    distinct?: BookmarkScalarFieldEnum | BookmarkScalarFieldEnum[] | $Types.Skip
-  }
-
-  /**
-   * Post.feeds
-   */
-  export type Post$feedsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Feed
-     */
-    select?: FeedSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Feed
-     */
-    omit?: FeedOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FeedInclude<ExtArgs> | null
-    where?: FeedWhereInput | $Types.Skip
-    orderBy?: FeedOrderByWithRelationInput | FeedOrderByWithRelationInput[] | $Types.Skip
-    cursor?: FeedWhereUniqueInput | $Types.Skip
-    take?: number | $Types.Skip
-    skip?: number | $Types.Skip
-    distinct?: FeedScalarFieldEnum | FeedScalarFieldEnum[] | $Types.Skip
   }
 
   /**
@@ -9158,8 +9158,8 @@ export namespace Prisma {
     userId?: boolean | $Types.Skip
     postId?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
-    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
     post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
+    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
   }, ExtArgs["result"]["feed"]>
 
   export type FeedSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -9167,8 +9167,8 @@ export namespace Prisma {
     userId?: boolean | $Types.Skip
     postId?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
-    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
     post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
+    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
   }, ExtArgs["result"]["feed"]>
 
   export type FeedSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -9176,8 +9176,8 @@ export namespace Prisma {
     userId?: boolean | $Types.Skip
     postId?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
-    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
     post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
+    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
   }, ExtArgs["result"]["feed"]>
 
   export type FeedSelectScalar = {
@@ -9189,23 +9189,23 @@ export namespace Prisma {
 
   export type FeedOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "postId" | "createdAt", ExtArgs["result"]["feed"], $Types.Skip>
   export type FeedInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
     post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
+    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
   }
   export type FeedIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
     post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
+    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
   }
   export type FeedIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
     post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
+    user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
   }
 
   export type $FeedPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Feed"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       post: Prisma.$PostPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9606,8 +9606,8 @@ export namespace Prisma {
    */
   export interface Prisma__FeedClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     post<T extends PostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostDefaultArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11317,8 +11317,8 @@ export namespace Prisma {
     attachmentId?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    profile?: boolean | ProfileDefaultArgs<ExtArgs> | $Types.Skip
     attachment?: boolean | AttachmentDefaultArgs<ExtArgs> | $Types.Skip
+    profile?: boolean | ProfileDefaultArgs<ExtArgs> | $Types.Skip
   }, ExtArgs["result"]["profileAttachment"]>
 
   export type ProfileAttachmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -11327,8 +11327,8 @@ export namespace Prisma {
     attachmentId?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    profile?: boolean | ProfileDefaultArgs<ExtArgs> | $Types.Skip
     attachment?: boolean | AttachmentDefaultArgs<ExtArgs> | $Types.Skip
+    profile?: boolean | ProfileDefaultArgs<ExtArgs> | $Types.Skip
   }, ExtArgs["result"]["profileAttachment"]>
 
   export type ProfileAttachmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -11337,8 +11337,8 @@ export namespace Prisma {
     attachmentId?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    profile?: boolean | ProfileDefaultArgs<ExtArgs> | $Types.Skip
     attachment?: boolean | AttachmentDefaultArgs<ExtArgs> | $Types.Skip
+    profile?: boolean | ProfileDefaultArgs<ExtArgs> | $Types.Skip
   }, ExtArgs["result"]["profileAttachment"]>
 
   export type ProfileAttachmentSelectScalar = {
@@ -11351,23 +11351,23 @@ export namespace Prisma {
 
   export type ProfileAttachmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profileId" | "attachmentId" | "createdAt" | "deletedAt", ExtArgs["result"]["profileAttachment"], $Types.Skip>
   export type ProfileAttachmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    profile?: boolean | ProfileDefaultArgs<ExtArgs> | $Types.Skip
     attachment?: boolean | AttachmentDefaultArgs<ExtArgs> | $Types.Skip
+    profile?: boolean | ProfileDefaultArgs<ExtArgs> | $Types.Skip
   }
   export type ProfileAttachmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    profile?: boolean | ProfileDefaultArgs<ExtArgs> | $Types.Skip
     attachment?: boolean | AttachmentDefaultArgs<ExtArgs> | $Types.Skip
+    profile?: boolean | ProfileDefaultArgs<ExtArgs> | $Types.Skip
   }
   export type ProfileAttachmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    profile?: boolean | ProfileDefaultArgs<ExtArgs> | $Types.Skip
     attachment?: boolean | AttachmentDefaultArgs<ExtArgs> | $Types.Skip
+    profile?: boolean | ProfileDefaultArgs<ExtArgs> | $Types.Skip
   }
 
   export type $ProfileAttachmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ProfileAttachment"
     objects: {
-      profile: Prisma.$ProfilePayload<ExtArgs>
       attachment: Prisma.$AttachmentPayload<ExtArgs>
+      profile: Prisma.$ProfilePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11769,8 +11769,8 @@ export namespace Prisma {
    */
   export interface Prisma__ProfileAttachmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    profile<T extends ProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfileDefaultArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     attachment<T extends AttachmentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AttachmentDefaultArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    profile<T extends ProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfileDefaultArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12383,8 +12383,8 @@ export namespace Prisma {
     attachmentId?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
     attachment?: boolean | AttachmentDefaultArgs<ExtArgs> | $Types.Skip
+    post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
   }, ExtArgs["result"]["postAttachment"]>
 
   export type PostAttachmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12393,8 +12393,8 @@ export namespace Prisma {
     attachmentId?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
     attachment?: boolean | AttachmentDefaultArgs<ExtArgs> | $Types.Skip
+    post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
   }, ExtArgs["result"]["postAttachment"]>
 
   export type PostAttachmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12403,8 +12403,8 @@ export namespace Prisma {
     attachmentId?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
     attachment?: boolean | AttachmentDefaultArgs<ExtArgs> | $Types.Skip
+    post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
   }, ExtArgs["result"]["postAttachment"]>
 
   export type PostAttachmentSelectScalar = {
@@ -12417,23 +12417,23 @@ export namespace Prisma {
 
   export type PostAttachmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "attachmentId" | "createdAt" | "deletedAt", ExtArgs["result"]["postAttachment"], $Types.Skip>
   export type PostAttachmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
     attachment?: boolean | AttachmentDefaultArgs<ExtArgs> | $Types.Skip
+    post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
   }
   export type PostAttachmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
     attachment?: boolean | AttachmentDefaultArgs<ExtArgs> | $Types.Skip
+    post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
   }
   export type PostAttachmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
     attachment?: boolean | AttachmentDefaultArgs<ExtArgs> | $Types.Skip
+    post?: boolean | PostDefaultArgs<ExtArgs> | $Types.Skip
   }
 
   export type $PostAttachmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "PostAttachment"
     objects: {
-      post: Prisma.$PostPayload<ExtArgs>
       attachment: Prisma.$AttachmentPayload<ExtArgs>
+      post: Prisma.$PostPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12835,8 +12835,8 @@ export namespace Prisma {
    */
   export interface Prisma__PostAttachmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    post<T extends PostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostDefaultArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     attachment<T extends AttachmentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AttachmentDefaultArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    post<T extends PostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostDefaultArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13304,18 +13304,18 @@ export namespace Prisma {
     username: 'username',
     email: 'email',
     password: 'password',
-    isActive: 'isActive',
-    isVerified: 'isVerified',
-    isEmailVerified: 'isEmailVerified',
-    isAdmin: 'isAdmin',
-    isBanned: 'isBanned',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt',
-    passwordResetToken: 'passwordResetToken',
+    isActive: 'isActive',
+    isAdmin: 'isAdmin',
+    isBanned: 'isBanned',
+    isVerified: 'isVerified',
     passwordResetExpires: 'passwordResetExpires',
-    emailVerificationToken: 'emailVerificationToken',
-    emailVerificationExpires: 'emailVerificationExpires'
+    passwordResetToken: 'passwordResetToken',
+    isEmailVerified: 'isEmailVerified',
+    emailVerificationExpires: 'emailVerificationExpires',
+    emailVerificationToken: 'emailVerificationToken'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -13346,13 +13346,13 @@ export namespace Prisma {
   export const PostScalarFieldEnum: {
     id: 'id',
     content: 'content',
-    type: 'type',
     userId: 'userId',
     parentId: 'parentId',
-    rootId: 'rootId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    deletedAt: 'deletedAt'
+    deletedAt: 'deletedAt',
+    rootId: 'rootId',
+    type: 'type'
   };
 
   export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
@@ -13478,13 +13478,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -13495,6 +13488,13 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -13537,25 +13537,25 @@ export namespace Prisma {
     username?: StringNullableFilter<"User"> | string | null | $Types.Skip
     email?: StringFilter<"User"> | string | $Types.Skip
     password?: StringFilter<"User"> | string | $Types.Skip
-    isActive?: BoolFilter<"User"> | boolean | $Types.Skip
-    isVerified?: BoolFilter<"User"> | boolean | $Types.Skip
-    isEmailVerified?: BoolFilter<"User"> | boolean | $Types.Skip
-    isAdmin?: BoolFilter<"User"> | boolean | $Types.Skip
-    isBanned?: BoolFilter<"User"> | boolean | $Types.Skip
     createdAt?: DateTimeFilter<"User"> | Date | string | $Types.Skip
     updatedAt?: DateTimeFilter<"User"> | Date | string | $Types.Skip
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null | $Types.Skip
-    passwordResetToken?: StringNullableFilter<"User"> | string | null | $Types.Skip
+    isActive?: BoolFilter<"User"> | boolean | $Types.Skip
+    isAdmin?: BoolFilter<"User"> | boolean | $Types.Skip
+    isBanned?: BoolFilter<"User"> | boolean | $Types.Skip
+    isVerified?: BoolFilter<"User"> | boolean | $Types.Skip
     passwordResetExpires?: DateTimeNullableFilter<"User"> | Date | string | null | $Types.Skip
-    emailVerificationToken?: StringNullableFilter<"User"> | string | null | $Types.Skip
+    passwordResetToken?: StringNullableFilter<"User"> | string | null | $Types.Skip
+    isEmailVerified?: BoolFilter<"User"> | boolean | $Types.Skip
     emailVerificationExpires?: DateTimeNullableFilter<"User"> | Date | string | null | $Types.Skip
-    profile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null | $Types.Skip
-    posts?: PostListRelationFilter | $Types.Skip
-    likes?: LikeListRelationFilter | $Types.Skip
+    emailVerificationToken?: StringNullableFilter<"User"> | string | null | $Types.Skip
     bookmarks?: BookmarkListRelationFilter | $Types.Skip
+    feed?: FeedListRelationFilter | $Types.Skip
     followers?: FollowListRelationFilter | $Types.Skip
     following?: FollowListRelationFilter | $Types.Skip
-    feed?: FeedListRelationFilter | $Types.Skip
+    likes?: LikeListRelationFilter | $Types.Skip
+    posts?: PostListRelationFilter | $Types.Skip
+    profile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null | $Types.Skip
   }
 
   export type UserOrderByWithRelationInput = {
@@ -13563,25 +13563,25 @@ export namespace Prisma {
     username?: SortOrderInput | SortOrder | $Types.Skip
     email?: SortOrder | $Types.Skip
     password?: SortOrder | $Types.Skip
-    isActive?: SortOrder | $Types.Skip
-    isVerified?: SortOrder | $Types.Skip
-    isEmailVerified?: SortOrder | $Types.Skip
-    isAdmin?: SortOrder | $Types.Skip
-    isBanned?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     updatedAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrderInput | SortOrder | $Types.Skip
-    passwordResetToken?: SortOrderInput | SortOrder | $Types.Skip
+    isActive?: SortOrder | $Types.Skip
+    isAdmin?: SortOrder | $Types.Skip
+    isBanned?: SortOrder | $Types.Skip
+    isVerified?: SortOrder | $Types.Skip
     passwordResetExpires?: SortOrderInput | SortOrder | $Types.Skip
-    emailVerificationToken?: SortOrderInput | SortOrder | $Types.Skip
+    passwordResetToken?: SortOrderInput | SortOrder | $Types.Skip
+    isEmailVerified?: SortOrder | $Types.Skip
     emailVerificationExpires?: SortOrderInput | SortOrder | $Types.Skip
-    profile?: ProfileOrderByWithRelationInput | $Types.Skip
-    posts?: PostOrderByRelationAggregateInput | $Types.Skip
-    likes?: LikeOrderByRelationAggregateInput | $Types.Skip
+    emailVerificationToken?: SortOrderInput | SortOrder | $Types.Skip
     bookmarks?: BookmarkOrderByRelationAggregateInput | $Types.Skip
+    feed?: FeedOrderByRelationAggregateInput | $Types.Skip
     followers?: FollowOrderByRelationAggregateInput | $Types.Skip
     following?: FollowOrderByRelationAggregateInput | $Types.Skip
-    feed?: FeedOrderByRelationAggregateInput | $Types.Skip
+    likes?: LikeOrderByRelationAggregateInput | $Types.Skip
+    posts?: PostOrderByRelationAggregateInput | $Types.Skip
+    profile?: ProfileOrderByWithRelationInput | $Types.Skip
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -13592,25 +13592,25 @@ export namespace Prisma {
     OR?: UserWhereInput[] | $Types.Skip
     NOT?: UserWhereInput | UserWhereInput[] | $Types.Skip
     password?: StringFilter<"User"> | string | $Types.Skip
-    isActive?: BoolFilter<"User"> | boolean | $Types.Skip
-    isVerified?: BoolFilter<"User"> | boolean | $Types.Skip
-    isEmailVerified?: BoolFilter<"User"> | boolean | $Types.Skip
-    isAdmin?: BoolFilter<"User"> | boolean | $Types.Skip
-    isBanned?: BoolFilter<"User"> | boolean | $Types.Skip
     createdAt?: DateTimeFilter<"User"> | Date | string | $Types.Skip
     updatedAt?: DateTimeFilter<"User"> | Date | string | $Types.Skip
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null | $Types.Skip
-    passwordResetToken?: StringNullableFilter<"User"> | string | null | $Types.Skip
+    isActive?: BoolFilter<"User"> | boolean | $Types.Skip
+    isAdmin?: BoolFilter<"User"> | boolean | $Types.Skip
+    isBanned?: BoolFilter<"User"> | boolean | $Types.Skip
+    isVerified?: BoolFilter<"User"> | boolean | $Types.Skip
     passwordResetExpires?: DateTimeNullableFilter<"User"> | Date | string | null | $Types.Skip
-    emailVerificationToken?: StringNullableFilter<"User"> | string | null | $Types.Skip
+    passwordResetToken?: StringNullableFilter<"User"> | string | null | $Types.Skip
+    isEmailVerified?: BoolFilter<"User"> | boolean | $Types.Skip
     emailVerificationExpires?: DateTimeNullableFilter<"User"> | Date | string | null | $Types.Skip
-    profile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null | $Types.Skip
-    posts?: PostListRelationFilter | $Types.Skip
-    likes?: LikeListRelationFilter | $Types.Skip
+    emailVerificationToken?: StringNullableFilter<"User"> | string | null | $Types.Skip
     bookmarks?: BookmarkListRelationFilter | $Types.Skip
+    feed?: FeedListRelationFilter | $Types.Skip
     followers?: FollowListRelationFilter | $Types.Skip
     following?: FollowListRelationFilter | $Types.Skip
-    feed?: FeedListRelationFilter | $Types.Skip
+    likes?: LikeListRelationFilter | $Types.Skip
+    posts?: PostListRelationFilter | $Types.Skip
+    profile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null | $Types.Skip
   }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -13618,18 +13618,18 @@ export namespace Prisma {
     username?: SortOrderInput | SortOrder | $Types.Skip
     email?: SortOrder | $Types.Skip
     password?: SortOrder | $Types.Skip
-    isActive?: SortOrder | $Types.Skip
-    isVerified?: SortOrder | $Types.Skip
-    isEmailVerified?: SortOrder | $Types.Skip
-    isAdmin?: SortOrder | $Types.Skip
-    isBanned?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     updatedAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrderInput | SortOrder | $Types.Skip
-    passwordResetToken?: SortOrderInput | SortOrder | $Types.Skip
+    isActive?: SortOrder | $Types.Skip
+    isAdmin?: SortOrder | $Types.Skip
+    isBanned?: SortOrder | $Types.Skip
+    isVerified?: SortOrder | $Types.Skip
     passwordResetExpires?: SortOrderInput | SortOrder | $Types.Skip
-    emailVerificationToken?: SortOrderInput | SortOrder | $Types.Skip
+    passwordResetToken?: SortOrderInput | SortOrder | $Types.Skip
+    isEmailVerified?: SortOrder | $Types.Skip
     emailVerificationExpires?: SortOrderInput | SortOrder | $Types.Skip
+    emailVerificationToken?: SortOrderInput | SortOrder | $Types.Skip
     _count?: UserCountOrderByAggregateInput | $Types.Skip
     _max?: UserMaxOrderByAggregateInput | $Types.Skip
     _min?: UserMinOrderByAggregateInput | $Types.Skip
@@ -13643,18 +13643,18 @@ export namespace Prisma {
     username?: StringNullableWithAggregatesFilter<"User"> | string | null | $Types.Skip
     email?: StringWithAggregatesFilter<"User"> | string | $Types.Skip
     password?: StringWithAggregatesFilter<"User"> | string | $Types.Skip
-    isActive?: BoolWithAggregatesFilter<"User"> | boolean | $Types.Skip
-    isVerified?: BoolWithAggregatesFilter<"User"> | boolean | $Types.Skip
-    isEmailVerified?: BoolWithAggregatesFilter<"User"> | boolean | $Types.Skip
-    isAdmin?: BoolWithAggregatesFilter<"User"> | boolean | $Types.Skip
-    isBanned?: BoolWithAggregatesFilter<"User"> | boolean | $Types.Skip
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string | $Types.Skip
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string | $Types.Skip
     deletedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null | $Types.Skip
-    passwordResetToken?: StringNullableWithAggregatesFilter<"User"> | string | null | $Types.Skip
+    isActive?: BoolWithAggregatesFilter<"User"> | boolean | $Types.Skip
+    isAdmin?: BoolWithAggregatesFilter<"User"> | boolean | $Types.Skip
+    isBanned?: BoolWithAggregatesFilter<"User"> | boolean | $Types.Skip
+    isVerified?: BoolWithAggregatesFilter<"User"> | boolean | $Types.Skip
     passwordResetExpires?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null | $Types.Skip
-    emailVerificationToken?: StringNullableWithAggregatesFilter<"User"> | string | null | $Types.Skip
+    passwordResetToken?: StringNullableWithAggregatesFilter<"User"> | string | null | $Types.Skip
+    isEmailVerified?: BoolWithAggregatesFilter<"User"> | boolean | $Types.Skip
     emailVerificationExpires?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null | $Types.Skip
+    emailVerificationToken?: StringNullableWithAggregatesFilter<"User"> | string | null | $Types.Skip
   }
 
   export type ProfileWhereInput = {
@@ -13776,39 +13776,39 @@ export namespace Prisma {
     NOT?: PostWhereInput | PostWhereInput[] | $Types.Skip
     id?: StringFilter<"Post"> | string | $Types.Skip
     content?: StringNullableFilter<"Post"> | string | null | $Types.Skip
-    type?: EnumPostTypeFilter<"Post"> | $Enums.PostType | $Types.Skip
     userId?: StringFilter<"Post"> | string | $Types.Skip
     parentId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
-    rootId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
     createdAt?: DateTimeFilter<"Post"> | Date | string | $Types.Skip
     updatedAt?: DateTimeFilter<"Post"> | Date | string | $Types.Skip
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null | $Types.Skip
-    user?: XOR<UserScalarRelationFilter, UserWhereInput> | $Types.Skip
-    parent?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null | $Types.Skip
-    children?: PostListRelationFilter | $Types.Skip
-    attachments?: PostAttachmentListRelationFilter | $Types.Skip
-    likes?: LikeListRelationFilter | $Types.Skip
+    rootId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
+    type?: EnumPostTypeFilter<"Post"> | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkListRelationFilter | $Types.Skip
     feeds?: FeedListRelationFilter | $Types.Skip
+    likes?: LikeListRelationFilter | $Types.Skip
+    parent?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null | $Types.Skip
+    children?: PostListRelationFilter | $Types.Skip
+    user?: XOR<UserScalarRelationFilter, UserWhereInput> | $Types.Skip
+    attachments?: PostAttachmentListRelationFilter | $Types.Skip
   }
 
   export type PostOrderByWithRelationInput = {
     id?: SortOrder | $Types.Skip
     content?: SortOrderInput | SortOrder | $Types.Skip
-    type?: SortOrder | $Types.Skip
     userId?: SortOrder | $Types.Skip
     parentId?: SortOrderInput | SortOrder | $Types.Skip
-    rootId?: SortOrderInput | SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     updatedAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrderInput | SortOrder | $Types.Skip
-    user?: UserOrderByWithRelationInput | $Types.Skip
-    parent?: PostOrderByWithRelationInput | $Types.Skip
-    children?: PostOrderByRelationAggregateInput | $Types.Skip
-    attachments?: PostAttachmentOrderByRelationAggregateInput | $Types.Skip
-    likes?: LikeOrderByRelationAggregateInput | $Types.Skip
+    rootId?: SortOrderInput | SortOrder | $Types.Skip
+    type?: SortOrder | $Types.Skip
     bookmarks?: BookmarkOrderByRelationAggregateInput | $Types.Skip
     feeds?: FeedOrderByRelationAggregateInput | $Types.Skip
+    likes?: LikeOrderByRelationAggregateInput | $Types.Skip
+    parent?: PostOrderByWithRelationInput | $Types.Skip
+    children?: PostOrderByRelationAggregateInput | $Types.Skip
+    user?: UserOrderByWithRelationInput | $Types.Skip
+    attachments?: PostAttachmentOrderByRelationAggregateInput | $Types.Skip
   }
 
   export type PostWhereUniqueInput = Prisma.AtLeast<{
@@ -13817,32 +13817,32 @@ export namespace Prisma {
     OR?: PostWhereInput[] | $Types.Skip
     NOT?: PostWhereInput | PostWhereInput[] | $Types.Skip
     content?: StringNullableFilter<"Post"> | string | null | $Types.Skip
-    type?: EnumPostTypeFilter<"Post"> | $Enums.PostType | $Types.Skip
     userId?: StringFilter<"Post"> | string | $Types.Skip
     parentId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
-    rootId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
     createdAt?: DateTimeFilter<"Post"> | Date | string | $Types.Skip
     updatedAt?: DateTimeFilter<"Post"> | Date | string | $Types.Skip
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null | $Types.Skip
-    user?: XOR<UserScalarRelationFilter, UserWhereInput> | $Types.Skip
-    parent?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null | $Types.Skip
-    children?: PostListRelationFilter | $Types.Skip
-    attachments?: PostAttachmentListRelationFilter | $Types.Skip
-    likes?: LikeListRelationFilter | $Types.Skip
+    rootId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
+    type?: EnumPostTypeFilter<"Post"> | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkListRelationFilter | $Types.Skip
     feeds?: FeedListRelationFilter | $Types.Skip
+    likes?: LikeListRelationFilter | $Types.Skip
+    parent?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null | $Types.Skip
+    children?: PostListRelationFilter | $Types.Skip
+    user?: XOR<UserScalarRelationFilter, UserWhereInput> | $Types.Skip
+    attachments?: PostAttachmentListRelationFilter | $Types.Skip
   }, "id">
 
   export type PostOrderByWithAggregationInput = {
     id?: SortOrder | $Types.Skip
     content?: SortOrderInput | SortOrder | $Types.Skip
-    type?: SortOrder | $Types.Skip
     userId?: SortOrder | $Types.Skip
     parentId?: SortOrderInput | SortOrder | $Types.Skip
-    rootId?: SortOrderInput | SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     updatedAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrderInput | SortOrder | $Types.Skip
+    rootId?: SortOrderInput | SortOrder | $Types.Skip
+    type?: SortOrder | $Types.Skip
     _count?: PostCountOrderByAggregateInput | $Types.Skip
     _max?: PostMaxOrderByAggregateInput | $Types.Skip
     _min?: PostMinOrderByAggregateInput | $Types.Skip
@@ -13854,13 +13854,13 @@ export namespace Prisma {
     NOT?: PostScalarWhereWithAggregatesInput | PostScalarWhereWithAggregatesInput[] | $Types.Skip
     id?: StringWithAggregatesFilter<"Post"> | string | $Types.Skip
     content?: StringNullableWithAggregatesFilter<"Post"> | string | null | $Types.Skip
-    type?: EnumPostTypeWithAggregatesFilter<"Post"> | $Enums.PostType | $Types.Skip
     userId?: StringWithAggregatesFilter<"Post"> | string | $Types.Skip
     parentId?: StringNullableWithAggregatesFilter<"Post"> | string | null | $Types.Skip
-    rootId?: StringNullableWithAggregatesFilter<"Post"> | string | null | $Types.Skip
     createdAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string | $Types.Skip
     updatedAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string | $Types.Skip
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null | $Types.Skip
+    rootId?: StringNullableWithAggregatesFilter<"Post"> | string | null | $Types.Skip
+    type?: EnumPostTypeWithAggregatesFilter<"Post"> | $Enums.PostType | $Types.Skip
   }
 
   export type LikeWhereInput = {
@@ -14048,8 +14048,8 @@ export namespace Prisma {
     userId?: StringFilter<"Feed"> | string | $Types.Skip
     postId?: StringFilter<"Feed"> | string | $Types.Skip
     createdAt?: DateTimeFilter<"Feed"> | Date | string | $Types.Skip
-    user?: XOR<UserScalarRelationFilter, UserWhereInput> | $Types.Skip
     post?: XOR<PostScalarRelationFilter, PostWhereInput> | $Types.Skip
+    user?: XOR<UserScalarRelationFilter, UserWhereInput> | $Types.Skip
   }
 
   export type FeedOrderByWithRelationInput = {
@@ -14057,8 +14057,8 @@ export namespace Prisma {
     userId?: SortOrder | $Types.Skip
     postId?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
-    user?: UserOrderByWithRelationInput | $Types.Skip
     post?: PostOrderByWithRelationInput | $Types.Skip
+    user?: UserOrderByWithRelationInput | $Types.Skip
   }
 
   export type FeedWhereUniqueInput = Prisma.AtLeast<{
@@ -14069,8 +14069,8 @@ export namespace Prisma {
     userId?: StringFilter<"Feed"> | string | $Types.Skip
     postId?: StringFilter<"Feed"> | string | $Types.Skip
     createdAt?: DateTimeFilter<"Feed"> | Date | string | $Types.Skip
-    user?: XOR<UserScalarRelationFilter, UserWhereInput> | $Types.Skip
     post?: XOR<PostScalarRelationFilter, PostWhereInput> | $Types.Skip
+    user?: XOR<UserScalarRelationFilter, UserWhereInput> | $Types.Skip
   }, "id">
 
   export type FeedOrderByWithAggregationInput = {
@@ -14160,8 +14160,8 @@ export namespace Prisma {
     attachmentId?: StringFilter<"ProfileAttachment"> | string | $Types.Skip
     createdAt?: DateTimeFilter<"ProfileAttachment"> | Date | string | $Types.Skip
     deletedAt?: DateTimeNullableFilter<"ProfileAttachment"> | Date | string | null | $Types.Skip
-    profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput> | $Types.Skip
     attachment?: XOR<AttachmentScalarRelationFilter, AttachmentWhereInput> | $Types.Skip
+    profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput> | $Types.Skip
   }
 
   export type ProfileAttachmentOrderByWithRelationInput = {
@@ -14170,8 +14170,8 @@ export namespace Prisma {
     attachmentId?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrderInput | SortOrder | $Types.Skip
-    profile?: ProfileOrderByWithRelationInput | $Types.Skip
     attachment?: AttachmentOrderByWithRelationInput | $Types.Skip
+    profile?: ProfileOrderByWithRelationInput | $Types.Skip
   }
 
   export type ProfileAttachmentWhereUniqueInput = Prisma.AtLeast<{
@@ -14183,8 +14183,8 @@ export namespace Prisma {
     attachmentId?: StringFilter<"ProfileAttachment"> | string | $Types.Skip
     createdAt?: DateTimeFilter<"ProfileAttachment"> | Date | string | $Types.Skip
     deletedAt?: DateTimeNullableFilter<"ProfileAttachment"> | Date | string | null | $Types.Skip
-    profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput> | $Types.Skip
     attachment?: XOR<AttachmentScalarRelationFilter, AttachmentWhereInput> | $Types.Skip
+    profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput> | $Types.Skip
   }, "id">
 
   export type ProfileAttachmentOrderByWithAggregationInput = {
@@ -14218,8 +14218,8 @@ export namespace Prisma {
     attachmentId?: StringFilter<"PostAttachment"> | string | $Types.Skip
     createdAt?: DateTimeFilter<"PostAttachment"> | Date | string | $Types.Skip
     deletedAt?: DateTimeNullableFilter<"PostAttachment"> | Date | string | null | $Types.Skip
-    post?: XOR<PostScalarRelationFilter, PostWhereInput> | $Types.Skip
     attachment?: XOR<AttachmentScalarRelationFilter, AttachmentWhereInput> | $Types.Skip
+    post?: XOR<PostScalarRelationFilter, PostWhereInput> | $Types.Skip
   }
 
   export type PostAttachmentOrderByWithRelationInput = {
@@ -14228,8 +14228,8 @@ export namespace Prisma {
     attachmentId?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrderInput | SortOrder | $Types.Skip
-    post?: PostOrderByWithRelationInput | $Types.Skip
     attachment?: AttachmentOrderByWithRelationInput | $Types.Skip
+    post?: PostOrderByWithRelationInput | $Types.Skip
   }
 
   export type PostAttachmentWhereUniqueInput = Prisma.AtLeast<{
@@ -14241,8 +14241,8 @@ export namespace Prisma {
     attachmentId?: StringFilter<"PostAttachment"> | string | $Types.Skip
     createdAt?: DateTimeFilter<"PostAttachment"> | Date | string | $Types.Skip
     deletedAt?: DateTimeNullableFilter<"PostAttachment"> | Date | string | null | $Types.Skip
-    post?: XOR<PostScalarRelationFilter, PostWhereInput> | $Types.Skip
     attachment?: XOR<AttachmentScalarRelationFilter, AttachmentWhereInput> | $Types.Skip
+    post?: XOR<PostScalarRelationFilter, PostWhereInput> | $Types.Skip
   }, "id">
 
   export type PostAttachmentOrderByWithAggregationInput = {
@@ -14272,25 +14272,25 @@ export namespace Prisma {
     username?: string | null | $Types.Skip
     email: string
     password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: Date | string | null | $Types.Skip
-    profile?: ProfileCreateNestedOneWithoutUserInput | $Types.Skip
-    posts?: PostCreateNestedManyWithoutUserInput | $Types.Skip
-    likes?: LikeCreateNestedManyWithoutUserInput | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
     bookmarks?: BookmarkCreateNestedManyWithoutUserInput | $Types.Skip
+    feed?: FeedCreateNestedManyWithoutUserInput | $Types.Skip
     followers?: FollowCreateNestedManyWithoutFollowerInput | $Types.Skip
     following?: FollowCreateNestedManyWithoutFollowingInput | $Types.Skip
-    feed?: FeedCreateNestedManyWithoutUserInput | $Types.Skip
+    likes?: LikeCreateNestedManyWithoutUserInput | $Types.Skip
+    posts?: PostCreateNestedManyWithoutUserInput | $Types.Skip
+    profile?: ProfileCreateNestedOneWithoutUserInput | $Types.Skip
   }
 
   export type UserUncheckedCreateInput = {
@@ -14298,25 +14298,25 @@ export namespace Prisma {
     username?: string | null | $Types.Skip
     email: string
     password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: Date | string | null | $Types.Skip
-    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput | $Types.Skip
-    posts?: PostUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
-    likes?: LikeUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    feed?: FeedUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput | $Types.Skip
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput | $Types.Skip
-    feed?: FeedUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    posts?: PostUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput | $Types.Skip
   }
 
   export type UserUpdateInput = {
@@ -14324,25 +14324,25 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    profile?: ProfileUpdateOneWithoutUserNestedInput | $Types.Skip
-    posts?: PostUpdateManyWithoutUserNestedInput | $Types.Skip
-    likes?: LikeUpdateManyWithoutUserNestedInput | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bookmarks?: BookmarkUpdateManyWithoutUserNestedInput | $Types.Skip
+    feed?: FeedUpdateManyWithoutUserNestedInput | $Types.Skip
     followers?: FollowUpdateManyWithoutFollowerNestedInput | $Types.Skip
     following?: FollowUpdateManyWithoutFollowingNestedInput | $Types.Skip
-    feed?: FeedUpdateManyWithoutUserNestedInput | $Types.Skip
+    likes?: LikeUpdateManyWithoutUserNestedInput | $Types.Skip
+    posts?: PostUpdateManyWithoutUserNestedInput | $Types.Skip
+    profile?: ProfileUpdateOneWithoutUserNestedInput | $Types.Skip
   }
 
   export type UserUncheckedUpdateInput = {
@@ -14350,25 +14350,25 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput | $Types.Skip
-    posts?: PostUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
-    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    feed?: FeedUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput | $Types.Skip
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput | $Types.Skip
-    feed?: FeedUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    posts?: PostUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput | $Types.Skip
   }
 
   export type UserCreateManyInput = {
@@ -14376,18 +14376,18 @@ export namespace Prisma {
     username?: string | null | $Types.Skip
     email: string
     password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: Date | string | null | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
   }
 
   export type UserUpdateManyMutationInput = {
@@ -14395,18 +14395,18 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -14414,18 +14414,18 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
   }
 
   export type ProfileCreateInput = {
@@ -14567,103 +14567,103 @@ export namespace Prisma {
   export type PostCreateInput = {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
-    rootId?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    user: UserCreateNestedOneWithoutPostsInput
-    parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
-    children?: PostCreateNestedManyWithoutParentInput | $Types.Skip
-    attachments?: PostAttachmentCreateNestedManyWithoutPostInput | $Types.Skip
-    likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
+    likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
+    parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
+    children?: PostCreateNestedManyWithoutParentInput | $Types.Skip
+    user: UserCreateNestedOneWithoutPostsInput
+    attachments?: PostAttachmentCreateNestedManyWithoutPostInput | $Types.Skip
   }
 
   export type PostUncheckedCreateInput = {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     userId: string
     parentId?: string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
-    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
+    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
   }
 
   export type PostUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    user?: UserUpdateOneRequiredWithoutPostsNestedInput | $Types.Skip
-    parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
-    children?: PostUpdateManyWithoutParentNestedInput | $Types.Skip
-    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput | $Types.Skip
-    likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
+    likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
+    parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
+    children?: PostUpdateManyWithoutParentNestedInput | $Types.Skip
+    user?: UserUpdateOneRequiredWithoutPostsNestedInput | $Types.Skip
+    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput | $Types.Skip
   }
 
   export type PostUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
     parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
-    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
+    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
   }
 
   export type PostCreateManyInput = {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     userId: string
     parentId?: string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
   }
 
   export type PostUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
   }
 
   export type PostUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
     parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
   }
 
   export type LikeCreateInput = {
@@ -14831,8 +14831,8 @@ export namespace Prisma {
   export type FeedCreateInput = {
     id?: string | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    user: UserCreateNestedOneWithoutFeedInput
     post: PostCreateNestedOneWithoutFeedsInput
+    user: UserCreateNestedOneWithoutFeedInput
   }
 
   export type FeedUncheckedCreateInput = {
@@ -14845,8 +14845,8 @@ export namespace Prisma {
   export type FeedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    user?: UserUpdateOneRequiredWithoutFeedNestedInput | $Types.Skip
     post?: PostUpdateOneRequiredWithoutFeedsNestedInput | $Types.Skip
+    user?: UserUpdateOneRequiredWithoutFeedNestedInput | $Types.Skip
   }
 
   export type FeedUncheckedUpdateInput = {
@@ -14943,8 +14943,8 @@ export namespace Prisma {
     id?: string | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    profile: ProfileCreateNestedOneWithoutAttachmentsInput
     attachment: AttachmentCreateNestedOneWithoutProfileAttachmentsInput
+    profile: ProfileCreateNestedOneWithoutAttachmentsInput
   }
 
   export type ProfileAttachmentUncheckedCreateInput = {
@@ -14959,8 +14959,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    profile?: ProfileUpdateOneRequiredWithoutAttachmentsNestedInput | $Types.Skip
     attachment?: AttachmentUpdateOneRequiredWithoutProfileAttachmentsNestedInput | $Types.Skip
+    profile?: ProfileUpdateOneRequiredWithoutAttachmentsNestedInput | $Types.Skip
   }
 
   export type ProfileAttachmentUncheckedUpdateInput = {
@@ -14997,8 +14997,8 @@ export namespace Prisma {
     id?: string | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    post: PostCreateNestedOneWithoutAttachmentsInput
     attachment: AttachmentCreateNestedOneWithoutPostAttachmentsInput
+    post: PostCreateNestedOneWithoutAttachmentsInput
   }
 
   export type PostAttachmentUncheckedCreateInput = {
@@ -15013,8 +15013,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    post?: PostUpdateOneRequiredWithoutAttachmentsNestedInput | $Types.Skip
     attachment?: AttachmentUpdateOneRequiredWithoutPostAttachmentsNestedInput | $Types.Skip
+    post?: PostUpdateOneRequiredWithoutAttachmentsNestedInput | $Types.Skip
   }
 
   export type PostAttachmentUncheckedUpdateInput = {
@@ -15077,11 +15077,6 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null | $Types.Skip
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | $Types.Skip
-    not?: NestedBoolFilter<$PrismaModel> | boolean | $Types.Skip
-  }
-
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | $Types.Skip
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | $Types.Skip
@@ -15104,21 +15099,9 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null | $Types.Skip
   }
 
-  export type ProfileNullableScalarRelationFilter = {
-    is?: ProfileWhereInput | null | $Types.Skip
-    isNot?: ProfileWhereInput | null | $Types.Skip
-  }
-
-  export type PostListRelationFilter = {
-    every?: PostWhereInput | $Types.Skip
-    some?: PostWhereInput | $Types.Skip
-    none?: PostWhereInput | $Types.Skip
-  }
-
-  export type LikeListRelationFilter = {
-    every?: LikeWhereInput | $Types.Skip
-    some?: LikeWhereInput | $Types.Skip
-    none?: LikeWhereInput | $Types.Skip
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | $Types.Skip
+    not?: NestedBoolFilter<$PrismaModel> | boolean | $Types.Skip
   }
 
   export type BookmarkListRelationFilter = {
@@ -15127,16 +15110,33 @@ export namespace Prisma {
     none?: BookmarkWhereInput | $Types.Skip
   }
 
+  export type FeedListRelationFilter = {
+    every?: FeedWhereInput | $Types.Skip
+    some?: FeedWhereInput | $Types.Skip
+    none?: FeedWhereInput | $Types.Skip
+  }
+
   export type FollowListRelationFilter = {
     every?: FollowWhereInput | $Types.Skip
     some?: FollowWhereInput | $Types.Skip
     none?: FollowWhereInput | $Types.Skip
   }
 
-  export type FeedListRelationFilter = {
-    every?: FeedWhereInput | $Types.Skip
-    some?: FeedWhereInput | $Types.Skip
-    none?: FeedWhereInput | $Types.Skip
+  export type LikeListRelationFilter = {
+    every?: LikeWhereInput | $Types.Skip
+    some?: LikeWhereInput | $Types.Skip
+    none?: LikeWhereInput | $Types.Skip
+  }
+
+  export type PostListRelationFilter = {
+    every?: PostWhereInput | $Types.Skip
+    some?: PostWhereInput | $Types.Skip
+    none?: PostWhereInput | $Types.Skip
+  }
+
+  export type ProfileNullableScalarRelationFilter = {
+    is?: ProfileWhereInput | null | $Types.Skip
+    isNot?: ProfileWhereInput | null | $Types.Skip
   }
 
   export type SortOrderInput = {
@@ -15144,15 +15144,11 @@ export namespace Prisma {
     nulls?: NullsOrder | $Types.Skip
   }
 
-  export type PostOrderByRelationAggregateInput = {
-    _count?: SortOrder | $Types.Skip
-  }
-
-  export type LikeOrderByRelationAggregateInput = {
-    _count?: SortOrder | $Types.Skip
-  }
-
   export type BookmarkOrderByRelationAggregateInput = {
+    _count?: SortOrder | $Types.Skip
+  }
+
+  export type FeedOrderByRelationAggregateInput = {
     _count?: SortOrder | $Types.Skip
   }
 
@@ -15160,7 +15156,11 @@ export namespace Prisma {
     _count?: SortOrder | $Types.Skip
   }
 
-  export type FeedOrderByRelationAggregateInput = {
+  export type LikeOrderByRelationAggregateInput = {
+    _count?: SortOrder | $Types.Skip
+  }
+
+  export type PostOrderByRelationAggregateInput = {
     _count?: SortOrder | $Types.Skip
   }
 
@@ -15169,18 +15169,18 @@ export namespace Prisma {
     username?: SortOrder | $Types.Skip
     email?: SortOrder | $Types.Skip
     password?: SortOrder | $Types.Skip
-    isActive?: SortOrder | $Types.Skip
-    isVerified?: SortOrder | $Types.Skip
-    isEmailVerified?: SortOrder | $Types.Skip
-    isAdmin?: SortOrder | $Types.Skip
-    isBanned?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     updatedAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrder | $Types.Skip
-    passwordResetToken?: SortOrder | $Types.Skip
+    isActive?: SortOrder | $Types.Skip
+    isAdmin?: SortOrder | $Types.Skip
+    isBanned?: SortOrder | $Types.Skip
+    isVerified?: SortOrder | $Types.Skip
     passwordResetExpires?: SortOrder | $Types.Skip
-    emailVerificationToken?: SortOrder | $Types.Skip
+    passwordResetToken?: SortOrder | $Types.Skip
+    isEmailVerified?: SortOrder | $Types.Skip
     emailVerificationExpires?: SortOrder | $Types.Skip
+    emailVerificationToken?: SortOrder | $Types.Skip
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -15188,18 +15188,18 @@ export namespace Prisma {
     username?: SortOrder | $Types.Skip
     email?: SortOrder | $Types.Skip
     password?: SortOrder | $Types.Skip
-    isActive?: SortOrder | $Types.Skip
-    isVerified?: SortOrder | $Types.Skip
-    isEmailVerified?: SortOrder | $Types.Skip
-    isAdmin?: SortOrder | $Types.Skip
-    isBanned?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     updatedAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrder | $Types.Skip
-    passwordResetToken?: SortOrder | $Types.Skip
+    isActive?: SortOrder | $Types.Skip
+    isAdmin?: SortOrder | $Types.Skip
+    isBanned?: SortOrder | $Types.Skip
+    isVerified?: SortOrder | $Types.Skip
     passwordResetExpires?: SortOrder | $Types.Skip
-    emailVerificationToken?: SortOrder | $Types.Skip
+    passwordResetToken?: SortOrder | $Types.Skip
+    isEmailVerified?: SortOrder | $Types.Skip
     emailVerificationExpires?: SortOrder | $Types.Skip
+    emailVerificationToken?: SortOrder | $Types.Skip
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -15207,18 +15207,18 @@ export namespace Prisma {
     username?: SortOrder | $Types.Skip
     email?: SortOrder | $Types.Skip
     password?: SortOrder | $Types.Skip
-    isActive?: SortOrder | $Types.Skip
-    isVerified?: SortOrder | $Types.Skip
-    isEmailVerified?: SortOrder | $Types.Skip
-    isAdmin?: SortOrder | $Types.Skip
-    isBanned?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     updatedAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrder | $Types.Skip
-    passwordResetToken?: SortOrder | $Types.Skip
+    isActive?: SortOrder | $Types.Skip
+    isAdmin?: SortOrder | $Types.Skip
+    isBanned?: SortOrder | $Types.Skip
+    isVerified?: SortOrder | $Types.Skip
     passwordResetExpires?: SortOrder | $Types.Skip
-    emailVerificationToken?: SortOrder | $Types.Skip
+    passwordResetToken?: SortOrder | $Types.Skip
+    isEmailVerified?: SortOrder | $Types.Skip
     emailVerificationExpires?: SortOrder | $Types.Skip
+    emailVerificationToken?: SortOrder | $Types.Skip
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -15257,14 +15257,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel> | $Types.Skip
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | $Types.Skip
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean | $Types.Skip
-    _count?: NestedIntFilter<$PrismaModel> | $Types.Skip
-    _min?: NestedBoolFilter<$PrismaModel> | $Types.Skip
-    _max?: NestedBoolFilter<$PrismaModel> | $Types.Skip
-  }
-
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | $Types.Skip
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | $Types.Skip
@@ -15291,6 +15283,14 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel> | $Types.Skip
     _min?: NestedDateTimeNullableFilter<$PrismaModel> | $Types.Skip
     _max?: NestedDateTimeNullableFilter<$PrismaModel> | $Types.Skip
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | $Types.Skip
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean | $Types.Skip
+    _count?: NestedIntFilter<$PrismaModel> | $Types.Skip
+    _min?: NestedBoolFilter<$PrismaModel> | $Types.Skip
+    _max?: NestedBoolFilter<$PrismaModel> | $Types.Skip
   }
 
   export type UserScalarRelationFilter = {
@@ -15390,37 +15390,37 @@ export namespace Prisma {
   export type PostCountOrderByAggregateInput = {
     id?: SortOrder | $Types.Skip
     content?: SortOrder | $Types.Skip
-    type?: SortOrder | $Types.Skip
     userId?: SortOrder | $Types.Skip
     parentId?: SortOrder | $Types.Skip
-    rootId?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     updatedAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrder | $Types.Skip
+    rootId?: SortOrder | $Types.Skip
+    type?: SortOrder | $Types.Skip
   }
 
   export type PostMaxOrderByAggregateInput = {
     id?: SortOrder | $Types.Skip
     content?: SortOrder | $Types.Skip
-    type?: SortOrder | $Types.Skip
     userId?: SortOrder | $Types.Skip
     parentId?: SortOrder | $Types.Skip
-    rootId?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     updatedAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrder | $Types.Skip
+    rootId?: SortOrder | $Types.Skip
+    type?: SortOrder | $Types.Skip
   }
 
   export type PostMinOrderByAggregateInput = {
     id?: SortOrder | $Types.Skip
     content?: SortOrder | $Types.Skip
-    type?: SortOrder | $Types.Skip
     userId?: SortOrder | $Types.Skip
     parentId?: SortOrder | $Types.Skip
-    rootId?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     updatedAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrder | $Types.Skip
+    rootId?: SortOrder | $Types.Skip
+    type?: SortOrder | $Types.Skip
   }
 
   export type EnumPostTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -15570,14 +15570,14 @@ export namespace Prisma {
     deletedAt?: SortOrder | $Types.Skip
   }
 
-  export type ProfileScalarRelationFilter = {
-    is?: ProfileWhereInput | $Types.Skip
-    isNot?: ProfileWhereInput | $Types.Skip
-  }
-
   export type AttachmentScalarRelationFilter = {
     is?: AttachmentWhereInput | $Types.Skip
     isNot?: AttachmentWhereInput | $Types.Skip
+  }
+
+  export type ProfileScalarRelationFilter = {
+    is?: ProfileWhereInput | $Types.Skip
+    isNot?: ProfileWhereInput | $Types.Skip
   }
 
   export type ProfileAttachmentCountOrderByAggregateInput = {
@@ -15628,31 +15628,18 @@ export namespace Prisma {
     deletedAt?: SortOrder | $Types.Skip
   }
 
-  export type ProfileCreateNestedOneWithoutUserInput = {
-    create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput> | $Types.Skip
-    connectOrCreate?: ProfileCreateOrConnectWithoutUserInput | $Types.Skip
-    connect?: ProfileWhereUniqueInput | $Types.Skip
-  }
-
-  export type PostCreateNestedManyWithoutUserInput = {
-    create?: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput> | PostCreateWithoutUserInput[] | PostUncheckedCreateWithoutUserInput[] | $Types.Skip
-    connectOrCreate?: PostCreateOrConnectWithoutUserInput | PostCreateOrConnectWithoutUserInput[] | $Types.Skip
-    createMany?: PostCreateManyUserInputEnvelope | $Types.Skip
-    connect?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
-  }
-
-  export type LikeCreateNestedManyWithoutUserInput = {
-    create?: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput> | LikeCreateWithoutUserInput[] | LikeUncheckedCreateWithoutUserInput[] | $Types.Skip
-    connectOrCreate?: LikeCreateOrConnectWithoutUserInput | LikeCreateOrConnectWithoutUserInput[] | $Types.Skip
-    createMany?: LikeCreateManyUserInputEnvelope | $Types.Skip
-    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-  }
-
   export type BookmarkCreateNestedManyWithoutUserInput = {
     create?: XOR<BookmarkCreateWithoutUserInput, BookmarkUncheckedCreateWithoutUserInput> | BookmarkCreateWithoutUserInput[] | BookmarkUncheckedCreateWithoutUserInput[] | $Types.Skip
     connectOrCreate?: BookmarkCreateOrConnectWithoutUserInput | BookmarkCreateOrConnectWithoutUserInput[] | $Types.Skip
     createMany?: BookmarkCreateManyUserInputEnvelope | $Types.Skip
     connect?: BookmarkWhereUniqueInput | BookmarkWhereUniqueInput[] | $Types.Skip
+  }
+
+  export type FeedCreateNestedManyWithoutUserInput = {
+    create?: XOR<FeedCreateWithoutUserInput, FeedUncheckedCreateWithoutUserInput> | FeedCreateWithoutUserInput[] | FeedUncheckedCreateWithoutUserInput[] | $Types.Skip
+    connectOrCreate?: FeedCreateOrConnectWithoutUserInput | FeedCreateOrConnectWithoutUserInput[] | $Types.Skip
+    createMany?: FeedCreateManyUserInputEnvelope | $Types.Skip
+    connect?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
   }
 
   export type FollowCreateNestedManyWithoutFollowerInput = {
@@ -15669,31 +15656,24 @@ export namespace Prisma {
     connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[] | $Types.Skip
   }
 
-  export type FeedCreateNestedManyWithoutUserInput = {
-    create?: XOR<FeedCreateWithoutUserInput, FeedUncheckedCreateWithoutUserInput> | FeedCreateWithoutUserInput[] | FeedUncheckedCreateWithoutUserInput[] | $Types.Skip
-    connectOrCreate?: FeedCreateOrConnectWithoutUserInput | FeedCreateOrConnectWithoutUserInput[] | $Types.Skip
-    createMany?: FeedCreateManyUserInputEnvelope | $Types.Skip
-    connect?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
+  export type LikeCreateNestedManyWithoutUserInput = {
+    create?: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput> | LikeCreateWithoutUserInput[] | LikeUncheckedCreateWithoutUserInput[] | $Types.Skip
+    connectOrCreate?: LikeCreateOrConnectWithoutUserInput | LikeCreateOrConnectWithoutUserInput[] | $Types.Skip
+    createMany?: LikeCreateManyUserInputEnvelope | $Types.Skip
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
   }
 
-  export type ProfileUncheckedCreateNestedOneWithoutUserInput = {
-    create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput> | $Types.Skip
-    connectOrCreate?: ProfileCreateOrConnectWithoutUserInput | $Types.Skip
-    connect?: ProfileWhereUniqueInput | $Types.Skip
-  }
-
-  export type PostUncheckedCreateNestedManyWithoutUserInput = {
+  export type PostCreateNestedManyWithoutUserInput = {
     create?: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput> | PostCreateWithoutUserInput[] | PostUncheckedCreateWithoutUserInput[] | $Types.Skip
     connectOrCreate?: PostCreateOrConnectWithoutUserInput | PostCreateOrConnectWithoutUserInput[] | $Types.Skip
     createMany?: PostCreateManyUserInputEnvelope | $Types.Skip
     connect?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
   }
 
-  export type LikeUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput> | LikeCreateWithoutUserInput[] | LikeUncheckedCreateWithoutUserInput[] | $Types.Skip
-    connectOrCreate?: LikeCreateOrConnectWithoutUserInput | LikeCreateOrConnectWithoutUserInput[] | $Types.Skip
-    createMany?: LikeCreateManyUserInputEnvelope | $Types.Skip
-    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+  export type ProfileCreateNestedOneWithoutUserInput = {
+    create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput> | $Types.Skip
+    connectOrCreate?: ProfileCreateOrConnectWithoutUserInput | $Types.Skip
+    connect?: ProfileWhereUniqueInput | $Types.Skip
   }
 
   export type BookmarkUncheckedCreateNestedManyWithoutUserInput = {
@@ -15701,6 +15681,13 @@ export namespace Prisma {
     connectOrCreate?: BookmarkCreateOrConnectWithoutUserInput | BookmarkCreateOrConnectWithoutUserInput[] | $Types.Skip
     createMany?: BookmarkCreateManyUserInputEnvelope | $Types.Skip
     connect?: BookmarkWhereUniqueInput | BookmarkWhereUniqueInput[] | $Types.Skip
+  }
+
+  export type FeedUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<FeedCreateWithoutUserInput, FeedUncheckedCreateWithoutUserInput> | FeedCreateWithoutUserInput[] | FeedUncheckedCreateWithoutUserInput[] | $Types.Skip
+    connectOrCreate?: FeedCreateOrConnectWithoutUserInput | FeedCreateOrConnectWithoutUserInput[] | $Types.Skip
+    createMany?: FeedCreateManyUserInputEnvelope | $Types.Skip
+    connect?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
   }
 
   export type FollowUncheckedCreateNestedManyWithoutFollowerInput = {
@@ -15717,11 +15704,24 @@ export namespace Prisma {
     connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[] | $Types.Skip
   }
 
-  export type FeedUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<FeedCreateWithoutUserInput, FeedUncheckedCreateWithoutUserInput> | FeedCreateWithoutUserInput[] | FeedUncheckedCreateWithoutUserInput[] | $Types.Skip
-    connectOrCreate?: FeedCreateOrConnectWithoutUserInput | FeedCreateOrConnectWithoutUserInput[] | $Types.Skip
-    createMany?: FeedCreateManyUserInputEnvelope | $Types.Skip
-    connect?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
+  export type LikeUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput> | LikeCreateWithoutUserInput[] | LikeUncheckedCreateWithoutUserInput[] | $Types.Skip
+    connectOrCreate?: LikeCreateOrConnectWithoutUserInput | LikeCreateOrConnectWithoutUserInput[] | $Types.Skip
+    createMany?: LikeCreateManyUserInputEnvelope | $Types.Skip
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+  }
+
+  export type PostUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput> | PostCreateWithoutUserInput[] | PostUncheckedCreateWithoutUserInput[] | $Types.Skip
+    connectOrCreate?: PostCreateOrConnectWithoutUserInput | PostCreateOrConnectWithoutUserInput[] | $Types.Skip
+    createMany?: PostCreateManyUserInputEnvelope | $Types.Skip
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
+  }
+
+  export type ProfileUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput> | $Types.Skip
+    connectOrCreate?: ProfileCreateOrConnectWithoutUserInput | $Types.Skip
+    connect?: ProfileWhereUniqueInput | $Types.Skip
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -15732,10 +15732,6 @@ export namespace Prisma {
     set?: string | null | $Types.Skip
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean | $Types.Skip
-  }
-
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string | $Types.Skip
   }
@@ -15744,42 +15740,8 @@ export namespace Prisma {
     set?: Date | string | null | $Types.Skip
   }
 
-  export type ProfileUpdateOneWithoutUserNestedInput = {
-    create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput> | $Types.Skip
-    connectOrCreate?: ProfileCreateOrConnectWithoutUserInput | $Types.Skip
-    upsert?: ProfileUpsertWithoutUserInput | $Types.Skip
-    disconnect?: ProfileWhereInput | boolean | $Types.Skip
-    delete?: ProfileWhereInput | boolean | $Types.Skip
-    connect?: ProfileWhereUniqueInput | $Types.Skip
-    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutUserInput, ProfileUpdateWithoutUserInput>, ProfileUncheckedUpdateWithoutUserInput> | $Types.Skip
-  }
-
-  export type PostUpdateManyWithoutUserNestedInput = {
-    create?: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput> | PostCreateWithoutUserInput[] | PostUncheckedCreateWithoutUserInput[] | $Types.Skip
-    connectOrCreate?: PostCreateOrConnectWithoutUserInput | PostCreateOrConnectWithoutUserInput[] | $Types.Skip
-    upsert?: PostUpsertWithWhereUniqueWithoutUserInput | PostUpsertWithWhereUniqueWithoutUserInput[] | $Types.Skip
-    createMany?: PostCreateManyUserInputEnvelope | $Types.Skip
-    set?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
-    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
-    delete?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
-    connect?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
-    update?: PostUpdateWithWhereUniqueWithoutUserInput | PostUpdateWithWhereUniqueWithoutUserInput[] | $Types.Skip
-    updateMany?: PostUpdateManyWithWhereWithoutUserInput | PostUpdateManyWithWhereWithoutUserInput[] | $Types.Skip
-    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[] | $Types.Skip
-  }
-
-  export type LikeUpdateManyWithoutUserNestedInput = {
-    create?: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput> | LikeCreateWithoutUserInput[] | LikeUncheckedCreateWithoutUserInput[] | $Types.Skip
-    connectOrCreate?: LikeCreateOrConnectWithoutUserInput | LikeCreateOrConnectWithoutUserInput[] | $Types.Skip
-    upsert?: LikeUpsertWithWhereUniqueWithoutUserInput | LikeUpsertWithWhereUniqueWithoutUserInput[] | $Types.Skip
-    createMany?: LikeCreateManyUserInputEnvelope | $Types.Skip
-    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-    update?: LikeUpdateWithWhereUniqueWithoutUserInput | LikeUpdateWithWhereUniqueWithoutUserInput[] | $Types.Skip
-    updateMany?: LikeUpdateManyWithWhereWithoutUserInput | LikeUpdateManyWithWhereWithoutUserInput[] | $Types.Skip
-    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[] | $Types.Skip
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean | $Types.Skip
   }
 
   export type BookmarkUpdateManyWithoutUserNestedInput = {
@@ -15794,6 +15756,20 @@ export namespace Prisma {
     update?: BookmarkUpdateWithWhereUniqueWithoutUserInput | BookmarkUpdateWithWhereUniqueWithoutUserInput[] | $Types.Skip
     updateMany?: BookmarkUpdateManyWithWhereWithoutUserInput | BookmarkUpdateManyWithWhereWithoutUserInput[] | $Types.Skip
     deleteMany?: BookmarkScalarWhereInput | BookmarkScalarWhereInput[] | $Types.Skip
+  }
+
+  export type FeedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FeedCreateWithoutUserInput, FeedUncheckedCreateWithoutUserInput> | FeedCreateWithoutUserInput[] | FeedUncheckedCreateWithoutUserInput[] | $Types.Skip
+    connectOrCreate?: FeedCreateOrConnectWithoutUserInput | FeedCreateOrConnectWithoutUserInput[] | $Types.Skip
+    upsert?: FeedUpsertWithWhereUniqueWithoutUserInput | FeedUpsertWithWhereUniqueWithoutUserInput[] | $Types.Skip
+    createMany?: FeedCreateManyUserInputEnvelope | $Types.Skip
+    set?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
+    disconnect?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
+    delete?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
+    connect?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
+    update?: FeedUpdateWithWhereUniqueWithoutUserInput | FeedUpdateWithWhereUniqueWithoutUserInput[] | $Types.Skip
+    updateMany?: FeedUpdateManyWithWhereWithoutUserInput | FeedUpdateManyWithWhereWithoutUserInput[] | $Types.Skip
+    deleteMany?: FeedScalarWhereInput | FeedScalarWhereInput[] | $Types.Skip
   }
 
   export type FollowUpdateManyWithoutFollowerNestedInput = {
@@ -15824,31 +15800,21 @@ export namespace Prisma {
     deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[] | $Types.Skip
   }
 
-  export type FeedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<FeedCreateWithoutUserInput, FeedUncheckedCreateWithoutUserInput> | FeedCreateWithoutUserInput[] | FeedUncheckedCreateWithoutUserInput[] | $Types.Skip
-    connectOrCreate?: FeedCreateOrConnectWithoutUserInput | FeedCreateOrConnectWithoutUserInput[] | $Types.Skip
-    upsert?: FeedUpsertWithWhereUniqueWithoutUserInput | FeedUpsertWithWhereUniqueWithoutUserInput[] | $Types.Skip
-    createMany?: FeedCreateManyUserInputEnvelope | $Types.Skip
-    set?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
-    disconnect?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
-    delete?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
-    connect?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
-    update?: FeedUpdateWithWhereUniqueWithoutUserInput | FeedUpdateWithWhereUniqueWithoutUserInput[] | $Types.Skip
-    updateMany?: FeedUpdateManyWithWhereWithoutUserInput | FeedUpdateManyWithWhereWithoutUserInput[] | $Types.Skip
-    deleteMany?: FeedScalarWhereInput | FeedScalarWhereInput[] | $Types.Skip
+  export type LikeUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput> | LikeCreateWithoutUserInput[] | LikeUncheckedCreateWithoutUserInput[] | $Types.Skip
+    connectOrCreate?: LikeCreateOrConnectWithoutUserInput | LikeCreateOrConnectWithoutUserInput[] | $Types.Skip
+    upsert?: LikeUpsertWithWhereUniqueWithoutUserInput | LikeUpsertWithWhereUniqueWithoutUserInput[] | $Types.Skip
+    createMany?: LikeCreateManyUserInputEnvelope | $Types.Skip
+    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    update?: LikeUpdateWithWhereUniqueWithoutUserInput | LikeUpdateWithWhereUniqueWithoutUserInput[] | $Types.Skip
+    updateMany?: LikeUpdateManyWithWhereWithoutUserInput | LikeUpdateManyWithWhereWithoutUserInput[] | $Types.Skip
+    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[] | $Types.Skip
   }
 
-  export type ProfileUncheckedUpdateOneWithoutUserNestedInput = {
-    create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput> | $Types.Skip
-    connectOrCreate?: ProfileCreateOrConnectWithoutUserInput | $Types.Skip
-    upsert?: ProfileUpsertWithoutUserInput | $Types.Skip
-    disconnect?: ProfileWhereInput | boolean | $Types.Skip
-    delete?: ProfileWhereInput | boolean | $Types.Skip
-    connect?: ProfileWhereUniqueInput | $Types.Skip
-    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutUserInput, ProfileUpdateWithoutUserInput>, ProfileUncheckedUpdateWithoutUserInput> | $Types.Skip
-  }
-
-  export type PostUncheckedUpdateManyWithoutUserNestedInput = {
+  export type PostUpdateManyWithoutUserNestedInput = {
     create?: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput> | PostCreateWithoutUserInput[] | PostUncheckedCreateWithoutUserInput[] | $Types.Skip
     connectOrCreate?: PostCreateOrConnectWithoutUserInput | PostCreateOrConnectWithoutUserInput[] | $Types.Skip
     upsert?: PostUpsertWithWhereUniqueWithoutUserInput | PostUpsertWithWhereUniqueWithoutUserInput[] | $Types.Skip
@@ -15862,18 +15828,14 @@ export namespace Prisma {
     deleteMany?: PostScalarWhereInput | PostScalarWhereInput[] | $Types.Skip
   }
 
-  export type LikeUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput> | LikeCreateWithoutUserInput[] | LikeUncheckedCreateWithoutUserInput[] | $Types.Skip
-    connectOrCreate?: LikeCreateOrConnectWithoutUserInput | LikeCreateOrConnectWithoutUserInput[] | $Types.Skip
-    upsert?: LikeUpsertWithWhereUniqueWithoutUserInput | LikeUpsertWithWhereUniqueWithoutUserInput[] | $Types.Skip
-    createMany?: LikeCreateManyUserInputEnvelope | $Types.Skip
-    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-    update?: LikeUpdateWithWhereUniqueWithoutUserInput | LikeUpdateWithWhereUniqueWithoutUserInput[] | $Types.Skip
-    updateMany?: LikeUpdateManyWithWhereWithoutUserInput | LikeUpdateManyWithWhereWithoutUserInput[] | $Types.Skip
-    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[] | $Types.Skip
+  export type ProfileUpdateOneWithoutUserNestedInput = {
+    create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput> | $Types.Skip
+    connectOrCreate?: ProfileCreateOrConnectWithoutUserInput | $Types.Skip
+    upsert?: ProfileUpsertWithoutUserInput | $Types.Skip
+    disconnect?: ProfileWhereInput | boolean | $Types.Skip
+    delete?: ProfileWhereInput | boolean | $Types.Skip
+    connect?: ProfileWhereUniqueInput | $Types.Skip
+    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutUserInput, ProfileUpdateWithoutUserInput>, ProfileUncheckedUpdateWithoutUserInput> | $Types.Skip
   }
 
   export type BookmarkUncheckedUpdateManyWithoutUserNestedInput = {
@@ -15888,6 +15850,20 @@ export namespace Prisma {
     update?: BookmarkUpdateWithWhereUniqueWithoutUserInput | BookmarkUpdateWithWhereUniqueWithoutUserInput[] | $Types.Skip
     updateMany?: BookmarkUpdateManyWithWhereWithoutUserInput | BookmarkUpdateManyWithWhereWithoutUserInput[] | $Types.Skip
     deleteMany?: BookmarkScalarWhereInput | BookmarkScalarWhereInput[] | $Types.Skip
+  }
+
+  export type FeedUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FeedCreateWithoutUserInput, FeedUncheckedCreateWithoutUserInput> | FeedCreateWithoutUserInput[] | FeedUncheckedCreateWithoutUserInput[] | $Types.Skip
+    connectOrCreate?: FeedCreateOrConnectWithoutUserInput | FeedCreateOrConnectWithoutUserInput[] | $Types.Skip
+    upsert?: FeedUpsertWithWhereUniqueWithoutUserInput | FeedUpsertWithWhereUniqueWithoutUserInput[] | $Types.Skip
+    createMany?: FeedCreateManyUserInputEnvelope | $Types.Skip
+    set?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
+    disconnect?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
+    delete?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
+    connect?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
+    update?: FeedUpdateWithWhereUniqueWithoutUserInput | FeedUpdateWithWhereUniqueWithoutUserInput[] | $Types.Skip
+    updateMany?: FeedUpdateManyWithWhereWithoutUserInput | FeedUpdateManyWithWhereWithoutUserInput[] | $Types.Skip
+    deleteMany?: FeedScalarWhereInput | FeedScalarWhereInput[] | $Types.Skip
   }
 
   export type FollowUncheckedUpdateManyWithoutFollowerNestedInput = {
@@ -15918,18 +15894,42 @@ export namespace Prisma {
     deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[] | $Types.Skip
   }
 
-  export type FeedUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<FeedCreateWithoutUserInput, FeedUncheckedCreateWithoutUserInput> | FeedCreateWithoutUserInput[] | FeedUncheckedCreateWithoutUserInput[] | $Types.Skip
-    connectOrCreate?: FeedCreateOrConnectWithoutUserInput | FeedCreateOrConnectWithoutUserInput[] | $Types.Skip
-    upsert?: FeedUpsertWithWhereUniqueWithoutUserInput | FeedUpsertWithWhereUniqueWithoutUserInput[] | $Types.Skip
-    createMany?: FeedCreateManyUserInputEnvelope | $Types.Skip
-    set?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
-    disconnect?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
-    delete?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
-    connect?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
-    update?: FeedUpdateWithWhereUniqueWithoutUserInput | FeedUpdateWithWhereUniqueWithoutUserInput[] | $Types.Skip
-    updateMany?: FeedUpdateManyWithWhereWithoutUserInput | FeedUpdateManyWithWhereWithoutUserInput[] | $Types.Skip
-    deleteMany?: FeedScalarWhereInput | FeedScalarWhereInput[] | $Types.Skip
+  export type LikeUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput> | LikeCreateWithoutUserInput[] | LikeUncheckedCreateWithoutUserInput[] | $Types.Skip
+    connectOrCreate?: LikeCreateOrConnectWithoutUserInput | LikeCreateOrConnectWithoutUserInput[] | $Types.Skip
+    upsert?: LikeUpsertWithWhereUniqueWithoutUserInput | LikeUpsertWithWhereUniqueWithoutUserInput[] | $Types.Skip
+    createMany?: LikeCreateManyUserInputEnvelope | $Types.Skip
+    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    update?: LikeUpdateWithWhereUniqueWithoutUserInput | LikeUpdateWithWhereUniqueWithoutUserInput[] | $Types.Skip
+    updateMany?: LikeUpdateManyWithWhereWithoutUserInput | LikeUpdateManyWithWhereWithoutUserInput[] | $Types.Skip
+    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[] | $Types.Skip
+  }
+
+  export type PostUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput> | PostCreateWithoutUserInput[] | PostUncheckedCreateWithoutUserInput[] | $Types.Skip
+    connectOrCreate?: PostCreateOrConnectWithoutUserInput | PostCreateOrConnectWithoutUserInput[] | $Types.Skip
+    upsert?: PostUpsertWithWhereUniqueWithoutUserInput | PostUpsertWithWhereUniqueWithoutUserInput[] | $Types.Skip
+    createMany?: PostCreateManyUserInputEnvelope | $Types.Skip
+    set?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
+    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
+    delete?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
+    update?: PostUpdateWithWhereUniqueWithoutUserInput | PostUpdateWithWhereUniqueWithoutUserInput[] | $Types.Skip
+    updateMany?: PostUpdateManyWithWhereWithoutUserInput | PostUpdateManyWithWhereWithoutUserInput[] | $Types.Skip
+    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[] | $Types.Skip
+  }
+
+  export type ProfileUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput> | $Types.Skip
+    connectOrCreate?: ProfileCreateOrConnectWithoutUserInput | $Types.Skip
+    upsert?: ProfileUpsertWithoutUserInput | $Types.Skip
+    disconnect?: ProfileWhereInput | boolean | $Types.Skip
+    delete?: ProfileWhereInput | boolean | $Types.Skip
+    connect?: ProfileWhereUniqueInput | $Types.Skip
+    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutUserInput, ProfileUpdateWithoutUserInput>, ProfileUncheckedUpdateWithoutUserInput> | $Types.Skip
   }
 
   export type UserCreateNestedOneWithoutProfileInput = {
@@ -15988,10 +15988,25 @@ export namespace Prisma {
     deleteMany?: ProfileAttachmentScalarWhereInput | ProfileAttachmentScalarWhereInput[] | $Types.Skip
   }
 
-  export type UserCreateNestedOneWithoutPostsInput = {
-    create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput> | $Types.Skip
-    connectOrCreate?: UserCreateOrConnectWithoutPostsInput | $Types.Skip
-    connect?: UserWhereUniqueInput | $Types.Skip
+  export type BookmarkCreateNestedManyWithoutPostInput = {
+    create?: XOR<BookmarkCreateWithoutPostInput, BookmarkUncheckedCreateWithoutPostInput> | BookmarkCreateWithoutPostInput[] | BookmarkUncheckedCreateWithoutPostInput[] | $Types.Skip
+    connectOrCreate?: BookmarkCreateOrConnectWithoutPostInput | BookmarkCreateOrConnectWithoutPostInput[] | $Types.Skip
+    createMany?: BookmarkCreateManyPostInputEnvelope | $Types.Skip
+    connect?: BookmarkWhereUniqueInput | BookmarkWhereUniqueInput[] | $Types.Skip
+  }
+
+  export type FeedCreateNestedManyWithoutPostInput = {
+    create?: XOR<FeedCreateWithoutPostInput, FeedUncheckedCreateWithoutPostInput> | FeedCreateWithoutPostInput[] | FeedUncheckedCreateWithoutPostInput[] | $Types.Skip
+    connectOrCreate?: FeedCreateOrConnectWithoutPostInput | FeedCreateOrConnectWithoutPostInput[] | $Types.Skip
+    createMany?: FeedCreateManyPostInputEnvelope | $Types.Skip
+    connect?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
+  }
+
+  export type LikeCreateNestedManyWithoutPostInput = {
+    create?: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput> | LikeCreateWithoutPostInput[] | LikeUncheckedCreateWithoutPostInput[] | $Types.Skip
+    connectOrCreate?: LikeCreateOrConnectWithoutPostInput | LikeCreateOrConnectWithoutPostInput[] | $Types.Skip
+    createMany?: LikeCreateManyPostInputEnvelope | $Types.Skip
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
   }
 
   export type PostCreateNestedOneWithoutChildrenInput = {
@@ -16007,53 +16022,17 @@ export namespace Prisma {
     connect?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
   }
 
+  export type UserCreateNestedOneWithoutPostsInput = {
+    create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput> | $Types.Skip
+    connectOrCreate?: UserCreateOrConnectWithoutPostsInput | $Types.Skip
+    connect?: UserWhereUniqueInput | $Types.Skip
+  }
+
   export type PostAttachmentCreateNestedManyWithoutPostInput = {
     create?: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput> | PostAttachmentCreateWithoutPostInput[] | PostAttachmentUncheckedCreateWithoutPostInput[] | $Types.Skip
     connectOrCreate?: PostAttachmentCreateOrConnectWithoutPostInput | PostAttachmentCreateOrConnectWithoutPostInput[] | $Types.Skip
     createMany?: PostAttachmentCreateManyPostInputEnvelope | $Types.Skip
     connect?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[] | $Types.Skip
-  }
-
-  export type LikeCreateNestedManyWithoutPostInput = {
-    create?: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput> | LikeCreateWithoutPostInput[] | LikeUncheckedCreateWithoutPostInput[] | $Types.Skip
-    connectOrCreate?: LikeCreateOrConnectWithoutPostInput | LikeCreateOrConnectWithoutPostInput[] | $Types.Skip
-    createMany?: LikeCreateManyPostInputEnvelope | $Types.Skip
-    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-  }
-
-  export type BookmarkCreateNestedManyWithoutPostInput = {
-    create?: XOR<BookmarkCreateWithoutPostInput, BookmarkUncheckedCreateWithoutPostInput> | BookmarkCreateWithoutPostInput[] | BookmarkUncheckedCreateWithoutPostInput[] | $Types.Skip
-    connectOrCreate?: BookmarkCreateOrConnectWithoutPostInput | BookmarkCreateOrConnectWithoutPostInput[] | $Types.Skip
-    createMany?: BookmarkCreateManyPostInputEnvelope | $Types.Skip
-    connect?: BookmarkWhereUniqueInput | BookmarkWhereUniqueInput[] | $Types.Skip
-  }
-
-  export type FeedCreateNestedManyWithoutPostInput = {
-    create?: XOR<FeedCreateWithoutPostInput, FeedUncheckedCreateWithoutPostInput> | FeedCreateWithoutPostInput[] | FeedUncheckedCreateWithoutPostInput[] | $Types.Skip
-    connectOrCreate?: FeedCreateOrConnectWithoutPostInput | FeedCreateOrConnectWithoutPostInput[] | $Types.Skip
-    createMany?: FeedCreateManyPostInputEnvelope | $Types.Skip
-    connect?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
-  }
-
-  export type PostUncheckedCreateNestedManyWithoutParentInput = {
-    create?: XOR<PostCreateWithoutParentInput, PostUncheckedCreateWithoutParentInput> | PostCreateWithoutParentInput[] | PostUncheckedCreateWithoutParentInput[] | $Types.Skip
-    connectOrCreate?: PostCreateOrConnectWithoutParentInput | PostCreateOrConnectWithoutParentInput[] | $Types.Skip
-    createMany?: PostCreateManyParentInputEnvelope | $Types.Skip
-    connect?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
-  }
-
-  export type PostAttachmentUncheckedCreateNestedManyWithoutPostInput = {
-    create?: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput> | PostAttachmentCreateWithoutPostInput[] | PostAttachmentUncheckedCreateWithoutPostInput[] | $Types.Skip
-    connectOrCreate?: PostAttachmentCreateOrConnectWithoutPostInput | PostAttachmentCreateOrConnectWithoutPostInput[] | $Types.Skip
-    createMany?: PostAttachmentCreateManyPostInputEnvelope | $Types.Skip
-    connect?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[] | $Types.Skip
-  }
-
-  export type LikeUncheckedCreateNestedManyWithoutPostInput = {
-    create?: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput> | LikeCreateWithoutPostInput[] | LikeUncheckedCreateWithoutPostInput[] | $Types.Skip
-    connectOrCreate?: LikeCreateOrConnectWithoutPostInput | LikeCreateOrConnectWithoutPostInput[] | $Types.Skip
-    createMany?: LikeCreateManyPostInputEnvelope | $Types.Skip
-    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
   }
 
   export type BookmarkUncheckedCreateNestedManyWithoutPostInput = {
@@ -16070,68 +16049,29 @@ export namespace Prisma {
     connect?: FeedWhereUniqueInput | FeedWhereUniqueInput[] | $Types.Skip
   }
 
-  export type EnumPostTypeFieldUpdateOperationsInput = {
-    set?: $Enums.PostType | $Types.Skip
-  }
-
-  export type UserUpdateOneRequiredWithoutPostsNestedInput = {
-    create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput> | $Types.Skip
-    connectOrCreate?: UserCreateOrConnectWithoutPostsInput | $Types.Skip
-    upsert?: UserUpsertWithoutPostsInput | $Types.Skip
-    connect?: UserWhereUniqueInput | $Types.Skip
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPostsInput, UserUpdateWithoutPostsInput>, UserUncheckedUpdateWithoutPostsInput> | $Types.Skip
-  }
-
-  export type PostUpdateOneWithoutChildrenNestedInput = {
-    create?: XOR<PostCreateWithoutChildrenInput, PostUncheckedCreateWithoutChildrenInput> | $Types.Skip
-    connectOrCreate?: PostCreateOrConnectWithoutChildrenInput | $Types.Skip
-    upsert?: PostUpsertWithoutChildrenInput | $Types.Skip
-    disconnect?: PostWhereInput | boolean | $Types.Skip
-    delete?: PostWhereInput | boolean | $Types.Skip
-    connect?: PostWhereUniqueInput | $Types.Skip
-    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutChildrenInput, PostUpdateWithoutChildrenInput>, PostUncheckedUpdateWithoutChildrenInput> | $Types.Skip
-  }
-
-  export type PostUpdateManyWithoutParentNestedInput = {
-    create?: XOR<PostCreateWithoutParentInput, PostUncheckedCreateWithoutParentInput> | PostCreateWithoutParentInput[] | PostUncheckedCreateWithoutParentInput[] | $Types.Skip
-    connectOrCreate?: PostCreateOrConnectWithoutParentInput | PostCreateOrConnectWithoutParentInput[] | $Types.Skip
-    upsert?: PostUpsertWithWhereUniqueWithoutParentInput | PostUpsertWithWhereUniqueWithoutParentInput[] | $Types.Skip
-    createMany?: PostCreateManyParentInputEnvelope | $Types.Skip
-    set?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
-    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
-    delete?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
-    connect?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
-    update?: PostUpdateWithWhereUniqueWithoutParentInput | PostUpdateWithWhereUniqueWithoutParentInput[] | $Types.Skip
-    updateMany?: PostUpdateManyWithWhereWithoutParentInput | PostUpdateManyWithWhereWithoutParentInput[] | $Types.Skip
-    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[] | $Types.Skip
-  }
-
-  export type PostAttachmentUpdateManyWithoutPostNestedInput = {
-    create?: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput> | PostAttachmentCreateWithoutPostInput[] | PostAttachmentUncheckedCreateWithoutPostInput[] | $Types.Skip
-    connectOrCreate?: PostAttachmentCreateOrConnectWithoutPostInput | PostAttachmentCreateOrConnectWithoutPostInput[] | $Types.Skip
-    upsert?: PostAttachmentUpsertWithWhereUniqueWithoutPostInput | PostAttachmentUpsertWithWhereUniqueWithoutPostInput[] | $Types.Skip
-    createMany?: PostAttachmentCreateManyPostInputEnvelope | $Types.Skip
-    set?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[] | $Types.Skip
-    disconnect?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[] | $Types.Skip
-    delete?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[] | $Types.Skip
-    connect?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[] | $Types.Skip
-    update?: PostAttachmentUpdateWithWhereUniqueWithoutPostInput | PostAttachmentUpdateWithWhereUniqueWithoutPostInput[] | $Types.Skip
-    updateMany?: PostAttachmentUpdateManyWithWhereWithoutPostInput | PostAttachmentUpdateManyWithWhereWithoutPostInput[] | $Types.Skip
-    deleteMany?: PostAttachmentScalarWhereInput | PostAttachmentScalarWhereInput[] | $Types.Skip
-  }
-
-  export type LikeUpdateManyWithoutPostNestedInput = {
+  export type LikeUncheckedCreateNestedManyWithoutPostInput = {
     create?: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput> | LikeCreateWithoutPostInput[] | LikeUncheckedCreateWithoutPostInput[] | $Types.Skip
     connectOrCreate?: LikeCreateOrConnectWithoutPostInput | LikeCreateOrConnectWithoutPostInput[] | $Types.Skip
-    upsert?: LikeUpsertWithWhereUniqueWithoutPostInput | LikeUpsertWithWhereUniqueWithoutPostInput[] | $Types.Skip
     createMany?: LikeCreateManyPostInputEnvelope | $Types.Skip
-    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
     connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-    update?: LikeUpdateWithWhereUniqueWithoutPostInput | LikeUpdateWithWhereUniqueWithoutPostInput[] | $Types.Skip
-    updateMany?: LikeUpdateManyWithWhereWithoutPostInput | LikeUpdateManyWithWhereWithoutPostInput[] | $Types.Skip
-    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[] | $Types.Skip
+  }
+
+  export type PostUncheckedCreateNestedManyWithoutParentInput = {
+    create?: XOR<PostCreateWithoutParentInput, PostUncheckedCreateWithoutParentInput> | PostCreateWithoutParentInput[] | PostUncheckedCreateWithoutParentInput[] | $Types.Skip
+    connectOrCreate?: PostCreateOrConnectWithoutParentInput | PostCreateOrConnectWithoutParentInput[] | $Types.Skip
+    createMany?: PostCreateManyParentInputEnvelope | $Types.Skip
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
+  }
+
+  export type PostAttachmentUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput> | PostAttachmentCreateWithoutPostInput[] | PostAttachmentUncheckedCreateWithoutPostInput[] | $Types.Skip
+    connectOrCreate?: PostAttachmentCreateOrConnectWithoutPostInput | PostAttachmentCreateOrConnectWithoutPostInput[] | $Types.Skip
+    createMany?: PostAttachmentCreateManyPostInputEnvelope | $Types.Skip
+    connect?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[] | $Types.Skip
+  }
+
+  export type EnumPostTypeFieldUpdateOperationsInput = {
+    set?: $Enums.PostType | $Types.Skip
   }
 
   export type BookmarkUpdateManyWithoutPostNestedInput = {
@@ -16162,7 +16102,31 @@ export namespace Prisma {
     deleteMany?: FeedScalarWhereInput | FeedScalarWhereInput[] | $Types.Skip
   }
 
-  export type PostUncheckedUpdateManyWithoutParentNestedInput = {
+  export type LikeUpdateManyWithoutPostNestedInput = {
+    create?: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput> | LikeCreateWithoutPostInput[] | LikeUncheckedCreateWithoutPostInput[] | $Types.Skip
+    connectOrCreate?: LikeCreateOrConnectWithoutPostInput | LikeCreateOrConnectWithoutPostInput[] | $Types.Skip
+    upsert?: LikeUpsertWithWhereUniqueWithoutPostInput | LikeUpsertWithWhereUniqueWithoutPostInput[] | $Types.Skip
+    createMany?: LikeCreateManyPostInputEnvelope | $Types.Skip
+    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    update?: LikeUpdateWithWhereUniqueWithoutPostInput | LikeUpdateWithWhereUniqueWithoutPostInput[] | $Types.Skip
+    updateMany?: LikeUpdateManyWithWhereWithoutPostInput | LikeUpdateManyWithWhereWithoutPostInput[] | $Types.Skip
+    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[] | $Types.Skip
+  }
+
+  export type PostUpdateOneWithoutChildrenNestedInput = {
+    create?: XOR<PostCreateWithoutChildrenInput, PostUncheckedCreateWithoutChildrenInput> | $Types.Skip
+    connectOrCreate?: PostCreateOrConnectWithoutChildrenInput | $Types.Skip
+    upsert?: PostUpsertWithoutChildrenInput | $Types.Skip
+    disconnect?: PostWhereInput | boolean | $Types.Skip
+    delete?: PostWhereInput | boolean | $Types.Skip
+    connect?: PostWhereUniqueInput | $Types.Skip
+    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutChildrenInput, PostUpdateWithoutChildrenInput>, PostUncheckedUpdateWithoutChildrenInput> | $Types.Skip
+  }
+
+  export type PostUpdateManyWithoutParentNestedInput = {
     create?: XOR<PostCreateWithoutParentInput, PostUncheckedCreateWithoutParentInput> | PostCreateWithoutParentInput[] | PostUncheckedCreateWithoutParentInput[] | $Types.Skip
     connectOrCreate?: PostCreateOrConnectWithoutParentInput | PostCreateOrConnectWithoutParentInput[] | $Types.Skip
     upsert?: PostUpsertWithWhereUniqueWithoutParentInput | PostUpsertWithWhereUniqueWithoutParentInput[] | $Types.Skip
@@ -16176,7 +16140,15 @@ export namespace Prisma {
     deleteMany?: PostScalarWhereInput | PostScalarWhereInput[] | $Types.Skip
   }
 
-  export type PostAttachmentUncheckedUpdateManyWithoutPostNestedInput = {
+  export type UserUpdateOneRequiredWithoutPostsNestedInput = {
+    create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput> | $Types.Skip
+    connectOrCreate?: UserCreateOrConnectWithoutPostsInput | $Types.Skip
+    upsert?: UserUpsertWithoutPostsInput | $Types.Skip
+    connect?: UserWhereUniqueInput | $Types.Skip
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPostsInput, UserUpdateWithoutPostsInput>, UserUncheckedUpdateWithoutPostsInput> | $Types.Skip
+  }
+
+  export type PostAttachmentUpdateManyWithoutPostNestedInput = {
     create?: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput> | PostAttachmentCreateWithoutPostInput[] | PostAttachmentUncheckedCreateWithoutPostInput[] | $Types.Skip
     connectOrCreate?: PostAttachmentCreateOrConnectWithoutPostInput | PostAttachmentCreateOrConnectWithoutPostInput[] | $Types.Skip
     upsert?: PostAttachmentUpsertWithWhereUniqueWithoutPostInput | PostAttachmentUpsertWithWhereUniqueWithoutPostInput[] | $Types.Skip
@@ -16188,20 +16160,6 @@ export namespace Prisma {
     update?: PostAttachmentUpdateWithWhereUniqueWithoutPostInput | PostAttachmentUpdateWithWhereUniqueWithoutPostInput[] | $Types.Skip
     updateMany?: PostAttachmentUpdateManyWithWhereWithoutPostInput | PostAttachmentUpdateManyWithWhereWithoutPostInput[] | $Types.Skip
     deleteMany?: PostAttachmentScalarWhereInput | PostAttachmentScalarWhereInput[] | $Types.Skip
-  }
-
-  export type LikeUncheckedUpdateManyWithoutPostNestedInput = {
-    create?: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput> | LikeCreateWithoutPostInput[] | LikeUncheckedCreateWithoutPostInput[] | $Types.Skip
-    connectOrCreate?: LikeCreateOrConnectWithoutPostInput | LikeCreateOrConnectWithoutPostInput[] | $Types.Skip
-    upsert?: LikeUpsertWithWhereUniqueWithoutPostInput | LikeUpsertWithWhereUniqueWithoutPostInput[] | $Types.Skip
-    createMany?: LikeCreateManyPostInputEnvelope | $Types.Skip
-    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
-    update?: LikeUpdateWithWhereUniqueWithoutPostInput | LikeUpdateWithWhereUniqueWithoutPostInput[] | $Types.Skip
-    updateMany?: LikeUpdateManyWithWhereWithoutPostInput | LikeUpdateManyWithWhereWithoutPostInput[] | $Types.Skip
-    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[] | $Types.Skip
   }
 
   export type BookmarkUncheckedUpdateManyWithoutPostNestedInput = {
@@ -16230,6 +16188,48 @@ export namespace Prisma {
     update?: FeedUpdateWithWhereUniqueWithoutPostInput | FeedUpdateWithWhereUniqueWithoutPostInput[] | $Types.Skip
     updateMany?: FeedUpdateManyWithWhereWithoutPostInput | FeedUpdateManyWithWhereWithoutPostInput[] | $Types.Skip
     deleteMany?: FeedScalarWhereInput | FeedScalarWhereInput[] | $Types.Skip
+  }
+
+  export type LikeUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput> | LikeCreateWithoutPostInput[] | LikeUncheckedCreateWithoutPostInput[] | $Types.Skip
+    connectOrCreate?: LikeCreateOrConnectWithoutPostInput | LikeCreateOrConnectWithoutPostInput[] | $Types.Skip
+    upsert?: LikeUpsertWithWhereUniqueWithoutPostInput | LikeUpsertWithWhereUniqueWithoutPostInput[] | $Types.Skip
+    createMany?: LikeCreateManyPostInputEnvelope | $Types.Skip
+    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[] | $Types.Skip
+    update?: LikeUpdateWithWhereUniqueWithoutPostInput | LikeUpdateWithWhereUniqueWithoutPostInput[] | $Types.Skip
+    updateMany?: LikeUpdateManyWithWhereWithoutPostInput | LikeUpdateManyWithWhereWithoutPostInput[] | $Types.Skip
+    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[] | $Types.Skip
+  }
+
+  export type PostUncheckedUpdateManyWithoutParentNestedInput = {
+    create?: XOR<PostCreateWithoutParentInput, PostUncheckedCreateWithoutParentInput> | PostCreateWithoutParentInput[] | PostUncheckedCreateWithoutParentInput[] | $Types.Skip
+    connectOrCreate?: PostCreateOrConnectWithoutParentInput | PostCreateOrConnectWithoutParentInput[] | $Types.Skip
+    upsert?: PostUpsertWithWhereUniqueWithoutParentInput | PostUpsertWithWhereUniqueWithoutParentInput[] | $Types.Skip
+    createMany?: PostCreateManyParentInputEnvelope | $Types.Skip
+    set?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
+    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
+    delete?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[] | $Types.Skip
+    update?: PostUpdateWithWhereUniqueWithoutParentInput | PostUpdateWithWhereUniqueWithoutParentInput[] | $Types.Skip
+    updateMany?: PostUpdateManyWithWhereWithoutParentInput | PostUpdateManyWithWhereWithoutParentInput[] | $Types.Skip
+    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[] | $Types.Skip
+  }
+
+  export type PostAttachmentUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput> | PostAttachmentCreateWithoutPostInput[] | PostAttachmentUncheckedCreateWithoutPostInput[] | $Types.Skip
+    connectOrCreate?: PostAttachmentCreateOrConnectWithoutPostInput | PostAttachmentCreateOrConnectWithoutPostInput[] | $Types.Skip
+    upsert?: PostAttachmentUpsertWithWhereUniqueWithoutPostInput | PostAttachmentUpsertWithWhereUniqueWithoutPostInput[] | $Types.Skip
+    createMany?: PostAttachmentCreateManyPostInputEnvelope | $Types.Skip
+    set?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[] | $Types.Skip
+    disconnect?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[] | $Types.Skip
+    delete?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[] | $Types.Skip
+    connect?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[] | $Types.Skip
+    update?: PostAttachmentUpdateWithWhereUniqueWithoutPostInput | PostAttachmentUpdateWithWhereUniqueWithoutPostInput[] | $Types.Skip
+    updateMany?: PostAttachmentUpdateManyWithWhereWithoutPostInput | PostAttachmentUpdateManyWithWhereWithoutPostInput[] | $Types.Skip
+    deleteMany?: PostAttachmentScalarWhereInput | PostAttachmentScalarWhereInput[] | $Types.Skip
   }
 
   export type PostCreateNestedOneWithoutLikesInput = {
@@ -16316,24 +16316,16 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFollowingInput, UserUpdateWithoutFollowingInput>, UserUncheckedUpdateWithoutFollowingInput> | $Types.Skip
   }
 
-  export type UserCreateNestedOneWithoutFeedInput = {
-    create?: XOR<UserCreateWithoutFeedInput, UserUncheckedCreateWithoutFeedInput> | $Types.Skip
-    connectOrCreate?: UserCreateOrConnectWithoutFeedInput | $Types.Skip
-    connect?: UserWhereUniqueInput | $Types.Skip
-  }
-
   export type PostCreateNestedOneWithoutFeedsInput = {
     create?: XOR<PostCreateWithoutFeedsInput, PostUncheckedCreateWithoutFeedsInput> | $Types.Skip
     connectOrCreate?: PostCreateOrConnectWithoutFeedsInput | $Types.Skip
     connect?: PostWhereUniqueInput | $Types.Skip
   }
 
-  export type UserUpdateOneRequiredWithoutFeedNestedInput = {
+  export type UserCreateNestedOneWithoutFeedInput = {
     create?: XOR<UserCreateWithoutFeedInput, UserUncheckedCreateWithoutFeedInput> | $Types.Skip
     connectOrCreate?: UserCreateOrConnectWithoutFeedInput | $Types.Skip
-    upsert?: UserUpsertWithoutFeedInput | $Types.Skip
     connect?: UserWhereUniqueInput | $Types.Skip
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFeedInput, UserUpdateWithoutFeedInput>, UserUncheckedUpdateWithoutFeedInput> | $Types.Skip
   }
 
   export type PostUpdateOneRequiredWithoutFeedsNestedInput = {
@@ -16342,6 +16334,14 @@ export namespace Prisma {
     upsert?: PostUpsertWithoutFeedsInput | $Types.Skip
     connect?: PostWhereUniqueInput | $Types.Skip
     update?: XOR<XOR<PostUpdateToOneWithWhereWithoutFeedsInput, PostUpdateWithoutFeedsInput>, PostUncheckedUpdateWithoutFeedsInput> | $Types.Skip
+  }
+
+  export type UserUpdateOneRequiredWithoutFeedNestedInput = {
+    create?: XOR<UserCreateWithoutFeedInput, UserUncheckedCreateWithoutFeedInput> | $Types.Skip
+    connectOrCreate?: UserCreateOrConnectWithoutFeedInput | $Types.Skip
+    upsert?: UserUpsertWithoutFeedInput | $Types.Skip
+    connect?: UserWhereUniqueInput | $Types.Skip
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFeedInput, UserUpdateWithoutFeedInput>, UserUncheckedUpdateWithoutFeedInput> | $Types.Skip
   }
 
   export type PostAttachmentCreateNestedManyWithoutAttachmentInput = {
@@ -16428,24 +16428,16 @@ export namespace Prisma {
     deleteMany?: ProfileAttachmentScalarWhereInput | ProfileAttachmentScalarWhereInput[] | $Types.Skip
   }
 
-  export type ProfileCreateNestedOneWithoutAttachmentsInput = {
-    create?: XOR<ProfileCreateWithoutAttachmentsInput, ProfileUncheckedCreateWithoutAttachmentsInput> | $Types.Skip
-    connectOrCreate?: ProfileCreateOrConnectWithoutAttachmentsInput | $Types.Skip
-    connect?: ProfileWhereUniqueInput | $Types.Skip
-  }
-
   export type AttachmentCreateNestedOneWithoutProfileAttachmentsInput = {
     create?: XOR<AttachmentCreateWithoutProfileAttachmentsInput, AttachmentUncheckedCreateWithoutProfileAttachmentsInput> | $Types.Skip
     connectOrCreate?: AttachmentCreateOrConnectWithoutProfileAttachmentsInput | $Types.Skip
     connect?: AttachmentWhereUniqueInput | $Types.Skip
   }
 
-  export type ProfileUpdateOneRequiredWithoutAttachmentsNestedInput = {
+  export type ProfileCreateNestedOneWithoutAttachmentsInput = {
     create?: XOR<ProfileCreateWithoutAttachmentsInput, ProfileUncheckedCreateWithoutAttachmentsInput> | $Types.Skip
     connectOrCreate?: ProfileCreateOrConnectWithoutAttachmentsInput | $Types.Skip
-    upsert?: ProfileUpsertWithoutAttachmentsInput | $Types.Skip
     connect?: ProfileWhereUniqueInput | $Types.Skip
-    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutAttachmentsInput, ProfileUpdateWithoutAttachmentsInput>, ProfileUncheckedUpdateWithoutAttachmentsInput> | $Types.Skip
   }
 
   export type AttachmentUpdateOneRequiredWithoutProfileAttachmentsNestedInput = {
@@ -16456,10 +16448,12 @@ export namespace Prisma {
     update?: XOR<XOR<AttachmentUpdateToOneWithWhereWithoutProfileAttachmentsInput, AttachmentUpdateWithoutProfileAttachmentsInput>, AttachmentUncheckedUpdateWithoutProfileAttachmentsInput> | $Types.Skip
   }
 
-  export type PostCreateNestedOneWithoutAttachmentsInput = {
-    create?: XOR<PostCreateWithoutAttachmentsInput, PostUncheckedCreateWithoutAttachmentsInput> | $Types.Skip
-    connectOrCreate?: PostCreateOrConnectWithoutAttachmentsInput | $Types.Skip
-    connect?: PostWhereUniqueInput | $Types.Skip
+  export type ProfileUpdateOneRequiredWithoutAttachmentsNestedInput = {
+    create?: XOR<ProfileCreateWithoutAttachmentsInput, ProfileUncheckedCreateWithoutAttachmentsInput> | $Types.Skip
+    connectOrCreate?: ProfileCreateOrConnectWithoutAttachmentsInput | $Types.Skip
+    upsert?: ProfileUpsertWithoutAttachmentsInput | $Types.Skip
+    connect?: ProfileWhereUniqueInput | $Types.Skip
+    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutAttachmentsInput, ProfileUpdateWithoutAttachmentsInput>, ProfileUncheckedUpdateWithoutAttachmentsInput> | $Types.Skip
   }
 
   export type AttachmentCreateNestedOneWithoutPostAttachmentsInput = {
@@ -16468,12 +16462,10 @@ export namespace Prisma {
     connect?: AttachmentWhereUniqueInput | $Types.Skip
   }
 
-  export type PostUpdateOneRequiredWithoutAttachmentsNestedInput = {
+  export type PostCreateNestedOneWithoutAttachmentsInput = {
     create?: XOR<PostCreateWithoutAttachmentsInput, PostUncheckedCreateWithoutAttachmentsInput> | $Types.Skip
     connectOrCreate?: PostCreateOrConnectWithoutAttachmentsInput | $Types.Skip
-    upsert?: PostUpsertWithoutAttachmentsInput | $Types.Skip
     connect?: PostWhereUniqueInput | $Types.Skip
-    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutAttachmentsInput, PostUpdateWithoutAttachmentsInput>, PostUncheckedUpdateWithoutAttachmentsInput> | $Types.Skip
   }
 
   export type AttachmentUpdateOneRequiredWithoutPostAttachmentsNestedInput = {
@@ -16482,6 +16474,14 @@ export namespace Prisma {
     upsert?: AttachmentUpsertWithoutPostAttachmentsInput | $Types.Skip
     connect?: AttachmentWhereUniqueInput | $Types.Skip
     update?: XOR<XOR<AttachmentUpdateToOneWithWhereWithoutPostAttachmentsInput, AttachmentUpdateWithoutPostAttachmentsInput>, AttachmentUncheckedUpdateWithoutPostAttachmentsInput> | $Types.Skip
+  }
+
+  export type PostUpdateOneRequiredWithoutAttachmentsNestedInput = {
+    create?: XOR<PostCreateWithoutAttachmentsInput, PostUncheckedCreateWithoutAttachmentsInput> | $Types.Skip
+    connectOrCreate?: PostCreateOrConnectWithoutAttachmentsInput | $Types.Skip
+    upsert?: PostUpsertWithoutAttachmentsInput | $Types.Skip
+    connect?: PostWhereUniqueInput | $Types.Skip
+    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutAttachmentsInput, PostUpdateWithoutAttachmentsInput>, PostUncheckedUpdateWithoutAttachmentsInput> | $Types.Skip
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -16512,11 +16512,6 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null | $Types.Skip
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | $Types.Skip
-    not?: NestedBoolFilter<$PrismaModel> | boolean | $Types.Skip
-  }
-
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | $Types.Skip
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | $Types.Skip
@@ -16537,6 +16532,11 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel> | $Types.Skip
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel> | $Types.Skip
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null | $Types.Skip
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | $Types.Skip
+    not?: NestedBoolFilter<$PrismaModel> | boolean | $Types.Skip
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -16595,14 +16595,6 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null | $Types.Skip
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | $Types.Skip
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean | $Types.Skip
-    _count?: NestedIntFilter<$PrismaModel> | $Types.Skip
-    _min?: NestedBoolFilter<$PrismaModel> | $Types.Skip
-    _max?: NestedBoolFilter<$PrismaModel> | $Types.Skip
-  }
-
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | $Types.Skip
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | $Types.Skip
@@ -16631,6 +16623,14 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel> | $Types.Skip
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | $Types.Skip
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean | $Types.Skip
+    _count?: NestedIntFilter<$PrismaModel> | $Types.Skip
+    _min?: NestedBoolFilter<$PrismaModel> | $Types.Skip
+    _max?: NestedBoolFilter<$PrismaModel> | $Types.Skip
+  }
+
   export type NestedEnumPostTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.PostType | EnumPostTypeFieldRefInput<$PrismaModel> | $Types.Skip
     in?: $Enums.PostType[] | ListEnumPostTypeFieldRefInput<$PrismaModel> | $Types.Skip
@@ -16646,115 +16646,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel> | $Types.Skip
     _min?: NestedEnumPostTypeFilter<$PrismaModel> | $Types.Skip
     _max?: NestedEnumPostTypeFilter<$PrismaModel> | $Types.Skip
-  }
-
-  export type ProfileCreateWithoutUserInput = {
-    id?: string | $Types.Skip
-    firstName?: string | null | $Types.Skip
-    lastName?: string | null | $Types.Skip
-    dateOfBirth?: Date | string | null | $Types.Skip
-    gender?: string | null | $Types.Skip
-    bio?: string | null | $Types.Skip
-    avatar?: string | null | $Types.Skip
-    city?: string | null | $Types.Skip
-    state?: string | null | $Types.Skip
-    country?: string | null | $Types.Skip
-    phone?: string | null | $Types.Skip
-    website?: string | null | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    attachments?: ProfileAttachmentCreateNestedManyWithoutProfileInput | $Types.Skip
-  }
-
-  export type ProfileUncheckedCreateWithoutUserInput = {
-    id?: string | $Types.Skip
-    firstName?: string | null | $Types.Skip
-    lastName?: string | null | $Types.Skip
-    dateOfBirth?: Date | string | null | $Types.Skip
-    gender?: string | null | $Types.Skip
-    bio?: string | null | $Types.Skip
-    avatar?: string | null | $Types.Skip
-    city?: string | null | $Types.Skip
-    state?: string | null | $Types.Skip
-    country?: string | null | $Types.Skip
-    phone?: string | null | $Types.Skip
-    website?: string | null | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    attachments?: ProfileAttachmentUncheckedCreateNestedManyWithoutProfileInput | $Types.Skip
-  }
-
-  export type ProfileCreateOrConnectWithoutUserInput = {
-    where: ProfileWhereUniqueInput
-    create: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput>
-  }
-
-  export type PostCreateWithoutUserInput = {
-    id?: string | $Types.Skip
-    content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
-    children?: PostCreateNestedManyWithoutParentInput | $Types.Skip
-    attachments?: PostAttachmentCreateNestedManyWithoutPostInput | $Types.Skip
-    likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
-    bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
-    feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
-  }
-
-  export type PostUncheckedCreateWithoutUserInput = {
-    id?: string | $Types.Skip
-    content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
-    parentId?: string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
-    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-  }
-
-  export type PostCreateOrConnectWithoutUserInput = {
-    where: PostWhereUniqueInput
-    create: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput>
-  }
-
-  export type PostCreateManyUserInputEnvelope = {
-    data: PostCreateManyUserInput | PostCreateManyUserInput[]
-    skipDuplicates?: boolean | $Types.Skip
-  }
-
-  export type LikeCreateWithoutUserInput = {
-    id?: string | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    post: PostCreateNestedOneWithoutLikesInput
-  }
-
-  export type LikeUncheckedCreateWithoutUserInput = {
-    id?: string | $Types.Skip
-    postId: string
-    createdAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-  }
-
-  export type LikeCreateOrConnectWithoutUserInput = {
-    where: LikeWhereUniqueInput
-    create: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput>
-  }
-
-  export type LikeCreateManyUserInputEnvelope = {
-    data: LikeCreateManyUserInput | LikeCreateManyUserInput[]
-    skipDuplicates?: boolean | $Types.Skip
   }
 
   export type BookmarkCreateWithoutUserInput = {
@@ -16778,6 +16669,28 @@ export namespace Prisma {
 
   export type BookmarkCreateManyUserInputEnvelope = {
     data: BookmarkCreateManyUserInput | BookmarkCreateManyUserInput[]
+    skipDuplicates?: boolean | $Types.Skip
+  }
+
+  export type FeedCreateWithoutUserInput = {
+    id?: string | $Types.Skip
+    createdAt?: Date | string | $Types.Skip
+    post: PostCreateNestedOneWithoutFeedsInput
+  }
+
+  export type FeedUncheckedCreateWithoutUserInput = {
+    id?: string | $Types.Skip
+    postId: string
+    createdAt?: Date | string | $Types.Skip
+  }
+
+  export type FeedCreateOrConnectWithoutUserInput = {
+    where: FeedWhereUniqueInput
+    create: XOR<FeedCreateWithoutUserInput, FeedUncheckedCreateWithoutUserInput>
+  }
+
+  export type FeedCreateManyUserInputEnvelope = {
+    data: FeedCreateManyUserInput | FeedCreateManyUserInput[]
     skipDuplicates?: boolean | $Types.Skip
   }
 
@@ -16829,26 +16742,267 @@ export namespace Prisma {
     skipDuplicates?: boolean | $Types.Skip
   }
 
-  export type FeedCreateWithoutUserInput = {
+  export type LikeCreateWithoutUserInput = {
     id?: string | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    post: PostCreateNestedOneWithoutFeedsInput
+    deletedAt?: Date | string | null | $Types.Skip
+    post: PostCreateNestedOneWithoutLikesInput
   }
 
-  export type FeedUncheckedCreateWithoutUserInput = {
+  export type LikeUncheckedCreateWithoutUserInput = {
     id?: string | $Types.Skip
     postId: string
     createdAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
   }
 
-  export type FeedCreateOrConnectWithoutUserInput = {
+  export type LikeCreateOrConnectWithoutUserInput = {
+    where: LikeWhereUniqueInput
+    create: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput>
+  }
+
+  export type LikeCreateManyUserInputEnvelope = {
+    data: LikeCreateManyUserInput | LikeCreateManyUserInput[]
+    skipDuplicates?: boolean | $Types.Skip
+  }
+
+  export type PostCreateWithoutUserInput = {
+    id?: string | $Types.Skip
+    content?: string | null | $Types.Skip
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
+    feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
+    likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
+    parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
+    children?: PostCreateNestedManyWithoutParentInput | $Types.Skip
+    attachments?: PostAttachmentCreateNestedManyWithoutPostInput | $Types.Skip
+  }
+
+  export type PostUncheckedCreateWithoutUserInput = {
+    id?: string | $Types.Skip
+    content?: string | null | $Types.Skip
+    parentId?: string | null | $Types.Skip
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
+    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+  }
+
+  export type PostCreateOrConnectWithoutUserInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput>
+  }
+
+  export type PostCreateManyUserInputEnvelope = {
+    data: PostCreateManyUserInput | PostCreateManyUserInput[]
+    skipDuplicates?: boolean | $Types.Skip
+  }
+
+  export type ProfileCreateWithoutUserInput = {
+    id?: string | $Types.Skip
+    firstName?: string | null | $Types.Skip
+    lastName?: string | null | $Types.Skip
+    dateOfBirth?: Date | string | null | $Types.Skip
+    gender?: string | null | $Types.Skip
+    bio?: string | null | $Types.Skip
+    avatar?: string | null | $Types.Skip
+    city?: string | null | $Types.Skip
+    state?: string | null | $Types.Skip
+    country?: string | null | $Types.Skip
+    phone?: string | null | $Types.Skip
+    website?: string | null | $Types.Skip
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    attachments?: ProfileAttachmentCreateNestedManyWithoutProfileInput | $Types.Skip
+  }
+
+  export type ProfileUncheckedCreateWithoutUserInput = {
+    id?: string | $Types.Skip
+    firstName?: string | null | $Types.Skip
+    lastName?: string | null | $Types.Skip
+    dateOfBirth?: Date | string | null | $Types.Skip
+    gender?: string | null | $Types.Skip
+    bio?: string | null | $Types.Skip
+    avatar?: string | null | $Types.Skip
+    city?: string | null | $Types.Skip
+    state?: string | null | $Types.Skip
+    country?: string | null | $Types.Skip
+    phone?: string | null | $Types.Skip
+    website?: string | null | $Types.Skip
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    attachments?: ProfileAttachmentUncheckedCreateNestedManyWithoutProfileInput | $Types.Skip
+  }
+
+  export type ProfileCreateOrConnectWithoutUserInput = {
+    where: ProfileWhereUniqueInput
+    create: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput>
+  }
+
+  export type BookmarkUpsertWithWhereUniqueWithoutUserInput = {
+    where: BookmarkWhereUniqueInput
+    update: XOR<BookmarkUpdateWithoutUserInput, BookmarkUncheckedUpdateWithoutUserInput>
+    create: XOR<BookmarkCreateWithoutUserInput, BookmarkUncheckedCreateWithoutUserInput>
+  }
+
+  export type BookmarkUpdateWithWhereUniqueWithoutUserInput = {
+    where: BookmarkWhereUniqueInput
+    data: XOR<BookmarkUpdateWithoutUserInput, BookmarkUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BookmarkUpdateManyWithWhereWithoutUserInput = {
+    where: BookmarkScalarWhereInput
+    data: XOR<BookmarkUpdateManyMutationInput, BookmarkUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type BookmarkScalarWhereInput = {
+    AND?: BookmarkScalarWhereInput | BookmarkScalarWhereInput[] | $Types.Skip
+    OR?: BookmarkScalarWhereInput[] | $Types.Skip
+    NOT?: BookmarkScalarWhereInput | BookmarkScalarWhereInput[] | $Types.Skip
+    id?: StringFilter<"Bookmark"> | string | $Types.Skip
+    postId?: StringFilter<"Bookmark"> | string | $Types.Skip
+    userId?: StringFilter<"Bookmark"> | string | $Types.Skip
+    createdAt?: DateTimeFilter<"Bookmark"> | Date | string | $Types.Skip
+    deletedAt?: DateTimeNullableFilter<"Bookmark"> | Date | string | null | $Types.Skip
+  }
+
+  export type FeedUpsertWithWhereUniqueWithoutUserInput = {
     where: FeedWhereUniqueInput
+    update: XOR<FeedUpdateWithoutUserInput, FeedUncheckedUpdateWithoutUserInput>
     create: XOR<FeedCreateWithoutUserInput, FeedUncheckedCreateWithoutUserInput>
   }
 
-  export type FeedCreateManyUserInputEnvelope = {
-    data: FeedCreateManyUserInput | FeedCreateManyUserInput[]
-    skipDuplicates?: boolean | $Types.Skip
+  export type FeedUpdateWithWhereUniqueWithoutUserInput = {
+    where: FeedWhereUniqueInput
+    data: XOR<FeedUpdateWithoutUserInput, FeedUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FeedUpdateManyWithWhereWithoutUserInput = {
+    where: FeedScalarWhereInput
+    data: XOR<FeedUpdateManyMutationInput, FeedUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type FeedScalarWhereInput = {
+    AND?: FeedScalarWhereInput | FeedScalarWhereInput[] | $Types.Skip
+    OR?: FeedScalarWhereInput[] | $Types.Skip
+    NOT?: FeedScalarWhereInput | FeedScalarWhereInput[] | $Types.Skip
+    id?: StringFilter<"Feed"> | string | $Types.Skip
+    userId?: StringFilter<"Feed"> | string | $Types.Skip
+    postId?: StringFilter<"Feed"> | string | $Types.Skip
+    createdAt?: DateTimeFilter<"Feed"> | Date | string | $Types.Skip
+  }
+
+  export type FollowUpsertWithWhereUniqueWithoutFollowerInput = {
+    where: FollowWhereUniqueInput
+    update: XOR<FollowUpdateWithoutFollowerInput, FollowUncheckedUpdateWithoutFollowerInput>
+    create: XOR<FollowCreateWithoutFollowerInput, FollowUncheckedCreateWithoutFollowerInput>
+  }
+
+  export type FollowUpdateWithWhereUniqueWithoutFollowerInput = {
+    where: FollowWhereUniqueInput
+    data: XOR<FollowUpdateWithoutFollowerInput, FollowUncheckedUpdateWithoutFollowerInput>
+  }
+
+  export type FollowUpdateManyWithWhereWithoutFollowerInput = {
+    where: FollowScalarWhereInput
+    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyWithoutFollowerInput>
+  }
+
+  export type FollowScalarWhereInput = {
+    AND?: FollowScalarWhereInput | FollowScalarWhereInput[] | $Types.Skip
+    OR?: FollowScalarWhereInput[] | $Types.Skip
+    NOT?: FollowScalarWhereInput | FollowScalarWhereInput[] | $Types.Skip
+    id?: StringFilter<"Follow"> | string | $Types.Skip
+    followerId?: StringFilter<"Follow"> | string | $Types.Skip
+    followingId?: StringFilter<"Follow"> | string | $Types.Skip
+    createdAt?: DateTimeFilter<"Follow"> | Date | string | $Types.Skip
+    deletedAt?: DateTimeNullableFilter<"Follow"> | Date | string | null | $Types.Skip
+  }
+
+  export type FollowUpsertWithWhereUniqueWithoutFollowingInput = {
+    where: FollowWhereUniqueInput
+    update: XOR<FollowUpdateWithoutFollowingInput, FollowUncheckedUpdateWithoutFollowingInput>
+    create: XOR<FollowCreateWithoutFollowingInput, FollowUncheckedCreateWithoutFollowingInput>
+  }
+
+  export type FollowUpdateWithWhereUniqueWithoutFollowingInput = {
+    where: FollowWhereUniqueInput
+    data: XOR<FollowUpdateWithoutFollowingInput, FollowUncheckedUpdateWithoutFollowingInput>
+  }
+
+  export type FollowUpdateManyWithWhereWithoutFollowingInput = {
+    where: FollowScalarWhereInput
+    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyWithoutFollowingInput>
+  }
+
+  export type LikeUpsertWithWhereUniqueWithoutUserInput = {
+    where: LikeWhereUniqueInput
+    update: XOR<LikeUpdateWithoutUserInput, LikeUncheckedUpdateWithoutUserInput>
+    create: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput>
+  }
+
+  export type LikeUpdateWithWhereUniqueWithoutUserInput = {
+    where: LikeWhereUniqueInput
+    data: XOR<LikeUpdateWithoutUserInput, LikeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type LikeUpdateManyWithWhereWithoutUserInput = {
+    where: LikeScalarWhereInput
+    data: XOR<LikeUpdateManyMutationInput, LikeUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type LikeScalarWhereInput = {
+    AND?: LikeScalarWhereInput | LikeScalarWhereInput[] | $Types.Skip
+    OR?: LikeScalarWhereInput[] | $Types.Skip
+    NOT?: LikeScalarWhereInput | LikeScalarWhereInput[] | $Types.Skip
+    id?: StringFilter<"Like"> | string | $Types.Skip
+    postId?: StringFilter<"Like"> | string | $Types.Skip
+    userId?: StringFilter<"Like"> | string | $Types.Skip
+    createdAt?: DateTimeFilter<"Like"> | Date | string | $Types.Skip
+    deletedAt?: DateTimeNullableFilter<"Like"> | Date | string | null | $Types.Skip
+  }
+
+  export type PostUpsertWithWhereUniqueWithoutUserInput = {
+    where: PostWhereUniqueInput
+    update: XOR<PostUpdateWithoutUserInput, PostUncheckedUpdateWithoutUserInput>
+    create: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput>
+  }
+
+  export type PostUpdateWithWhereUniqueWithoutUserInput = {
+    where: PostWhereUniqueInput
+    data: XOR<PostUpdateWithoutUserInput, PostUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PostUpdateManyWithWhereWithoutUserInput = {
+    where: PostScalarWhereInput
+    data: XOR<PostUpdateManyMutationInput, PostUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PostScalarWhereInput = {
+    AND?: PostScalarWhereInput | PostScalarWhereInput[] | $Types.Skip
+    OR?: PostScalarWhereInput[] | $Types.Skip
+    NOT?: PostScalarWhereInput | PostScalarWhereInput[] | $Types.Skip
+    id?: StringFilter<"Post"> | string | $Types.Skip
+    content?: StringNullableFilter<"Post"> | string | null | $Types.Skip
+    userId?: StringFilter<"Post"> | string | $Types.Skip
+    parentId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
+    createdAt?: DateTimeFilter<"Post"> | Date | string | $Types.Skip
+    updatedAt?: DateTimeFilter<"Post"> | Date | string | $Types.Skip
+    deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null | $Types.Skip
+    rootId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
+    type?: EnumPostTypeFilter<"Post"> | $Enums.PostType | $Types.Skip
   }
 
   export type ProfileUpsertWithoutUserInput = {
@@ -16900,183 +17054,29 @@ export namespace Prisma {
     attachments?: ProfileAttachmentUncheckedUpdateManyWithoutProfileNestedInput | $Types.Skip
   }
 
-  export type PostUpsertWithWhereUniqueWithoutUserInput = {
-    where: PostWhereUniqueInput
-    update: XOR<PostUpdateWithoutUserInput, PostUncheckedUpdateWithoutUserInput>
-    create: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput>
-  }
-
-  export type PostUpdateWithWhereUniqueWithoutUserInput = {
-    where: PostWhereUniqueInput
-    data: XOR<PostUpdateWithoutUserInput, PostUncheckedUpdateWithoutUserInput>
-  }
-
-  export type PostUpdateManyWithWhereWithoutUserInput = {
-    where: PostScalarWhereInput
-    data: XOR<PostUpdateManyMutationInput, PostUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type PostScalarWhereInput = {
-    AND?: PostScalarWhereInput | PostScalarWhereInput[] | $Types.Skip
-    OR?: PostScalarWhereInput[] | $Types.Skip
-    NOT?: PostScalarWhereInput | PostScalarWhereInput[] | $Types.Skip
-    id?: StringFilter<"Post"> | string | $Types.Skip
-    content?: StringNullableFilter<"Post"> | string | null | $Types.Skip
-    type?: EnumPostTypeFilter<"Post"> | $Enums.PostType | $Types.Skip
-    userId?: StringFilter<"Post"> | string | $Types.Skip
-    parentId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
-    rootId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
-    createdAt?: DateTimeFilter<"Post"> | Date | string | $Types.Skip
-    updatedAt?: DateTimeFilter<"Post"> | Date | string | $Types.Skip
-    deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null | $Types.Skip
-  }
-
-  export type LikeUpsertWithWhereUniqueWithoutUserInput = {
-    where: LikeWhereUniqueInput
-    update: XOR<LikeUpdateWithoutUserInput, LikeUncheckedUpdateWithoutUserInput>
-    create: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput>
-  }
-
-  export type LikeUpdateWithWhereUniqueWithoutUserInput = {
-    where: LikeWhereUniqueInput
-    data: XOR<LikeUpdateWithoutUserInput, LikeUncheckedUpdateWithoutUserInput>
-  }
-
-  export type LikeUpdateManyWithWhereWithoutUserInput = {
-    where: LikeScalarWhereInput
-    data: XOR<LikeUpdateManyMutationInput, LikeUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type LikeScalarWhereInput = {
-    AND?: LikeScalarWhereInput | LikeScalarWhereInput[] | $Types.Skip
-    OR?: LikeScalarWhereInput[] | $Types.Skip
-    NOT?: LikeScalarWhereInput | LikeScalarWhereInput[] | $Types.Skip
-    id?: StringFilter<"Like"> | string | $Types.Skip
-    postId?: StringFilter<"Like"> | string | $Types.Skip
-    userId?: StringFilter<"Like"> | string | $Types.Skip
-    createdAt?: DateTimeFilter<"Like"> | Date | string | $Types.Skip
-    deletedAt?: DateTimeNullableFilter<"Like"> | Date | string | null | $Types.Skip
-  }
-
-  export type BookmarkUpsertWithWhereUniqueWithoutUserInput = {
-    where: BookmarkWhereUniqueInput
-    update: XOR<BookmarkUpdateWithoutUserInput, BookmarkUncheckedUpdateWithoutUserInput>
-    create: XOR<BookmarkCreateWithoutUserInput, BookmarkUncheckedCreateWithoutUserInput>
-  }
-
-  export type BookmarkUpdateWithWhereUniqueWithoutUserInput = {
-    where: BookmarkWhereUniqueInput
-    data: XOR<BookmarkUpdateWithoutUserInput, BookmarkUncheckedUpdateWithoutUserInput>
-  }
-
-  export type BookmarkUpdateManyWithWhereWithoutUserInput = {
-    where: BookmarkScalarWhereInput
-    data: XOR<BookmarkUpdateManyMutationInput, BookmarkUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type BookmarkScalarWhereInput = {
-    AND?: BookmarkScalarWhereInput | BookmarkScalarWhereInput[] | $Types.Skip
-    OR?: BookmarkScalarWhereInput[] | $Types.Skip
-    NOT?: BookmarkScalarWhereInput | BookmarkScalarWhereInput[] | $Types.Skip
-    id?: StringFilter<"Bookmark"> | string | $Types.Skip
-    postId?: StringFilter<"Bookmark"> | string | $Types.Skip
-    userId?: StringFilter<"Bookmark"> | string | $Types.Skip
-    createdAt?: DateTimeFilter<"Bookmark"> | Date | string | $Types.Skip
-    deletedAt?: DateTimeNullableFilter<"Bookmark"> | Date | string | null | $Types.Skip
-  }
-
-  export type FollowUpsertWithWhereUniqueWithoutFollowerInput = {
-    where: FollowWhereUniqueInput
-    update: XOR<FollowUpdateWithoutFollowerInput, FollowUncheckedUpdateWithoutFollowerInput>
-    create: XOR<FollowCreateWithoutFollowerInput, FollowUncheckedCreateWithoutFollowerInput>
-  }
-
-  export type FollowUpdateWithWhereUniqueWithoutFollowerInput = {
-    where: FollowWhereUniqueInput
-    data: XOR<FollowUpdateWithoutFollowerInput, FollowUncheckedUpdateWithoutFollowerInput>
-  }
-
-  export type FollowUpdateManyWithWhereWithoutFollowerInput = {
-    where: FollowScalarWhereInput
-    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyWithoutFollowerInput>
-  }
-
-  export type FollowScalarWhereInput = {
-    AND?: FollowScalarWhereInput | FollowScalarWhereInput[] | $Types.Skip
-    OR?: FollowScalarWhereInput[] | $Types.Skip
-    NOT?: FollowScalarWhereInput | FollowScalarWhereInput[] | $Types.Skip
-    id?: StringFilter<"Follow"> | string | $Types.Skip
-    followerId?: StringFilter<"Follow"> | string | $Types.Skip
-    followingId?: StringFilter<"Follow"> | string | $Types.Skip
-    createdAt?: DateTimeFilter<"Follow"> | Date | string | $Types.Skip
-    deletedAt?: DateTimeNullableFilter<"Follow"> | Date | string | null | $Types.Skip
-  }
-
-  export type FollowUpsertWithWhereUniqueWithoutFollowingInput = {
-    where: FollowWhereUniqueInput
-    update: XOR<FollowUpdateWithoutFollowingInput, FollowUncheckedUpdateWithoutFollowingInput>
-    create: XOR<FollowCreateWithoutFollowingInput, FollowUncheckedCreateWithoutFollowingInput>
-  }
-
-  export type FollowUpdateWithWhereUniqueWithoutFollowingInput = {
-    where: FollowWhereUniqueInput
-    data: XOR<FollowUpdateWithoutFollowingInput, FollowUncheckedUpdateWithoutFollowingInput>
-  }
-
-  export type FollowUpdateManyWithWhereWithoutFollowingInput = {
-    where: FollowScalarWhereInput
-    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyWithoutFollowingInput>
-  }
-
-  export type FeedUpsertWithWhereUniqueWithoutUserInput = {
-    where: FeedWhereUniqueInput
-    update: XOR<FeedUpdateWithoutUserInput, FeedUncheckedUpdateWithoutUserInput>
-    create: XOR<FeedCreateWithoutUserInput, FeedUncheckedCreateWithoutUserInput>
-  }
-
-  export type FeedUpdateWithWhereUniqueWithoutUserInput = {
-    where: FeedWhereUniqueInput
-    data: XOR<FeedUpdateWithoutUserInput, FeedUncheckedUpdateWithoutUserInput>
-  }
-
-  export type FeedUpdateManyWithWhereWithoutUserInput = {
-    where: FeedScalarWhereInput
-    data: XOR<FeedUpdateManyMutationInput, FeedUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type FeedScalarWhereInput = {
-    AND?: FeedScalarWhereInput | FeedScalarWhereInput[] | $Types.Skip
-    OR?: FeedScalarWhereInput[] | $Types.Skip
-    NOT?: FeedScalarWhereInput | FeedScalarWhereInput[] | $Types.Skip
-    id?: StringFilter<"Feed"> | string | $Types.Skip
-    userId?: StringFilter<"Feed"> | string | $Types.Skip
-    postId?: StringFilter<"Feed"> | string | $Types.Skip
-    createdAt?: DateTimeFilter<"Feed"> | Date | string | $Types.Skip
-  }
-
   export type UserCreateWithoutProfileInput = {
     id?: string | $Types.Skip
     username?: string | null | $Types.Skip
     email: string
     password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: Date | string | null | $Types.Skip
-    posts?: PostCreateNestedManyWithoutUserInput | $Types.Skip
-    likes?: LikeCreateNestedManyWithoutUserInput | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
     bookmarks?: BookmarkCreateNestedManyWithoutUserInput | $Types.Skip
+    feed?: FeedCreateNestedManyWithoutUserInput | $Types.Skip
     followers?: FollowCreateNestedManyWithoutFollowerInput | $Types.Skip
     following?: FollowCreateNestedManyWithoutFollowingInput | $Types.Skip
-    feed?: FeedCreateNestedManyWithoutUserInput | $Types.Skip
+    likes?: LikeCreateNestedManyWithoutUserInput | $Types.Skip
+    posts?: PostCreateNestedManyWithoutUserInput | $Types.Skip
   }
 
   export type UserUncheckedCreateWithoutProfileInput = {
@@ -17084,24 +17084,24 @@ export namespace Prisma {
     username?: string | null | $Types.Skip
     email: string
     password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: Date | string | null | $Types.Skip
-    posts?: PostUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
-    likes?: LikeUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    feed?: FeedUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput | $Types.Skip
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput | $Types.Skip
-    feed?: FeedUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    posts?: PostUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
   }
 
   export type UserCreateOrConnectWithoutProfileInput = {
@@ -17149,24 +17149,24 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    posts?: PostUpdateManyWithoutUserNestedInput | $Types.Skip
-    likes?: LikeUpdateManyWithoutUserNestedInput | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bookmarks?: BookmarkUpdateManyWithoutUserNestedInput | $Types.Skip
+    feed?: FeedUpdateManyWithoutUserNestedInput | $Types.Skip
     followers?: FollowUpdateManyWithoutFollowerNestedInput | $Types.Skip
     following?: FollowUpdateManyWithoutFollowingNestedInput | $Types.Skip
-    feed?: FeedUpdateManyWithoutUserNestedInput | $Types.Skip
+    likes?: LikeUpdateManyWithoutUserNestedInput | $Types.Skip
+    posts?: PostUpdateManyWithoutUserNestedInput | $Types.Skip
   }
 
   export type UserUncheckedUpdateWithoutProfileInput = {
@@ -17174,24 +17174,24 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    posts?: PostUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
-    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    feed?: FeedUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput | $Types.Skip
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput | $Types.Skip
-    feed?: FeedUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    posts?: PostUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
   }
 
   export type ProfileAttachmentUpsertWithWhereUniqueWithoutProfileInput = {
@@ -17219,188 +17219,6 @@ export namespace Prisma {
     attachmentId?: StringFilter<"ProfileAttachment"> | string | $Types.Skip
     createdAt?: DateTimeFilter<"ProfileAttachment"> | Date | string | $Types.Skip
     deletedAt?: DateTimeNullableFilter<"ProfileAttachment"> | Date | string | null | $Types.Skip
-  }
-
-  export type UserCreateWithoutPostsInput = {
-    id?: string | $Types.Skip
-    username?: string | null | $Types.Skip
-    email: string
-    password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
-    passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
-    emailVerificationExpires?: Date | string | null | $Types.Skip
-    profile?: ProfileCreateNestedOneWithoutUserInput | $Types.Skip
-    likes?: LikeCreateNestedManyWithoutUserInput | $Types.Skip
-    bookmarks?: BookmarkCreateNestedManyWithoutUserInput | $Types.Skip
-    followers?: FollowCreateNestedManyWithoutFollowerInput | $Types.Skip
-    following?: FollowCreateNestedManyWithoutFollowingInput | $Types.Skip
-    feed?: FeedCreateNestedManyWithoutUserInput | $Types.Skip
-  }
-
-  export type UserUncheckedCreateWithoutPostsInput = {
-    id?: string | $Types.Skip
-    username?: string | null | $Types.Skip
-    email: string
-    password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
-    passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
-    emailVerificationExpires?: Date | string | null | $Types.Skip
-    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput | $Types.Skip
-    likes?: LikeUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
-    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput | $Types.Skip
-    following?: FollowUncheckedCreateNestedManyWithoutFollowingInput | $Types.Skip
-    feed?: FeedUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
-  }
-
-  export type UserCreateOrConnectWithoutPostsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
-  }
-
-  export type PostCreateWithoutChildrenInput = {
-    id?: string | $Types.Skip
-    content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    user: UserCreateNestedOneWithoutPostsInput
-    parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
-    attachments?: PostAttachmentCreateNestedManyWithoutPostInput | $Types.Skip
-    likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
-    bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
-    feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
-  }
-
-  export type PostUncheckedCreateWithoutChildrenInput = {
-    id?: string | $Types.Skip
-    content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
-    userId: string
-    parentId?: string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-  }
-
-  export type PostCreateOrConnectWithoutChildrenInput = {
-    where: PostWhereUniqueInput
-    create: XOR<PostCreateWithoutChildrenInput, PostUncheckedCreateWithoutChildrenInput>
-  }
-
-  export type PostCreateWithoutParentInput = {
-    id?: string | $Types.Skip
-    content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    user: UserCreateNestedOneWithoutPostsInput
-    children?: PostCreateNestedManyWithoutParentInput | $Types.Skip
-    attachments?: PostAttachmentCreateNestedManyWithoutPostInput | $Types.Skip
-    likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
-    bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
-    feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
-  }
-
-  export type PostUncheckedCreateWithoutParentInput = {
-    id?: string | $Types.Skip
-    content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
-    userId: string
-    rootId?: string | null | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
-    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-  }
-
-  export type PostCreateOrConnectWithoutParentInput = {
-    where: PostWhereUniqueInput
-    create: XOR<PostCreateWithoutParentInput, PostUncheckedCreateWithoutParentInput>
-  }
-
-  export type PostCreateManyParentInputEnvelope = {
-    data: PostCreateManyParentInput | PostCreateManyParentInput[]
-    skipDuplicates?: boolean | $Types.Skip
-  }
-
-  export type PostAttachmentCreateWithoutPostInput = {
-    id?: string | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    attachment: AttachmentCreateNestedOneWithoutPostAttachmentsInput
-  }
-
-  export type PostAttachmentUncheckedCreateWithoutPostInput = {
-    id?: string | $Types.Skip
-    attachmentId: string
-    createdAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-  }
-
-  export type PostAttachmentCreateOrConnectWithoutPostInput = {
-    where: PostAttachmentWhereUniqueInput
-    create: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput>
-  }
-
-  export type PostAttachmentCreateManyPostInputEnvelope = {
-    data: PostAttachmentCreateManyPostInput | PostAttachmentCreateManyPostInput[]
-    skipDuplicates?: boolean | $Types.Skip
-  }
-
-  export type LikeCreateWithoutPostInput = {
-    id?: string | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    user: UserCreateNestedOneWithoutLikesInput
-  }
-
-  export type LikeUncheckedCreateWithoutPostInput = {
-    id?: string | $Types.Skip
-    userId: string
-    createdAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-  }
-
-  export type LikeCreateOrConnectWithoutPostInput = {
-    where: LikeWhereUniqueInput
-    create: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput>
-  }
-
-  export type LikeCreateManyPostInputEnvelope = {
-    data: LikeCreateManyPostInput | LikeCreateManyPostInput[]
-    skipDuplicates?: boolean | $Types.Skip
   }
 
   export type BookmarkCreateWithoutPostInput = {
@@ -17449,167 +17267,186 @@ export namespace Prisma {
     skipDuplicates?: boolean | $Types.Skip
   }
 
-  export type UserUpsertWithoutPostsInput = {
-    update: XOR<UserUpdateWithoutPostsInput, UserUncheckedUpdateWithoutPostsInput>
-    create: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
-    where?: UserWhereInput | $Types.Skip
+  export type LikeCreateWithoutPostInput = {
+    id?: string | $Types.Skip
+    createdAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    user: UserCreateNestedOneWithoutLikesInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutPostsInput = {
-    where?: UserWhereInput | $Types.Skip
-    data: XOR<UserUpdateWithoutPostsInput, UserUncheckedUpdateWithoutPostsInput>
+  export type LikeUncheckedCreateWithoutPostInput = {
+    id?: string | $Types.Skip
+    userId: string
+    createdAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
   }
 
-  export type UserUpdateWithoutPostsInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    email?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    profile?: ProfileUpdateOneWithoutUserNestedInput | $Types.Skip
-    likes?: LikeUpdateManyWithoutUserNestedInput | $Types.Skip
-    bookmarks?: BookmarkUpdateManyWithoutUserNestedInput | $Types.Skip
-    followers?: FollowUpdateManyWithoutFollowerNestedInput | $Types.Skip
-    following?: FollowUpdateManyWithoutFollowingNestedInput | $Types.Skip
-    feed?: FeedUpdateManyWithoutUserNestedInput | $Types.Skip
-  }
-
-  export type UserUncheckedUpdateWithoutPostsInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    email?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput | $Types.Skip
-    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
-    bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
-    followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput | $Types.Skip
-    following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput | $Types.Skip
-    feed?: FeedUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
-  }
-
-  export type PostUpsertWithoutChildrenInput = {
-    update: XOR<PostUpdateWithoutChildrenInput, PostUncheckedUpdateWithoutChildrenInput>
-    create: XOR<PostCreateWithoutChildrenInput, PostUncheckedCreateWithoutChildrenInput>
-    where?: PostWhereInput | $Types.Skip
-  }
-
-  export type PostUpdateToOneWithWhereWithoutChildrenInput = {
-    where?: PostWhereInput | $Types.Skip
-    data: XOR<PostUpdateWithoutChildrenInput, PostUncheckedUpdateWithoutChildrenInput>
-  }
-
-  export type PostUpdateWithoutChildrenInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    user?: UserUpdateOneRequiredWithoutPostsNestedInput | $Types.Skip
-    parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
-    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput | $Types.Skip
-    likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
-    bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
-    feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
-  }
-
-  export type PostUncheckedUpdateWithoutChildrenInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-  }
-
-  export type PostUpsertWithWhereUniqueWithoutParentInput = {
-    where: PostWhereUniqueInput
-    update: XOR<PostUpdateWithoutParentInput, PostUncheckedUpdateWithoutParentInput>
-    create: XOR<PostCreateWithoutParentInput, PostUncheckedCreateWithoutParentInput>
-  }
-
-  export type PostUpdateWithWhereUniqueWithoutParentInput = {
-    where: PostWhereUniqueInput
-    data: XOR<PostUpdateWithoutParentInput, PostUncheckedUpdateWithoutParentInput>
-  }
-
-  export type PostUpdateManyWithWhereWithoutParentInput = {
-    where: PostScalarWhereInput
-    data: XOR<PostUpdateManyMutationInput, PostUncheckedUpdateManyWithoutParentInput>
-  }
-
-  export type PostAttachmentUpsertWithWhereUniqueWithoutPostInput = {
-    where: PostAttachmentWhereUniqueInput
-    update: XOR<PostAttachmentUpdateWithoutPostInput, PostAttachmentUncheckedUpdateWithoutPostInput>
-    create: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput>
-  }
-
-  export type PostAttachmentUpdateWithWhereUniqueWithoutPostInput = {
-    where: PostAttachmentWhereUniqueInput
-    data: XOR<PostAttachmentUpdateWithoutPostInput, PostAttachmentUncheckedUpdateWithoutPostInput>
-  }
-
-  export type PostAttachmentUpdateManyWithWhereWithoutPostInput = {
-    where: PostAttachmentScalarWhereInput
-    data: XOR<PostAttachmentUpdateManyMutationInput, PostAttachmentUncheckedUpdateManyWithoutPostInput>
-  }
-
-  export type PostAttachmentScalarWhereInput = {
-    AND?: PostAttachmentScalarWhereInput | PostAttachmentScalarWhereInput[] | $Types.Skip
-    OR?: PostAttachmentScalarWhereInput[] | $Types.Skip
-    NOT?: PostAttachmentScalarWhereInput | PostAttachmentScalarWhereInput[] | $Types.Skip
-    id?: StringFilter<"PostAttachment"> | string | $Types.Skip
-    postId?: StringFilter<"PostAttachment"> | string | $Types.Skip
-    attachmentId?: StringFilter<"PostAttachment"> | string | $Types.Skip
-    createdAt?: DateTimeFilter<"PostAttachment"> | Date | string | $Types.Skip
-    deletedAt?: DateTimeNullableFilter<"PostAttachment"> | Date | string | null | $Types.Skip
-  }
-
-  export type LikeUpsertWithWhereUniqueWithoutPostInput = {
+  export type LikeCreateOrConnectWithoutPostInput = {
     where: LikeWhereUniqueInput
-    update: XOR<LikeUpdateWithoutPostInput, LikeUncheckedUpdateWithoutPostInput>
     create: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput>
   }
 
-  export type LikeUpdateWithWhereUniqueWithoutPostInput = {
-    where: LikeWhereUniqueInput
-    data: XOR<LikeUpdateWithoutPostInput, LikeUncheckedUpdateWithoutPostInput>
+  export type LikeCreateManyPostInputEnvelope = {
+    data: LikeCreateManyPostInput | LikeCreateManyPostInput[]
+    skipDuplicates?: boolean | $Types.Skip
   }
 
-  export type LikeUpdateManyWithWhereWithoutPostInput = {
-    where: LikeScalarWhereInput
-    data: XOR<LikeUpdateManyMutationInput, LikeUncheckedUpdateManyWithoutPostInput>
+  export type PostCreateWithoutChildrenInput = {
+    id?: string | $Types.Skip
+    content?: string | null | $Types.Skip
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
+    feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
+    likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
+    parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
+    user: UserCreateNestedOneWithoutPostsInput
+    attachments?: PostAttachmentCreateNestedManyWithoutPostInput | $Types.Skip
+  }
+
+  export type PostUncheckedCreateWithoutChildrenInput = {
+    id?: string | $Types.Skip
+    content?: string | null | $Types.Skip
+    userId: string
+    parentId?: string | null | $Types.Skip
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+  }
+
+  export type PostCreateOrConnectWithoutChildrenInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutChildrenInput, PostUncheckedCreateWithoutChildrenInput>
+  }
+
+  export type PostCreateWithoutParentInput = {
+    id?: string | $Types.Skip
+    content?: string | null | $Types.Skip
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
+    feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
+    likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
+    children?: PostCreateNestedManyWithoutParentInput | $Types.Skip
+    user: UserCreateNestedOneWithoutPostsInput
+    attachments?: PostAttachmentCreateNestedManyWithoutPostInput | $Types.Skip
+  }
+
+  export type PostUncheckedCreateWithoutParentInput = {
+    id?: string | $Types.Skip
+    content?: string | null | $Types.Skip
+    userId: string
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
+    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+  }
+
+  export type PostCreateOrConnectWithoutParentInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutParentInput, PostUncheckedCreateWithoutParentInput>
+  }
+
+  export type PostCreateManyParentInputEnvelope = {
+    data: PostCreateManyParentInput | PostCreateManyParentInput[]
+    skipDuplicates?: boolean | $Types.Skip
+  }
+
+  export type UserCreateWithoutPostsInput = {
+    id?: string | $Types.Skip
+    username?: string | null | $Types.Skip
+    email: string
+    password: string
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
+    passwordResetExpires?: Date | string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
+    emailVerificationExpires?: Date | string | null | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
+    bookmarks?: BookmarkCreateNestedManyWithoutUserInput | $Types.Skip
+    feed?: FeedCreateNestedManyWithoutUserInput | $Types.Skip
+    followers?: FollowCreateNestedManyWithoutFollowerInput | $Types.Skip
+    following?: FollowCreateNestedManyWithoutFollowingInput | $Types.Skip
+    likes?: LikeCreateNestedManyWithoutUserInput | $Types.Skip
+    profile?: ProfileCreateNestedOneWithoutUserInput | $Types.Skip
+  }
+
+  export type UserUncheckedCreateWithoutPostsInput = {
+    id?: string | $Types.Skip
+    username?: string | null | $Types.Skip
+    email: string
+    password: string
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
+    passwordResetExpires?: Date | string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
+    emailVerificationExpires?: Date | string | null | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    feed?: FeedUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput | $Types.Skip
+    following?: FollowUncheckedCreateNestedManyWithoutFollowingInput | $Types.Skip
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput | $Types.Skip
+  }
+
+  export type UserCreateOrConnectWithoutPostsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
+  }
+
+  export type PostAttachmentCreateWithoutPostInput = {
+    id?: string | $Types.Skip
+    createdAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    attachment: AttachmentCreateNestedOneWithoutPostAttachmentsInput
+  }
+
+  export type PostAttachmentUncheckedCreateWithoutPostInput = {
+    id?: string | $Types.Skip
+    attachmentId: string
+    createdAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+  }
+
+  export type PostAttachmentCreateOrConnectWithoutPostInput = {
+    where: PostAttachmentWhereUniqueInput
+    create: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput>
+  }
+
+  export type PostAttachmentCreateManyPostInputEnvelope = {
+    data: PostAttachmentCreateManyPostInput | PostAttachmentCreateManyPostInput[]
+    skipDuplicates?: boolean | $Types.Skip
   }
 
   export type BookmarkUpsertWithWhereUniqueWithoutPostInput = {
@@ -17644,36 +17481,199 @@ export namespace Prisma {
     data: XOR<FeedUpdateManyMutationInput, FeedUncheckedUpdateManyWithoutPostInput>
   }
 
+  export type LikeUpsertWithWhereUniqueWithoutPostInput = {
+    where: LikeWhereUniqueInput
+    update: XOR<LikeUpdateWithoutPostInput, LikeUncheckedUpdateWithoutPostInput>
+    create: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput>
+  }
+
+  export type LikeUpdateWithWhereUniqueWithoutPostInput = {
+    where: LikeWhereUniqueInput
+    data: XOR<LikeUpdateWithoutPostInput, LikeUncheckedUpdateWithoutPostInput>
+  }
+
+  export type LikeUpdateManyWithWhereWithoutPostInput = {
+    where: LikeScalarWhereInput
+    data: XOR<LikeUpdateManyMutationInput, LikeUncheckedUpdateManyWithoutPostInput>
+  }
+
+  export type PostUpsertWithoutChildrenInput = {
+    update: XOR<PostUpdateWithoutChildrenInput, PostUncheckedUpdateWithoutChildrenInput>
+    create: XOR<PostCreateWithoutChildrenInput, PostUncheckedCreateWithoutChildrenInput>
+    where?: PostWhereInput | $Types.Skip
+  }
+
+  export type PostUpdateToOneWithWhereWithoutChildrenInput = {
+    where?: PostWhereInput | $Types.Skip
+    data: XOR<PostUpdateWithoutChildrenInput, PostUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type PostUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
+    feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
+    likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
+    parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
+    user?: UserUpdateOneRequiredWithoutPostsNestedInput | $Types.Skip
+    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput | $Types.Skip
+  }
+
+  export type PostUncheckedUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+  }
+
+  export type PostUpsertWithWhereUniqueWithoutParentInput = {
+    where: PostWhereUniqueInput
+    update: XOR<PostUpdateWithoutParentInput, PostUncheckedUpdateWithoutParentInput>
+    create: XOR<PostCreateWithoutParentInput, PostUncheckedCreateWithoutParentInput>
+  }
+
+  export type PostUpdateWithWhereUniqueWithoutParentInput = {
+    where: PostWhereUniqueInput
+    data: XOR<PostUpdateWithoutParentInput, PostUncheckedUpdateWithoutParentInput>
+  }
+
+  export type PostUpdateManyWithWhereWithoutParentInput = {
+    where: PostScalarWhereInput
+    data: XOR<PostUpdateManyMutationInput, PostUncheckedUpdateManyWithoutParentInput>
+  }
+
+  export type UserUpsertWithoutPostsInput = {
+    update: XOR<UserUpdateWithoutPostsInput, UserUncheckedUpdateWithoutPostsInput>
+    create: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
+    where?: UserWhereInput | $Types.Skip
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPostsInput = {
+    where?: UserWhereInput | $Types.Skip
+    data: XOR<UserUpdateWithoutPostsInput, UserUncheckedUpdateWithoutPostsInput>
+  }
+
+  export type UserUpdateWithoutPostsInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    email?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    password?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    bookmarks?: BookmarkUpdateManyWithoutUserNestedInput | $Types.Skip
+    feed?: FeedUpdateManyWithoutUserNestedInput | $Types.Skip
+    followers?: FollowUpdateManyWithoutFollowerNestedInput | $Types.Skip
+    following?: FollowUpdateManyWithoutFollowingNestedInput | $Types.Skip
+    likes?: LikeUpdateManyWithoutUserNestedInput | $Types.Skip
+    profile?: ProfileUpdateOneWithoutUserNestedInput | $Types.Skip
+  }
+
+  export type UserUncheckedUpdateWithoutPostsInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    email?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    password?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    feed?: FeedUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput | $Types.Skip
+    following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput | $Types.Skip
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput | $Types.Skip
+  }
+
+  export type PostAttachmentUpsertWithWhereUniqueWithoutPostInput = {
+    where: PostAttachmentWhereUniqueInput
+    update: XOR<PostAttachmentUpdateWithoutPostInput, PostAttachmentUncheckedUpdateWithoutPostInput>
+    create: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput>
+  }
+
+  export type PostAttachmentUpdateWithWhereUniqueWithoutPostInput = {
+    where: PostAttachmentWhereUniqueInput
+    data: XOR<PostAttachmentUpdateWithoutPostInput, PostAttachmentUncheckedUpdateWithoutPostInput>
+  }
+
+  export type PostAttachmentUpdateManyWithWhereWithoutPostInput = {
+    where: PostAttachmentScalarWhereInput
+    data: XOR<PostAttachmentUpdateManyMutationInput, PostAttachmentUncheckedUpdateManyWithoutPostInput>
+  }
+
+  export type PostAttachmentScalarWhereInput = {
+    AND?: PostAttachmentScalarWhereInput | PostAttachmentScalarWhereInput[] | $Types.Skip
+    OR?: PostAttachmentScalarWhereInput[] | $Types.Skip
+    NOT?: PostAttachmentScalarWhereInput | PostAttachmentScalarWhereInput[] | $Types.Skip
+    id?: StringFilter<"PostAttachment"> | string | $Types.Skip
+    postId?: StringFilter<"PostAttachment"> | string | $Types.Skip
+    attachmentId?: StringFilter<"PostAttachment"> | string | $Types.Skip
+    createdAt?: DateTimeFilter<"PostAttachment"> | Date | string | $Types.Skip
+    deletedAt?: DateTimeNullableFilter<"PostAttachment"> | Date | string | null | $Types.Skip
+  }
+
   export type PostCreateWithoutLikesInput = {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
-    rootId?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    user: UserCreateNestedOneWithoutPostsInput
-    parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
-    children?: PostCreateNestedManyWithoutParentInput | $Types.Skip
-    attachments?: PostAttachmentCreateNestedManyWithoutPostInput | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
+    parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
+    children?: PostCreateNestedManyWithoutParentInput | $Types.Skip
+    user: UserCreateNestedOneWithoutPostsInput
+    attachments?: PostAttachmentCreateNestedManyWithoutPostInput | $Types.Skip
   }
 
   export type PostUncheckedCreateWithoutLikesInput = {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     userId: string
     parentId?: string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
-    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
+    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
   }
 
   export type PostCreateOrConnectWithoutLikesInput = {
@@ -17686,24 +17686,24 @@ export namespace Prisma {
     username?: string | null | $Types.Skip
     email: string
     password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: Date | string | null | $Types.Skip
-    profile?: ProfileCreateNestedOneWithoutUserInput | $Types.Skip
-    posts?: PostCreateNestedManyWithoutUserInput | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
     bookmarks?: BookmarkCreateNestedManyWithoutUserInput | $Types.Skip
+    feed?: FeedCreateNestedManyWithoutUserInput | $Types.Skip
     followers?: FollowCreateNestedManyWithoutFollowerInput | $Types.Skip
     following?: FollowCreateNestedManyWithoutFollowingInput | $Types.Skip
-    feed?: FeedCreateNestedManyWithoutUserInput | $Types.Skip
+    posts?: PostCreateNestedManyWithoutUserInput | $Types.Skip
+    profile?: ProfileCreateNestedOneWithoutUserInput | $Types.Skip
   }
 
   export type UserUncheckedCreateWithoutLikesInput = {
@@ -17711,24 +17711,24 @@ export namespace Prisma {
     username?: string | null | $Types.Skip
     email: string
     password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: Date | string | null | $Types.Skip
-    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput | $Types.Skip
-    posts?: PostUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    feed?: FeedUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput | $Types.Skip
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput | $Types.Skip
-    feed?: FeedUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    posts?: PostUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput | $Types.Skip
   }
 
   export type UserCreateOrConnectWithoutLikesInput = {
@@ -17750,33 +17750,33 @@ export namespace Prisma {
   export type PostUpdateWithoutLikesInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    user?: UserUpdateOneRequiredWithoutPostsNestedInput | $Types.Skip
-    parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
-    children?: PostUpdateManyWithoutParentNestedInput | $Types.Skip
-    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
+    parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
+    children?: PostUpdateManyWithoutParentNestedInput | $Types.Skip
+    user?: UserUpdateOneRequiredWithoutPostsNestedInput | $Types.Skip
+    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput | $Types.Skip
   }
 
   export type PostUncheckedUpdateWithoutLikesInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
     parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
-    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
+    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
   }
 
   export type UserUpsertWithoutLikesInput = {
@@ -17795,24 +17795,24 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    profile?: ProfileUpdateOneWithoutUserNestedInput | $Types.Skip
-    posts?: PostUpdateManyWithoutUserNestedInput | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bookmarks?: BookmarkUpdateManyWithoutUserNestedInput | $Types.Skip
+    feed?: FeedUpdateManyWithoutUserNestedInput | $Types.Skip
     followers?: FollowUpdateManyWithoutFollowerNestedInput | $Types.Skip
     following?: FollowUpdateManyWithoutFollowingNestedInput | $Types.Skip
-    feed?: FeedUpdateManyWithoutUserNestedInput | $Types.Skip
+    posts?: PostUpdateManyWithoutUserNestedInput | $Types.Skip
+    profile?: ProfileUpdateOneWithoutUserNestedInput | $Types.Skip
   }
 
   export type UserUncheckedUpdateWithoutLikesInput = {
@@ -17820,56 +17820,56 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput | $Types.Skip
-    posts?: PostUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    feed?: FeedUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput | $Types.Skip
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput | $Types.Skip
-    feed?: FeedUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    posts?: PostUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput | $Types.Skip
   }
 
   export type PostCreateWithoutBookmarksInput = {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
-    rootId?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    user: UserCreateNestedOneWithoutPostsInput
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
+    feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
+    likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
     parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
     children?: PostCreateNestedManyWithoutParentInput | $Types.Skip
+    user: UserCreateNestedOneWithoutPostsInput
     attachments?: PostAttachmentCreateNestedManyWithoutPostInput | $Types.Skip
-    likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
-    feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
   }
 
   export type PostUncheckedCreateWithoutBookmarksInput = {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     userId: string
     parentId?: string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
+    feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
     attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
   }
 
   export type PostCreateOrConnectWithoutBookmarksInput = {
@@ -17882,24 +17882,24 @@ export namespace Prisma {
     username?: string | null | $Types.Skip
     email: string
     password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: Date | string | null | $Types.Skip
-    profile?: ProfileCreateNestedOneWithoutUserInput | $Types.Skip
-    posts?: PostCreateNestedManyWithoutUserInput | $Types.Skip
-    likes?: LikeCreateNestedManyWithoutUserInput | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
+    feed?: FeedCreateNestedManyWithoutUserInput | $Types.Skip
     followers?: FollowCreateNestedManyWithoutFollowerInput | $Types.Skip
     following?: FollowCreateNestedManyWithoutFollowingInput | $Types.Skip
-    feed?: FeedCreateNestedManyWithoutUserInput | $Types.Skip
+    likes?: LikeCreateNestedManyWithoutUserInput | $Types.Skip
+    posts?: PostCreateNestedManyWithoutUserInput | $Types.Skip
+    profile?: ProfileCreateNestedOneWithoutUserInput | $Types.Skip
   }
 
   export type UserUncheckedCreateWithoutBookmarksInput = {
@@ -17907,24 +17907,24 @@ export namespace Prisma {
     username?: string | null | $Types.Skip
     email: string
     password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: Date | string | null | $Types.Skip
-    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput | $Types.Skip
-    posts?: PostUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
-    likes?: LikeUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
+    feed?: FeedUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput | $Types.Skip
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput | $Types.Skip
-    feed?: FeedUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    posts?: PostUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput | $Types.Skip
   }
 
   export type UserCreateOrConnectWithoutBookmarksInput = {
@@ -17946,33 +17946,33 @@ export namespace Prisma {
   export type PostUpdateWithoutBookmarksInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    user?: UserUpdateOneRequiredWithoutPostsNestedInput | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
+    feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
+    likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
     parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
     children?: PostUpdateManyWithoutParentNestedInput | $Types.Skip
+    user?: UserUpdateOneRequiredWithoutPostsNestedInput | $Types.Skip
     attachments?: PostAttachmentUpdateManyWithoutPostNestedInput | $Types.Skip
-    likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
-    feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
   }
 
   export type PostUncheckedUpdateWithoutBookmarksInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
     parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
+    feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
     attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
   }
 
   export type UserUpsertWithoutBookmarksInput = {
@@ -17991,24 +17991,24 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    profile?: ProfileUpdateOneWithoutUserNestedInput | $Types.Skip
-    posts?: PostUpdateManyWithoutUserNestedInput | $Types.Skip
-    likes?: LikeUpdateManyWithoutUserNestedInput | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    feed?: FeedUpdateManyWithoutUserNestedInput | $Types.Skip
     followers?: FollowUpdateManyWithoutFollowerNestedInput | $Types.Skip
     following?: FollowUpdateManyWithoutFollowingNestedInput | $Types.Skip
-    feed?: FeedUpdateManyWithoutUserNestedInput | $Types.Skip
+    likes?: LikeUpdateManyWithoutUserNestedInput | $Types.Skip
+    posts?: PostUpdateManyWithoutUserNestedInput | $Types.Skip
+    profile?: ProfileUpdateOneWithoutUserNestedInput | $Types.Skip
   }
 
   export type UserUncheckedUpdateWithoutBookmarksInput = {
@@ -18016,24 +18016,24 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput | $Types.Skip
-    posts?: PostUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
-    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    feed?: FeedUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput | $Types.Skip
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput | $Types.Skip
-    feed?: FeedUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    posts?: PostUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput | $Types.Skip
   }
 
   export type UserCreateWithoutFollowersInput = {
@@ -18041,24 +18041,24 @@ export namespace Prisma {
     username?: string | null | $Types.Skip
     email: string
     password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: Date | string | null | $Types.Skip
-    profile?: ProfileCreateNestedOneWithoutUserInput | $Types.Skip
-    posts?: PostCreateNestedManyWithoutUserInput | $Types.Skip
-    likes?: LikeCreateNestedManyWithoutUserInput | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
     bookmarks?: BookmarkCreateNestedManyWithoutUserInput | $Types.Skip
-    following?: FollowCreateNestedManyWithoutFollowingInput | $Types.Skip
     feed?: FeedCreateNestedManyWithoutUserInput | $Types.Skip
+    following?: FollowCreateNestedManyWithoutFollowingInput | $Types.Skip
+    likes?: LikeCreateNestedManyWithoutUserInput | $Types.Skip
+    posts?: PostCreateNestedManyWithoutUserInput | $Types.Skip
+    profile?: ProfileCreateNestedOneWithoutUserInput | $Types.Skip
   }
 
   export type UserUncheckedCreateWithoutFollowersInput = {
@@ -18066,24 +18066,24 @@ export namespace Prisma {
     username?: string | null | $Types.Skip
     email: string
     password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: Date | string | null | $Types.Skip
-    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput | $Types.Skip
-    posts?: PostUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
-    likes?: LikeUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
-    following?: FollowUncheckedCreateNestedManyWithoutFollowingInput | $Types.Skip
     feed?: FeedUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    following?: FollowUncheckedCreateNestedManyWithoutFollowingInput | $Types.Skip
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    posts?: PostUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput | $Types.Skip
   }
 
   export type UserCreateOrConnectWithoutFollowersInput = {
@@ -18096,24 +18096,24 @@ export namespace Prisma {
     username?: string | null | $Types.Skip
     email: string
     password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: Date | string | null | $Types.Skip
-    profile?: ProfileCreateNestedOneWithoutUserInput | $Types.Skip
-    posts?: PostCreateNestedManyWithoutUserInput | $Types.Skip
-    likes?: LikeCreateNestedManyWithoutUserInput | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
     bookmarks?: BookmarkCreateNestedManyWithoutUserInput | $Types.Skip
-    followers?: FollowCreateNestedManyWithoutFollowerInput | $Types.Skip
     feed?: FeedCreateNestedManyWithoutUserInput | $Types.Skip
+    followers?: FollowCreateNestedManyWithoutFollowerInput | $Types.Skip
+    likes?: LikeCreateNestedManyWithoutUserInput | $Types.Skip
+    posts?: PostCreateNestedManyWithoutUserInput | $Types.Skip
+    profile?: ProfileCreateNestedOneWithoutUserInput | $Types.Skip
   }
 
   export type UserUncheckedCreateWithoutFollowingInput = {
@@ -18121,24 +18121,24 @@ export namespace Prisma {
     username?: string | null | $Types.Skip
     email: string
     password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: Date | string | null | $Types.Skip
-    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput | $Types.Skip
-    posts?: PostUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
-    likes?: LikeUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput | $Types.Skip
     feed?: FeedUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput | $Types.Skip
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    posts?: PostUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput | $Types.Skip
   }
 
   export type UserCreateOrConnectWithoutFollowingInput = {
@@ -18162,24 +18162,24 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    profile?: ProfileUpdateOneWithoutUserNestedInput | $Types.Skip
-    posts?: PostUpdateManyWithoutUserNestedInput | $Types.Skip
-    likes?: LikeUpdateManyWithoutUserNestedInput | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bookmarks?: BookmarkUpdateManyWithoutUserNestedInput | $Types.Skip
-    following?: FollowUpdateManyWithoutFollowingNestedInput | $Types.Skip
     feed?: FeedUpdateManyWithoutUserNestedInput | $Types.Skip
+    following?: FollowUpdateManyWithoutFollowingNestedInput | $Types.Skip
+    likes?: LikeUpdateManyWithoutUserNestedInput | $Types.Skip
+    posts?: PostUpdateManyWithoutUserNestedInput | $Types.Skip
+    profile?: ProfileUpdateOneWithoutUserNestedInput | $Types.Skip
   }
 
   export type UserUncheckedUpdateWithoutFollowersInput = {
@@ -18187,24 +18187,24 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput | $Types.Skip
-    posts?: PostUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
-    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
-    following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput | $Types.Skip
     feed?: FeedUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput | $Types.Skip
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    posts?: PostUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput | $Types.Skip
   }
 
   export type UserUpsertWithoutFollowingInput = {
@@ -18223,24 +18223,24 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    profile?: ProfileUpdateOneWithoutUserNestedInput | $Types.Skip
-    posts?: PostUpdateManyWithoutUserNestedInput | $Types.Skip
-    likes?: LikeUpdateManyWithoutUserNestedInput | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bookmarks?: BookmarkUpdateManyWithoutUserNestedInput | $Types.Skip
-    followers?: FollowUpdateManyWithoutFollowerNestedInput | $Types.Skip
     feed?: FeedUpdateManyWithoutUserNestedInput | $Types.Skip
+    followers?: FollowUpdateManyWithoutFollowerNestedInput | $Types.Skip
+    likes?: LikeUpdateManyWithoutUserNestedInput | $Types.Skip
+    posts?: PostUpdateManyWithoutUserNestedInput | $Types.Skip
+    profile?: ProfileUpdateOneWithoutUserNestedInput | $Types.Skip
   }
 
   export type UserUncheckedUpdateWithoutFollowingInput = {
@@ -18248,24 +18248,61 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput | $Types.Skip
-    posts?: PostUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
-    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
-    followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput | $Types.Skip
     feed?: FeedUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput | $Types.Skip
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    posts?: PostUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput | $Types.Skip
+  }
+
+  export type PostCreateWithoutFeedsInput = {
+    id?: string | $Types.Skip
+    content?: string | null | $Types.Skip
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
+    likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
+    parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
+    children?: PostCreateNestedManyWithoutParentInput | $Types.Skip
+    user: UserCreateNestedOneWithoutPostsInput
+    attachments?: PostAttachmentCreateNestedManyWithoutPostInput | $Types.Skip
+  }
+
+  export type PostUncheckedCreateWithoutFeedsInput = {
+    id?: string | $Types.Skip
+    content?: string | null | $Types.Skip
+    userId: string
+    parentId?: string | null | $Types.Skip
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
+    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+  }
+
+  export type PostCreateOrConnectWithoutFeedsInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutFeedsInput, PostUncheckedCreateWithoutFeedsInput>
   }
 
   export type UserCreateWithoutFeedInput = {
@@ -18273,24 +18310,24 @@ export namespace Prisma {
     username?: string | null | $Types.Skip
     email: string
     password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: Date | string | null | $Types.Skip
-    profile?: ProfileCreateNestedOneWithoutUserInput | $Types.Skip
-    posts?: PostCreateNestedManyWithoutUserInput | $Types.Skip
-    likes?: LikeCreateNestedManyWithoutUserInput | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
     bookmarks?: BookmarkCreateNestedManyWithoutUserInput | $Types.Skip
     followers?: FollowCreateNestedManyWithoutFollowerInput | $Types.Skip
     following?: FollowCreateNestedManyWithoutFollowingInput | $Types.Skip
+    likes?: LikeCreateNestedManyWithoutUserInput | $Types.Skip
+    posts?: PostCreateNestedManyWithoutUserInput | $Types.Skip
+    profile?: ProfileCreateNestedOneWithoutUserInput | $Types.Skip
   }
 
   export type UserUncheckedCreateWithoutFeedInput = {
@@ -18298,24 +18335,24 @@ export namespace Prisma {
     username?: string | null | $Types.Skip
     email: string
     password: string
-    isActive?: boolean | $Types.Skip
-    isVerified?: boolean | $Types.Skip
-    isEmailVerified?: boolean | $Types.Skip
-    isAdmin?: boolean | $Types.Skip
-    isBanned?: boolean | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    passwordResetToken?: string | null | $Types.Skip
+    isActive?: boolean | $Types.Skip
+    isAdmin?: boolean | $Types.Skip
+    isBanned?: boolean | $Types.Skip
+    isVerified?: boolean | $Types.Skip
     passwordResetExpires?: Date | string | null | $Types.Skip
-    emailVerificationToken?: string | null | $Types.Skip
+    passwordResetToken?: string | null | $Types.Skip
+    isEmailVerified?: boolean | $Types.Skip
     emailVerificationExpires?: Date | string | null | $Types.Skip
-    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput | $Types.Skip
-    posts?: PostUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
-    likes?: LikeUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    emailVerificationToken?: string | null | $Types.Skip
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput | $Types.Skip
     following?: FollowUncheckedCreateNestedManyWithoutFollowingInput | $Types.Skip
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    posts?: PostUncheckedCreateNestedManyWithoutUserInput | $Types.Skip
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput | $Types.Skip
   }
 
   export type UserCreateOrConnectWithoutFeedInput = {
@@ -18323,41 +18360,47 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutFeedInput, UserUncheckedCreateWithoutFeedInput>
   }
 
-  export type PostCreateWithoutFeedsInput = {
-    id?: string | $Types.Skip
-    content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    user: UserCreateNestedOneWithoutPostsInput
-    parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
-    children?: PostCreateNestedManyWithoutParentInput | $Types.Skip
-    attachments?: PostAttachmentCreateNestedManyWithoutPostInput | $Types.Skip
-    likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
-    bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
-  }
-
-  export type PostUncheckedCreateWithoutFeedsInput = {
-    id?: string | $Types.Skip
-    content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
-    userId: string
-    parentId?: string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
-    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-  }
-
-  export type PostCreateOrConnectWithoutFeedsInput = {
-    where: PostWhereUniqueInput
+  export type PostUpsertWithoutFeedsInput = {
+    update: XOR<PostUpdateWithoutFeedsInput, PostUncheckedUpdateWithoutFeedsInput>
     create: XOR<PostCreateWithoutFeedsInput, PostUncheckedCreateWithoutFeedsInput>
+    where?: PostWhereInput | $Types.Skip
+  }
+
+  export type PostUpdateToOneWithWhereWithoutFeedsInput = {
+    where?: PostWhereInput | $Types.Skip
+    data: XOR<PostUpdateWithoutFeedsInput, PostUncheckedUpdateWithoutFeedsInput>
+  }
+
+  export type PostUpdateWithoutFeedsInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
+    likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
+    parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
+    children?: PostUpdateManyWithoutParentNestedInput | $Types.Skip
+    user?: UserUpdateOneRequiredWithoutPostsNestedInput | $Types.Skip
+    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput | $Types.Skip
+  }
+
+  export type PostUncheckedUpdateWithoutFeedsInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
+    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
   }
 
   export type UserUpsertWithoutFeedInput = {
@@ -18376,24 +18419,24 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    profile?: ProfileUpdateOneWithoutUserNestedInput | $Types.Skip
-    posts?: PostUpdateManyWithoutUserNestedInput | $Types.Skip
-    likes?: LikeUpdateManyWithoutUserNestedInput | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bookmarks?: BookmarkUpdateManyWithoutUserNestedInput | $Types.Skip
     followers?: FollowUpdateManyWithoutFollowerNestedInput | $Types.Skip
     following?: FollowUpdateManyWithoutFollowingNestedInput | $Types.Skip
+    likes?: LikeUpdateManyWithoutUserNestedInput | $Types.Skip
+    posts?: PostUpdateManyWithoutUserNestedInput | $Types.Skip
+    profile?: ProfileUpdateOneWithoutUserNestedInput | $Types.Skip
   }
 
   export type UserUncheckedUpdateWithoutFeedInput = {
@@ -18401,67 +18444,24 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     email?: StringFieldUpdateOperationsInput | string | $Types.Skip
     password?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
-    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isActive?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isBanned?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
+    isVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean | $Types.Skip
     emailVerificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput | $Types.Skip
-    posts?: PostUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
-    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput | $Types.Skip
     following?: FollowUncheckedUpdateManyWithoutFollowingNestedInput | $Types.Skip
-  }
-
-  export type PostUpsertWithoutFeedsInput = {
-    update: XOR<PostUpdateWithoutFeedsInput, PostUncheckedUpdateWithoutFeedsInput>
-    create: XOR<PostCreateWithoutFeedsInput, PostUncheckedCreateWithoutFeedsInput>
-    where?: PostWhereInput | $Types.Skip
-  }
-
-  export type PostUpdateToOneWithWhereWithoutFeedsInput = {
-    where?: PostWhereInput | $Types.Skip
-    data: XOR<PostUpdateWithoutFeedsInput, PostUncheckedUpdateWithoutFeedsInput>
-  }
-
-  export type PostUpdateWithoutFeedsInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    user?: UserUpdateOneRequiredWithoutPostsNestedInput | $Types.Skip
-    parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
-    children?: PostUpdateManyWithoutParentNestedInput | $Types.Skip
-    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput | $Types.Skip
-    likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
-    bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
-  }
-
-  export type PostUncheckedUpdateWithoutFeedsInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
-    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    posts?: PostUncheckedUpdateManyWithoutUserNestedInput | $Types.Skip
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput | $Types.Skip
   }
 
   export type PostAttachmentCreateWithoutAttachmentInput = {
@@ -18544,6 +18544,29 @@ export namespace Prisma {
     data: XOR<ProfileAttachmentUpdateManyMutationInput, ProfileAttachmentUncheckedUpdateManyWithoutAttachmentInput>
   }
 
+  export type AttachmentCreateWithoutProfileAttachmentsInput = {
+    id?: string | $Types.Skip
+    url: string
+    type: string
+    createdAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    postAttachments?: PostAttachmentCreateNestedManyWithoutAttachmentInput | $Types.Skip
+  }
+
+  export type AttachmentUncheckedCreateWithoutProfileAttachmentsInput = {
+    id?: string | $Types.Skip
+    url: string
+    type: string
+    createdAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    postAttachments?: PostAttachmentUncheckedCreateNestedManyWithoutAttachmentInput | $Types.Skip
+  }
+
+  export type AttachmentCreateOrConnectWithoutProfileAttachmentsInput = {
+    where: AttachmentWhereUniqueInput
+    create: XOR<AttachmentCreateWithoutProfileAttachmentsInput, AttachmentUncheckedCreateWithoutProfileAttachmentsInput>
+  }
+
   export type ProfileCreateWithoutAttachmentsInput = {
     id?: string | $Types.Skip
     firstName?: string | null | $Types.Skip
@@ -18587,27 +18610,33 @@ export namespace Prisma {
     create: XOR<ProfileCreateWithoutAttachmentsInput, ProfileUncheckedCreateWithoutAttachmentsInput>
   }
 
-  export type AttachmentCreateWithoutProfileAttachmentsInput = {
-    id?: string | $Types.Skip
-    url: string
-    type: string
-    createdAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    postAttachments?: PostAttachmentCreateNestedManyWithoutAttachmentInput | $Types.Skip
-  }
-
-  export type AttachmentUncheckedCreateWithoutProfileAttachmentsInput = {
-    id?: string | $Types.Skip
-    url: string
-    type: string
-    createdAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    postAttachments?: PostAttachmentUncheckedCreateNestedManyWithoutAttachmentInput | $Types.Skip
-  }
-
-  export type AttachmentCreateOrConnectWithoutProfileAttachmentsInput = {
-    where: AttachmentWhereUniqueInput
+  export type AttachmentUpsertWithoutProfileAttachmentsInput = {
+    update: XOR<AttachmentUpdateWithoutProfileAttachmentsInput, AttachmentUncheckedUpdateWithoutProfileAttachmentsInput>
     create: XOR<AttachmentCreateWithoutProfileAttachmentsInput, AttachmentUncheckedCreateWithoutProfileAttachmentsInput>
+    where?: AttachmentWhereInput | $Types.Skip
+  }
+
+  export type AttachmentUpdateToOneWithWhereWithoutProfileAttachmentsInput = {
+    where?: AttachmentWhereInput | $Types.Skip
+    data: XOR<AttachmentUpdateWithoutProfileAttachmentsInput, AttachmentUncheckedUpdateWithoutProfileAttachmentsInput>
+  }
+
+  export type AttachmentUpdateWithoutProfileAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    url?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    type?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    postAttachments?: PostAttachmentUpdateManyWithoutAttachmentNestedInput | $Types.Skip
+  }
+
+  export type AttachmentUncheckedUpdateWithoutProfileAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    url?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    type?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    postAttachments?: PostAttachmentUncheckedUpdateManyWithoutAttachmentNestedInput | $Types.Skip
   }
 
   export type ProfileUpsertWithoutAttachmentsInput = {
@@ -18659,72 +18688,6 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
   }
 
-  export type AttachmentUpsertWithoutProfileAttachmentsInput = {
-    update: XOR<AttachmentUpdateWithoutProfileAttachmentsInput, AttachmentUncheckedUpdateWithoutProfileAttachmentsInput>
-    create: XOR<AttachmentCreateWithoutProfileAttachmentsInput, AttachmentUncheckedCreateWithoutProfileAttachmentsInput>
-    where?: AttachmentWhereInput | $Types.Skip
-  }
-
-  export type AttachmentUpdateToOneWithWhereWithoutProfileAttachmentsInput = {
-    where?: AttachmentWhereInput | $Types.Skip
-    data: XOR<AttachmentUpdateWithoutProfileAttachmentsInput, AttachmentUncheckedUpdateWithoutProfileAttachmentsInput>
-  }
-
-  export type AttachmentUpdateWithoutProfileAttachmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    url?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    type?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    postAttachments?: PostAttachmentUpdateManyWithoutAttachmentNestedInput | $Types.Skip
-  }
-
-  export type AttachmentUncheckedUpdateWithoutProfileAttachmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    url?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    type?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    postAttachments?: PostAttachmentUncheckedUpdateManyWithoutAttachmentNestedInput | $Types.Skip
-  }
-
-  export type PostCreateWithoutAttachmentsInput = {
-    id?: string | $Types.Skip
-    content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    user: UserCreateNestedOneWithoutPostsInput
-    parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
-    children?: PostCreateNestedManyWithoutParentInput | $Types.Skip
-    likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
-    bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
-    feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
-  }
-
-  export type PostUncheckedCreateWithoutAttachmentsInput = {
-    id?: string | $Types.Skip
-    content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
-    userId: string
-    parentId?: string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-    children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
-    likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-    feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
-  }
-
-  export type PostCreateOrConnectWithoutAttachmentsInput = {
-    where: PostWhereUniqueInput
-    create: XOR<PostCreateWithoutAttachmentsInput, PostUncheckedCreateWithoutAttachmentsInput>
-  }
-
   export type AttachmentCreateWithoutPostAttachmentsInput = {
     id?: string | $Types.Skip
     url: string
@@ -18748,47 +18711,41 @@ export namespace Prisma {
     create: XOR<AttachmentCreateWithoutPostAttachmentsInput, AttachmentUncheckedCreateWithoutPostAttachmentsInput>
   }
 
-  export type PostUpsertWithoutAttachmentsInput = {
-    update: XOR<PostUpdateWithoutAttachmentsInput, PostUncheckedUpdateWithoutAttachmentsInput>
+  export type PostCreateWithoutAttachmentsInput = {
+    id?: string | $Types.Skip
+    content?: string | null | $Types.Skip
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
+    feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
+    likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
+    parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
+    children?: PostCreateNestedManyWithoutParentInput | $Types.Skip
+    user: UserCreateNestedOneWithoutPostsInput
+  }
+
+  export type PostUncheckedCreateWithoutAttachmentsInput = {
+    id?: string | $Types.Skip
+    content?: string | null | $Types.Skip
+    userId: string
+    parentId?: string | null | $Types.Skip
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
+    children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
+  }
+
+  export type PostCreateOrConnectWithoutAttachmentsInput = {
+    where: PostWhereUniqueInput
     create: XOR<PostCreateWithoutAttachmentsInput, PostUncheckedCreateWithoutAttachmentsInput>
-    where?: PostWhereInput | $Types.Skip
-  }
-
-  export type PostUpdateToOneWithWhereWithoutAttachmentsInput = {
-    where?: PostWhereInput | $Types.Skip
-    data: XOR<PostUpdateWithoutAttachmentsInput, PostUncheckedUpdateWithoutAttachmentsInput>
-  }
-
-  export type PostUpdateWithoutAttachmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    user?: UserUpdateOneRequiredWithoutPostsNestedInput | $Types.Skip
-    parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
-    children?: PostUpdateManyWithoutParentNestedInput | $Types.Skip
-    likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
-    bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
-    feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
-  }
-
-  export type PostUncheckedUpdateWithoutAttachmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
-    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
   }
 
   export type AttachmentUpsertWithoutPostAttachmentsInput = {
@@ -18820,22 +18777,47 @@ export namespace Prisma {
     profileAttachments?: ProfileAttachmentUncheckedUpdateManyWithoutAttachmentNestedInput | $Types.Skip
   }
 
-  export type PostCreateManyUserInput = {
-    id?: string | $Types.Skip
-    content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
-    parentId?: string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
+  export type PostUpsertWithoutAttachmentsInput = {
+    update: XOR<PostUpdateWithoutAttachmentsInput, PostUncheckedUpdateWithoutAttachmentsInput>
+    create: XOR<PostCreateWithoutAttachmentsInput, PostUncheckedCreateWithoutAttachmentsInput>
+    where?: PostWhereInput | $Types.Skip
   }
 
-  export type LikeCreateManyUserInput = {
-    id?: string | $Types.Skip
-    postId: string
-    createdAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
+  export type PostUpdateToOneWithWhereWithoutAttachmentsInput = {
+    where?: PostWhereInput | $Types.Skip
+    data: XOR<PostUpdateWithoutAttachmentsInput, PostUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type PostUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
+    feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
+    likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
+    parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
+    children?: PostUpdateManyWithoutParentNestedInput | $Types.Skip
+    user?: UserUpdateOneRequiredWithoutPostsNestedInput | $Types.Skip
+  }
+
+  export type PostUncheckedUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
   }
 
   export type BookmarkCreateManyUserInput = {
@@ -18843,6 +18825,12 @@ export namespace Prisma {
     postId: string
     createdAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
+  }
+
+  export type FeedCreateManyUserInput = {
+    id?: string | $Types.Skip
+    postId: string
+    createdAt?: Date | string | $Types.Skip
   }
 
   export type FollowCreateManyFollowerInput = {
@@ -18859,74 +18847,22 @@ export namespace Prisma {
     deletedAt?: Date | string | null | $Types.Skip
   }
 
-  export type FeedCreateManyUserInput = {
+  export type LikeCreateManyUserInput = {
     id?: string | $Types.Skip
     postId: string
     createdAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
   }
 
-  export type PostUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
-    children?: PostUpdateManyWithoutParentNestedInput | $Types.Skip
-    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput | $Types.Skip
-    likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
-    bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
-    feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
-  }
-
-  export type PostUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
-    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-  }
-
-  export type PostUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-  }
-
-  export type LikeUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    post?: PostUpdateOneRequiredWithoutLikesNestedInput | $Types.Skip
-  }
-
-  export type LikeUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    postId?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-  }
-
-  export type LikeUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    postId?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+  export type PostCreateManyUserInput = {
+    id?: string | $Types.Skip
+    content?: string | null | $Types.Skip
+    parentId?: string | null | $Types.Skip
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
   }
 
   export type BookmarkUpdateWithoutUserInput = {
@@ -18948,6 +18884,24 @@ export namespace Prisma {
     postId?: StringFieldUpdateOperationsInput | string | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+  }
+
+  export type FeedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    post?: PostUpdateOneRequiredWithoutFeedsNestedInput | $Types.Skip
+  }
+
+  export type FeedUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    postId?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+  }
+
+  export type FeedUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    postId?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
   }
 
   export type FollowUpdateWithoutFollowerInput = {
@@ -18992,22 +18946,68 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
   }
 
-  export type FeedUpdateWithoutUserInput = {
+  export type LikeUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    post?: PostUpdateOneRequiredWithoutFeedsNestedInput | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    post?: PostUpdateOneRequiredWithoutLikesNestedInput | $Types.Skip
   }
 
-  export type FeedUncheckedUpdateWithoutUserInput = {
+  export type LikeUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     postId?: StringFieldUpdateOperationsInput | string | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
   }
 
-  export type FeedUncheckedUpdateManyWithoutUserInput = {
+  export type LikeUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     postId?: StringFieldUpdateOperationsInput | string | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+  }
+
+  export type PostUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
+    feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
+    likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
+    parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
+    children?: PostUpdateManyWithoutParentNestedInput | $Types.Skip
+    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput | $Types.Skip
+  }
+
+  export type PostUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
+    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+  }
+
+  export type PostUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
   }
 
   export type ProfileAttachmentCreateManyProfileInput = {
@@ -19038,31 +19038,6 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
   }
 
-  export type PostCreateManyParentInput = {
-    id?: string | $Types.Skip
-    content?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
-    userId: string
-    rootId?: string | null | $Types.Skip
-    createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-  }
-
-  export type PostAttachmentCreateManyPostInput = {
-    id?: string | $Types.Skip
-    attachmentId: string
-    createdAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-  }
-
-  export type LikeCreateManyPostInput = {
-    id?: string | $Types.Skip
-    userId: string
-    createdAt?: Date | string | $Types.Skip
-    deletedAt?: Date | string | null | $Types.Skip
-  }
-
   export type BookmarkCreateManyPostInput = {
     id?: string | $Types.Skip
     userId: string
@@ -19076,89 +19051,29 @@ export namespace Prisma {
     createdAt?: Date | string | $Types.Skip
   }
 
-  export type PostUpdateWithoutParentInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    user?: UserUpdateOneRequiredWithoutPostsNestedInput | $Types.Skip
-    children?: PostUpdateManyWithoutParentNestedInput | $Types.Skip
-    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput | $Types.Skip
-    likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
-    bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
-    feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
+  export type LikeCreateManyPostInput = {
+    id?: string | $Types.Skip
+    userId: string
+    createdAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
   }
 
-  export type PostUncheckedUpdateWithoutParentInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
-    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
-    feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+  export type PostCreateManyParentInput = {
+    id?: string | $Types.Skip
+    content?: string | null | $Types.Skip
+    userId: string
+    createdAt?: Date | string | $Types.Skip
+    updatedAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
   }
 
-  export type PostUncheckedUpdateManyWithoutParentInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
-    userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-  }
-
-  export type PostAttachmentUpdateWithoutPostInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    attachment?: AttachmentUpdateOneRequiredWithoutPostAttachmentsNestedInput | $Types.Skip
-  }
-
-  export type PostAttachmentUncheckedUpdateWithoutPostInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    attachmentId?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-  }
-
-  export type PostAttachmentUncheckedUpdateManyWithoutPostInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    attachmentId?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-  }
-
-  export type LikeUpdateWithoutPostInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    user?: UserUpdateOneRequiredWithoutLikesNestedInput | $Types.Skip
-  }
-
-  export type LikeUncheckedUpdateWithoutPostInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-  }
-
-  export type LikeUncheckedUpdateManyWithoutPostInput = {
-    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+  export type PostAttachmentCreateManyPostInput = {
+    id?: string | $Types.Skip
+    attachmentId: string
+    createdAt?: Date | string | $Types.Skip
+    deletedAt?: Date | string | null | $Types.Skip
   }
 
   export type BookmarkUpdateWithoutPostInput = {
@@ -19198,6 +19113,91 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+  }
+
+  export type LikeUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    user?: UserUpdateOneRequiredWithoutLikesNestedInput | $Types.Skip
+  }
+
+  export type LikeUncheckedUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+  }
+
+  export type LikeUncheckedUpdateManyWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+  }
+
+  export type PostUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
+    feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
+    likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
+    children?: PostUpdateManyWithoutParentNestedInput | $Types.Skip
+    user?: UserUpdateOneRequiredWithoutPostsNestedInput | $Types.Skip
+    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput | $Types.Skip
+  }
+
+  export type PostUncheckedUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+    children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
+    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
+  }
+
+  export type PostUncheckedUpdateManyWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
+  }
+
+  export type PostAttachmentUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+    attachment?: AttachmentUpdateOneRequiredWithoutPostAttachmentsNestedInput | $Types.Skip
+  }
+
+  export type PostAttachmentUncheckedUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    attachmentId?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
+  }
+
+  export type PostAttachmentUncheckedUpdateManyWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    attachmentId?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
   }
 
   export type PostAttachmentCreateManyAttachmentInput = {

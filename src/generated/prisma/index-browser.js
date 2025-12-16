@@ -127,18 +127,18 @@ exports.Prisma.UserScalarFieldEnum = {
   username: 'username',
   email: 'email',
   password: 'password',
-  isActive: 'isActive',
-  isVerified: 'isVerified',
-  isEmailVerified: 'isEmailVerified',
-  isAdmin: 'isAdmin',
-  isBanned: 'isBanned',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
-  passwordResetToken: 'passwordResetToken',
+  isActive: 'isActive',
+  isAdmin: 'isAdmin',
+  isBanned: 'isBanned',
+  isVerified: 'isVerified',
   passwordResetExpires: 'passwordResetExpires',
-  emailVerificationToken: 'emailVerificationToken',
-  emailVerificationExpires: 'emailVerificationExpires'
+  passwordResetToken: 'passwordResetToken',
+  isEmailVerified: 'isEmailVerified',
+  emailVerificationExpires: 'emailVerificationExpires',
+  emailVerificationToken: 'emailVerificationToken'
 };
 
 exports.Prisma.ProfileScalarFieldEnum = {
@@ -163,13 +163,13 @@ exports.Prisma.ProfileScalarFieldEnum = {
 exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
   content: 'content',
-  type: 'type',
   userId: 'userId',
   parentId: 'parentId',
-  rootId: 'rootId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
+  rootId: 'rootId',
+  type: 'type'
 };
 
 exports.Prisma.LikeScalarFieldEnum = {
