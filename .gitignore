@@ -141,3 +141,4 @@ dist
 
 # Prisma Migrations
 # npx prisma migrate dev --name <migration-name> --create-only
+/generated/
