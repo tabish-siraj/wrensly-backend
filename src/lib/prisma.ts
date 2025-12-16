@@ -1,10 +1,17 @@
 import { PrismaClient } from '@prisma/client';
+
 const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL,
+    },
+  },
   log: [
-    { emit: 'stdout', level: 'query' },
-    // { emit: 'stdout', level: 'info' },
-    // { emit: 'stdout', level: 'warn' },
-    // { emit: 'stdout', level: 'error' },
+    { level: 'query', emit: 'stdout' },
+    { level: 'info', emit: 'stdout' },
+    { level: 'warn', emit: 'stdout' },
+    { level: 'error', emit: 'stdout' },
   ],
 });
+
 export default prisma;
