@@ -36,7 +36,7 @@ export const CreatePost = async (user: UserPayload, post: PostInterface) => {
         content,
         type,
         parentId: parentId || null,
-        rootId,
+        rootId: rootId || null,
         userId: user.id,
       },
     });
