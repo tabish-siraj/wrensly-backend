@@ -73,85 +73,85 @@ export const GetPostById = async (
     const post = await prisma.$queryRaw<NormalizedPost[]>`
       SELECT
         p.id,
-        p."createdAt",
+        p.createdAt,
         p.content,
         p.type,
 
         json_build_object(
           'id', u.id,
           'username', u.username,
-          'firstName', pr."firstName",
-          'lastName', pr."lastName"
+          'firstName', pr.firstName,
+          'lastName', pr.lastName
         ) AS user,
 
         CASE
-          WHEN p."parentId" IS NOT NULL THEN (
+          WHEN p.parentId IS NOT NULL THEN (
             SELECT json_build_object(
               'id', pp.id,
               'content', pp.content,
-              'createdAt', pp."createdAt",
+              'createdAt', pp.createdAt,
               'user', json_build_object(
                 'id', pu.id,
                 'username', pu.username,
-                'firstName', ppr."firstName",
-                'lastName', ppr."lastName"
+                'firstName', ppr.firstName,
+                'lastName', ppr.lastName
               )
             )
-            FROM "Post" pp
-            JOIN "User" pu ON pu.id = pp."userId"
-            LEFT JOIN "Profile" ppr ON ppr."userId" = pu.id
-            WHERE pp.id = p."parentId" AND pp."deletedAt" IS NULL
+            FROM Post pp
+            JOIN User pu ON pu.id = pp.userId
+            LEFT JOIN Profile ppr ON ppr.userId = pu.id
+            WHERE pp.id = p.parentId AND pp.deletedAt IS NULL
           )
         END AS parent,
 
         json_build_object(
-          'likes', (SELECT COUNT(*) FROM "Like" l WHERE l."postId" = p.id),
-          'comments', (SELECT COUNT(*) FROM "Post" c WHERE c."parentId" = p.id AND c.type = 'COMMENT' AND c."deletedAt" IS NULL),
-          'reposts', (SELECT COUNT(*) FROM "Post" r WHERE r."parentId" = p.id AND r.type = 'REPOST' AND r."deletedAt" IS NULL)
+          'likes', (SELECT COUNT(*) FROM Like l WHERE l.postId = p.id),
+          'comments', (SELECT COUNT(*) FROM Post c WHERE c.parentId = p.id AND c.type = 'COMMENT' AND c.deletedAt IS NULL),
+          'reposts', (SELECT COUNT(*) FROM Post r WHERE r.parentId = p.id AND r.type = 'REPOST' AND r.deletedAt IS NULL)
         ) AS stats,
 
         EXISTS (
-          SELECT 1 FROM "Like" l WHERE l."postId" = p.id AND l."userId" = ${user.id}
-        ) AS "isLiked",
+          SELECT 1 FROM Like l WHERE l.postId = p.id AND l.userId = ${user.id}
+        ) AS isLiked,
 
         EXISTS (
-          SELECT 1 FROM "Bookmark" b WHERE b."postId" = p.id AND b."userId" = ${user.id}
-        ) AS "isBookmarked",
+          SELECT 1 FROM Bookmark b WHERE b.postId = p.id AND b.userId = ${user.id}
+        ) AS isBookmarked,
 
         (
           SELECT json_agg(json_build_object(
             'id', c.id,
             'content', c.content,
             'type', c.type,
-            'createdAt', c."createdAt",
+            'createdAt', c.createdAt,
             'user', json_build_object(
               'id', cu.id,
               'username', cu.username,
-              'firstName', cpr."firstName",
-              'lastName', cpr."lastName"
+              'firstName', cpr.firstName,
+              'lastName', cpr.lastName
             ),
             'stats', json_build_object(
-              'likes', (SELECT COUNT(*) FROM "Like" l2 WHERE l2."postId" = c.id),
-              'comments', (SELECT COUNT(*) FROM "Post" cc WHERE cc."parentId" = c.id AND cc.type = 'COMMENT' AND cc."deletedAt" IS NULL),
-              'reposts', (SELECT COUNT(*) FROM "Post" cr WHERE cr."parentId" = c.id AND cr.type = 'REPOST' AND cr."deletedAt" IS NULL)
+              'likes', (SELECT COUNT(*) FROM Like l2 WHERE l2.postId = c.id),
+              'comments', (SELECT COUNT(*) FROM Post cc WHERE cc.parentId = c.id AND cc.type = 'COMMENT' AND cc.deletedAt IS NULL),
+              'reposts', (SELECT COUNT(*) FROM Post cr WHERE cr.parentId = c.id AND cr.type = 'REPOST' AND cr.deletedAt IS NULL)
             ),
             'isLiked', EXISTS (
-              SELECT 1 FROM "Like" l3 WHERE l3."postId" = c.id AND l3."userId" = ${user.id}
+              SELECT 1 FROM Like l3 WHERE l3.postId = c.id AND l3.userId = ${user.id}
             ),
             'isBookmarked', EXISTS (
-              SELECT 1 FROM "Bookmark" b3 WHERE b3."postId" = c.id AND b3."userId" = ${user.id}
+              SELECT 1 FROM Bookmark b3 WHERE b3.postId = c.id AND b3.userId = ${user.id}
             )
           ))
-          FROM "Post" c
-          JOIN "User" cu ON cu.id = c."userId"
-          LEFT JOIN "Profile" cpr ON cpr."userId" = cu.id
-          WHERE c."parentId" = p.id AND c.type = 'COMMENT' AND c."deletedAt" IS NULL
+          FROM Post c
+          JOIN User cu ON cu.id = c.userId
+          LEFT JOIN Profile cpr ON cpr.userId = cu.id
+          WHERE c.parentId = p.id AND c.type = 'COMMENT' AND c.deletedAt IS NULL
         ) AS comments
 
-      FROM "Post" p
-      JOIN "User" u ON u.id = p."userId"
-      LEFT JOIN "Profile" pr ON pr."userId" = u.id
-      WHERE p.id = ${id} AND p."deletedAt" IS NULL
+      FROM Post p
+      JOIN User u ON u.id = p.userId
+      LEFT JOIN Profile pr ON pr.userId = u.id
+      WHERE p.id = ${id} AND p.deletedAt IS NULL
       LIMIT 1;
     `;
 
@@ -302,6 +302,119 @@ export const GetPostById = async (
 //     throw error;
 //   }
 // };
+
+export const GetAllPostsByUser = async (
+  user: UserPayload
+): Promise<NormalizedPost[]> => {
+  const posts = await prisma.$queryRaw<NormalizedPost[]>`
+    SELECT
+      p.id,
+      p."createdAt",
+      p.content,
+      p.type,
+      p."parentId",
+
+      json_build_object(
+        'id', u.id,
+        'username', u.username,
+        'firstName', prf."firstName",
+        'lastName', prf."lastName",
+        'avatar', prf.avatar
+      ) AS "user",
+
+      parent.parent,
+
+      json_build_object(
+        'likes', stats.likes,
+        'comments', stats.comments,
+        'reposts', stats.reposts
+      ) AS stats,
+
+      flags."isLiked",
+      flags."isBookmarked",
+      flags."isReposted"
+
+    FROM "Post" p
+    JOIN "User" u ON u.id = p."userId"
+    LEFT JOIN "Profile" prf ON prf."userId" = u.id
+
+    LEFT JOIN LATERAL (
+      SELECT json_build_object(
+        'id', pp.id,
+        'content', pp.content,
+        'createdAt', pp."createdAt",
+        'type', pp.type,
+        'user', json_build_object(
+          'id', pu.id,
+          'username', pu.username,
+          'firstName', ppr."firstName",
+          'lastName', ppr."lastName"
+        )
+      ) AS parent
+      FROM "Post" pp
+      JOIN "User" pu ON pu.id = pp."userId"
+      LEFT JOIN "Profile" ppr ON ppr."userId" = pu.id
+      WHERE pp.id = p."parentId"
+        AND pp.type = 'QUOTE'
+        AND pp."deletedAt" IS NULL
+    ) parent ON p."parentId" IS NOT NULL
+
+    LEFT JOIN LATERAL (
+      SELECT
+        COUNT(l.id) AS likes,
+        COUNT(c.id) AS comments,
+        COUNT(r.id) AS reposts
+      FROM "Post" base
+      LEFT JOIN "Like" l
+        ON l."postId" = base.id
+       AND l."deletedAt" IS NULL
+      LEFT JOIN "Post" c
+        ON c."parentId" = base.id
+       AND c.type = 'COMMENT'
+       AND c."deletedAt" IS NULL
+      LEFT JOIN "Post" r
+        ON r."parentId" = base.id
+       AND r.type = 'REPOST'
+       AND r."deletedAt" IS NULL
+      WHERE base.id = p.id
+    ) stats ON true
+
+    LEFT JOIN LATERAL (
+      SELECT
+        EXISTS (
+          SELECT 1
+          FROM "Like" l
+          WHERE l."postId" = p.id
+            AND l."userId" = ${user.id}
+            AND l."deletedAt" IS NULL
+        ) AS "isLiked",
+
+        EXISTS (
+          SELECT 1
+          FROM "Bookmark" b
+          WHERE b."postId" = p.id
+            AND b."userId" = ${user.id}
+            AND b."deletedAt" IS NULL
+        ) AS "isBookmarked",
+
+        EXISTS (
+          SELECT 1
+          FROM "Post" pr
+          WHERE pr."parentId" = p.id
+            AND pr."userId" = ${user.id}
+            AND pr.type = 'REPOST'
+            AND pr."deletedAt" IS NULL
+        ) AS "isReposted"
+    ) flags ON true
+
+    WHERE p."userId" = ${user.id}
+      AND p."deletedAt" IS NULL
+
+    ORDER BY p."createdAt" DESC;
+  `;
+
+  return posts;
+};
 
 export const DeletePost = async (user: UserPayload, postId: string) => {
   try {

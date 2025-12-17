@@ -1,5 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { CreatePost, DeletePost, GetPostById } from './service';
+import {
+  CreatePost,
+  DeletePost,
+  GetAllPostsByUser,
+  GetPostById,
+} from './service';
 import { successResponse } from '../utils/response';
 import { UnauthorizedError } from '../utils/errors';
 
@@ -37,6 +42,25 @@ export const getPostByIdController = async (
     res
       .status(200)
       .json(successResponse('Post retrieved successfully', post, 200));
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getAllPostsByUserController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.user) {
+    throw new UnauthorizedError('You must be logged in to perform this action');
+  }
+  try {
+    const user = req.user;
+    const posts = await GetAllPostsByUser(user);
+    res
+      .status(200)
+      .json(successResponse('Posts retrieved successfully', posts, 200));
   } catch (err) {
     next(err);
   }

@@ -1,11 +1,4 @@
 // src/types/express/index.d.ts
-
-// Define the structure of the user payload from the JWT
-export interface UserPayload {
-  id: string;
-  email: string;
-}
-
 export interface GlobalParams {
   id?: string;
   username?: string;
@@ -28,6 +21,11 @@ declare global {
   }
 }
 
+export interface UserPayload {
+  id: string;
+  email: string;
+}
+
 interface NormalizedUser {
   id: string;
   username: string;
@@ -46,6 +44,7 @@ interface NormalizedPost {
   parent?: {
     id: string;
     content: string | null;
+    type: string;
     createdAt: Date;
     user: NormalizedUser;
   } | null;
@@ -58,5 +57,4 @@ interface NormalizedPost {
   isLiked: boolean;
   isReposted: boolean;
   isBookmarked: boolean;
-  hasReplies: boolean;
 }
