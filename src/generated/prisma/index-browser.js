@@ -165,11 +165,11 @@ exports.Prisma.PostScalarFieldEnum = {
   content: 'content',
   userId: 'userId',
   parentId: 'parentId',
+  rootId: 'rootId',
+  type: 'type',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt',
-  rootId: 'rootId',
-  type: 'type'
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.LikeScalarFieldEnum = {

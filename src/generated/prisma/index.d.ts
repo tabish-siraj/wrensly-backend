@@ -4540,11 +4540,11 @@ export namespace Prisma {
     content: string | null
     userId: string | null
     parentId: string | null
+    rootId: string | null
+    type: $Enums.PostType | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    rootId: string | null
-    type: $Enums.PostType | null
   }
 
   export type PostMaxAggregateOutputType = {
@@ -4552,11 +4552,11 @@ export namespace Prisma {
     content: string | null
     userId: string | null
     parentId: string | null
+    rootId: string | null
+    type: $Enums.PostType | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    rootId: string | null
-    type: $Enums.PostType | null
   }
 
   export type PostCountAggregateOutputType = {
@@ -4564,11 +4564,11 @@ export namespace Prisma {
     content: number
     userId: number
     parentId: number
+    rootId: number
+    type: number
     createdAt: number
     updatedAt: number
     deletedAt: number
-    rootId: number
-    type: number
     _all: number
   }
 
@@ -4578,11 +4578,11 @@ export namespace Prisma {
     content?: true | $Types.Skip
     userId?: true | $Types.Skip
     parentId?: true | $Types.Skip
+    rootId?: true | $Types.Skip
+    type?: true | $Types.Skip
     createdAt?: true | $Types.Skip
     updatedAt?: true | $Types.Skip
     deletedAt?: true | $Types.Skip
-    rootId?: true | $Types.Skip
-    type?: true | $Types.Skip
   }
 
   export type PostMaxAggregateInputType = {
@@ -4590,11 +4590,11 @@ export namespace Prisma {
     content?: true | $Types.Skip
     userId?: true | $Types.Skip
     parentId?: true | $Types.Skip
+    rootId?: true | $Types.Skip
+    type?: true | $Types.Skip
     createdAt?: true | $Types.Skip
     updatedAt?: true | $Types.Skip
     deletedAt?: true | $Types.Skip
-    rootId?: true | $Types.Skip
-    type?: true | $Types.Skip
   }
 
   export type PostCountAggregateInputType = {
@@ -4602,11 +4602,11 @@ export namespace Prisma {
     content?: true | $Types.Skip
     userId?: true | $Types.Skip
     parentId?: true | $Types.Skip
+    rootId?: true | $Types.Skip
+    type?: true | $Types.Skip
     createdAt?: true | $Types.Skip
     updatedAt?: true | $Types.Skip
     deletedAt?: true | $Types.Skip
-    rootId?: true | $Types.Skip
-    type?: true | $Types.Skip
     _all?: true | $Types.Skip
   }
 
@@ -4687,11 +4687,11 @@ export namespace Prisma {
     content: string | null
     userId: string
     parentId: string | null
+    rootId: string | null
+    type: $Enums.PostType
     createdAt: Date
     updatedAt: Date
     deletedAt: Date | null
-    rootId: string | null
-    type: $Enums.PostType
     _count: PostCountAggregateOutputType | null
     _min: PostMinAggregateOutputType | null
     _max: PostMaxAggregateOutputType | null
@@ -4716,11 +4716,11 @@ export namespace Prisma {
     content?: boolean | $Types.Skip
     userId?: boolean | $Types.Skip
     parentId?: boolean | $Types.Skip
+    rootId?: boolean | $Types.Skip
+    type?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     updatedAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    rootId?: boolean | $Types.Skip
-    type?: boolean | $Types.Skip
     bookmarks?: boolean | Post$bookmarksArgs<ExtArgs> | $Types.Skip
     feeds?: boolean | Post$feedsArgs<ExtArgs> | $Types.Skip
     likes?: boolean | Post$likesArgs<ExtArgs> | $Types.Skip
@@ -4736,11 +4736,11 @@ export namespace Prisma {
     content?: boolean | $Types.Skip
     userId?: boolean | $Types.Skip
     parentId?: boolean | $Types.Skip
+    rootId?: boolean | $Types.Skip
+    type?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     updatedAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    rootId?: boolean | $Types.Skip
-    type?: boolean | $Types.Skip
     parent?: boolean | Post$parentArgs<ExtArgs> | $Types.Skip
     user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
   }, ExtArgs["result"]["post"]>
@@ -4750,11 +4750,11 @@ export namespace Prisma {
     content?: boolean | $Types.Skip
     userId?: boolean | $Types.Skip
     parentId?: boolean | $Types.Skip
+    rootId?: boolean | $Types.Skip
+    type?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     updatedAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    rootId?: boolean | $Types.Skip
-    type?: boolean | $Types.Skip
     parent?: boolean | Post$parentArgs<ExtArgs> | $Types.Skip
     user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
   }, ExtArgs["result"]["post"]>
@@ -4764,14 +4764,14 @@ export namespace Prisma {
     content?: boolean | $Types.Skip
     userId?: boolean | $Types.Skip
     parentId?: boolean | $Types.Skip
+    rootId?: boolean | $Types.Skip
+    type?: boolean | $Types.Skip
     createdAt?: boolean | $Types.Skip
     updatedAt?: boolean | $Types.Skip
     deletedAt?: boolean | $Types.Skip
-    rootId?: boolean | $Types.Skip
-    type?: boolean | $Types.Skip
   }
 
-  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "userId" | "parentId" | "createdAt" | "updatedAt" | "deletedAt" | "rootId" | "type", ExtArgs["result"]["post"], $Types.Skip>
+  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "userId" | "parentId" | "rootId" | "type" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["post"], $Types.Skip>
   export type PostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookmarks?: boolean | Post$bookmarksArgs<ExtArgs> | $Types.Skip
     feeds?: boolean | Post$feedsArgs<ExtArgs> | $Types.Skip
@@ -4807,11 +4807,11 @@ export namespace Prisma {
       content: string | null
       userId: string
       parentId: string | null
+      rootId: string | null
+      type: $Enums.PostType
       createdAt: Date
       updatedAt: Date
       deletedAt: Date | null
-      rootId: string | null
-      type: $Enums.PostType
     }, ExtArgs["result"]["post"]>
     composites: {}
   }
@@ -5246,11 +5246,11 @@ export namespace Prisma {
     readonly content: FieldRef<"Post", 'String'>
     readonly userId: FieldRef<"Post", 'String'>
     readonly parentId: FieldRef<"Post", 'String'>
+    readonly rootId: FieldRef<"Post", 'String'>
+    readonly type: FieldRef<"Post", 'PostType'>
     readonly createdAt: FieldRef<"Post", 'DateTime'>
     readonly updatedAt: FieldRef<"Post", 'DateTime'>
     readonly deletedAt: FieldRef<"Post", 'DateTime'>
-    readonly rootId: FieldRef<"Post", 'String'>
-    readonly type: FieldRef<"Post", 'PostType'>
   }
     
 
@@ -13348,11 +13348,11 @@ export namespace Prisma {
     content: 'content',
     userId: 'userId',
     parentId: 'parentId',
+    rootId: 'rootId',
+    type: 'type',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    deletedAt: 'deletedAt',
-    rootId: 'rootId',
-    type: 'type'
+    deletedAt: 'deletedAt'
   };
 
   export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
@@ -13778,11 +13778,11 @@ export namespace Prisma {
     content?: StringNullableFilter<"Post"> | string | null | $Types.Skip
     userId?: StringFilter<"Post"> | string | $Types.Skip
     parentId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
+    rootId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
+    type?: EnumPostTypeFilter<"Post"> | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFilter<"Post"> | Date | string | $Types.Skip
     updatedAt?: DateTimeFilter<"Post"> | Date | string | $Types.Skip
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null | $Types.Skip
-    rootId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
-    type?: EnumPostTypeFilter<"Post"> | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkListRelationFilter | $Types.Skip
     feeds?: FeedListRelationFilter | $Types.Skip
     likes?: LikeListRelationFilter | $Types.Skip
@@ -13797,11 +13797,11 @@ export namespace Prisma {
     content?: SortOrderInput | SortOrder | $Types.Skip
     userId?: SortOrder | $Types.Skip
     parentId?: SortOrderInput | SortOrder | $Types.Skip
+    rootId?: SortOrderInput | SortOrder | $Types.Skip
+    type?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     updatedAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrderInput | SortOrder | $Types.Skip
-    rootId?: SortOrderInput | SortOrder | $Types.Skip
-    type?: SortOrder | $Types.Skip
     bookmarks?: BookmarkOrderByRelationAggregateInput | $Types.Skip
     feeds?: FeedOrderByRelationAggregateInput | $Types.Skip
     likes?: LikeOrderByRelationAggregateInput | $Types.Skip
@@ -13819,11 +13819,11 @@ export namespace Prisma {
     content?: StringNullableFilter<"Post"> | string | null | $Types.Skip
     userId?: StringFilter<"Post"> | string | $Types.Skip
     parentId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
+    rootId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
+    type?: EnumPostTypeFilter<"Post"> | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFilter<"Post"> | Date | string | $Types.Skip
     updatedAt?: DateTimeFilter<"Post"> | Date | string | $Types.Skip
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null | $Types.Skip
-    rootId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
-    type?: EnumPostTypeFilter<"Post"> | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkListRelationFilter | $Types.Skip
     feeds?: FeedListRelationFilter | $Types.Skip
     likes?: LikeListRelationFilter | $Types.Skip
@@ -13838,11 +13838,11 @@ export namespace Prisma {
     content?: SortOrderInput | SortOrder | $Types.Skip
     userId?: SortOrder | $Types.Skip
     parentId?: SortOrderInput | SortOrder | $Types.Skip
+    rootId?: SortOrderInput | SortOrder | $Types.Skip
+    type?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     updatedAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrderInput | SortOrder | $Types.Skip
-    rootId?: SortOrderInput | SortOrder | $Types.Skip
-    type?: SortOrder | $Types.Skip
     _count?: PostCountOrderByAggregateInput | $Types.Skip
     _max?: PostMaxOrderByAggregateInput | $Types.Skip
     _min?: PostMinOrderByAggregateInput | $Types.Skip
@@ -13856,11 +13856,11 @@ export namespace Prisma {
     content?: StringNullableWithAggregatesFilter<"Post"> | string | null | $Types.Skip
     userId?: StringWithAggregatesFilter<"Post"> | string | $Types.Skip
     parentId?: StringNullableWithAggregatesFilter<"Post"> | string | null | $Types.Skip
+    rootId?: StringNullableWithAggregatesFilter<"Post"> | string | null | $Types.Skip
+    type?: EnumPostTypeWithAggregatesFilter<"Post"> | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string | $Types.Skip
     updatedAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string | $Types.Skip
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null | $Types.Skip
-    rootId?: StringNullableWithAggregatesFilter<"Post"> | string | null | $Types.Skip
-    type?: EnumPostTypeWithAggregatesFilter<"Post"> | $Enums.PostType | $Types.Skip
   }
 
   export type LikeWhereInput = {
@@ -14442,7 +14442,7 @@ export namespace Prisma {
     phone?: string | null | $Types.Skip
     website?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
+    updatedAt: Date | string
     deletedAt?: Date | string | null | $Types.Skip
     user: UserCreateNestedOneWithoutProfileInput
     attachments?: ProfileAttachmentCreateNestedManyWithoutProfileInput | $Types.Skip
@@ -14463,7 +14463,7 @@ export namespace Prisma {
     phone?: string | null | $Types.Skip
     website?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
+    updatedAt: Date | string
     deletedAt?: Date | string | null | $Types.Skip
     attachments?: ProfileAttachmentUncheckedCreateNestedManyWithoutProfileInput | $Types.Skip
   }
@@ -14523,7 +14523,7 @@ export namespace Prisma {
     phone?: string | null | $Types.Skip
     website?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
+    updatedAt: Date | string
     deletedAt?: Date | string | null | $Types.Skip
   }
 
@@ -14567,11 +14567,11 @@ export namespace Prisma {
   export type PostCreateInput = {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
     likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
@@ -14586,11 +14586,11 @@ export namespace Prisma {
     content?: string | null | $Types.Skip
     userId: string
     parentId?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
@@ -14601,11 +14601,11 @@ export namespace Prisma {
   export type PostUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
     likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
@@ -14620,11 +14620,11 @@ export namespace Prisma {
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
     parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
@@ -14637,21 +14637,21 @@ export namespace Prisma {
     content?: string | null | $Types.Skip
     userId: string
     parentId?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
   }
 
   export type PostUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
   }
 
   export type PostUncheckedUpdateManyInput = {
@@ -14659,11 +14659,11 @@ export namespace Prisma {
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
     parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
   }
 
   export type LikeCreateInput = {
@@ -15392,11 +15392,11 @@ export namespace Prisma {
     content?: SortOrder | $Types.Skip
     userId?: SortOrder | $Types.Skip
     parentId?: SortOrder | $Types.Skip
+    rootId?: SortOrder | $Types.Skip
+    type?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     updatedAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrder | $Types.Skip
-    rootId?: SortOrder | $Types.Skip
-    type?: SortOrder | $Types.Skip
   }
 
   export type PostMaxOrderByAggregateInput = {
@@ -15404,11 +15404,11 @@ export namespace Prisma {
     content?: SortOrder | $Types.Skip
     userId?: SortOrder | $Types.Skip
     parentId?: SortOrder | $Types.Skip
+    rootId?: SortOrder | $Types.Skip
+    type?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     updatedAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrder | $Types.Skip
-    rootId?: SortOrder | $Types.Skip
-    type?: SortOrder | $Types.Skip
   }
 
   export type PostMinOrderByAggregateInput = {
@@ -15416,11 +15416,11 @@ export namespace Prisma {
     content?: SortOrder | $Types.Skip
     userId?: SortOrder | $Types.Skip
     parentId?: SortOrder | $Types.Skip
+    rootId?: SortOrder | $Types.Skip
+    type?: SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
     updatedAt?: SortOrder | $Types.Skip
     deletedAt?: SortOrder | $Types.Skip
-    rootId?: SortOrder | $Types.Skip
-    type?: SortOrder | $Types.Skip
   }
 
   export type EnumPostTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -16769,11 +16769,11 @@ export namespace Prisma {
   export type PostCreateWithoutUserInput = {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
     likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
@@ -16786,11 +16786,11 @@ export namespace Prisma {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
     parentId?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
@@ -16822,7 +16822,7 @@ export namespace Prisma {
     phone?: string | null | $Types.Skip
     website?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
+    updatedAt: Date | string
     deletedAt?: Date | string | null | $Types.Skip
     attachments?: ProfileAttachmentCreateNestedManyWithoutProfileInput | $Types.Skip
   }
@@ -16841,7 +16841,7 @@ export namespace Prisma {
     phone?: string | null | $Types.Skip
     website?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
+    updatedAt: Date | string
     deletedAt?: Date | string | null | $Types.Skip
     attachments?: ProfileAttachmentUncheckedCreateNestedManyWithoutProfileInput | $Types.Skip
   }
@@ -16998,11 +16998,11 @@ export namespace Prisma {
     content?: StringNullableFilter<"Post"> | string | null | $Types.Skip
     userId?: StringFilter<"Post"> | string | $Types.Skip
     parentId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
+    rootId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
+    type?: EnumPostTypeFilter<"Post"> | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFilter<"Post"> | Date | string | $Types.Skip
     updatedAt?: DateTimeFilter<"Post"> | Date | string | $Types.Skip
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null | $Types.Skip
-    rootId?: StringNullableFilter<"Post"> | string | null | $Types.Skip
-    type?: EnumPostTypeFilter<"Post"> | $Enums.PostType | $Types.Skip
   }
 
   export type ProfileUpsertWithoutUserInput = {
@@ -17294,11 +17294,11 @@ export namespace Prisma {
   export type PostCreateWithoutChildrenInput = {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
     likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
@@ -17312,11 +17312,11 @@ export namespace Prisma {
     content?: string | null | $Types.Skip
     userId: string
     parentId?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
@@ -17331,11 +17331,11 @@ export namespace Prisma {
   export type PostCreateWithoutParentInput = {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
     likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
@@ -17348,11 +17348,11 @@ export namespace Prisma {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
     userId: string
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
@@ -17511,11 +17511,11 @@ export namespace Prisma {
   export type PostUpdateWithoutChildrenInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
     likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
@@ -17529,11 +17529,11 @@ export namespace Prisma {
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
     parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
@@ -17647,11 +17647,11 @@ export namespace Prisma {
   export type PostCreateWithoutLikesInput = {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
     parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
@@ -17665,11 +17665,11 @@ export namespace Prisma {
     content?: string | null | $Types.Skip
     userId: string
     parentId?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
@@ -17750,11 +17750,11 @@ export namespace Prisma {
   export type PostUpdateWithoutLikesInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
     parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
@@ -17768,11 +17768,11 @@ export namespace Prisma {
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
     parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
@@ -17843,11 +17843,11 @@ export namespace Prisma {
   export type PostCreateWithoutBookmarksInput = {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
     likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
     parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
@@ -17861,11 +17861,11 @@ export namespace Prisma {
     content?: string | null | $Types.Skip
     userId: string
     parentId?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
@@ -17946,11 +17946,11 @@ export namespace Prisma {
   export type PostUpdateWithoutBookmarksInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
     likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
     parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
@@ -17964,11 +17964,11 @@ export namespace Prisma {
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
     parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
@@ -18271,11 +18271,11 @@ export namespace Prisma {
   export type PostCreateWithoutFeedsInput = {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
     likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
     parent?: PostCreateNestedOneWithoutChildrenInput | $Types.Skip
@@ -18289,11 +18289,11 @@ export namespace Prisma {
     content?: string | null | $Types.Skip
     userId: string
     parentId?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     children?: PostUncheckedCreateNestedManyWithoutParentInput | $Types.Skip
@@ -18374,11 +18374,11 @@ export namespace Prisma {
   export type PostUpdateWithoutFeedsInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
     likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
     parent?: PostUpdateOneWithoutChildrenNestedInput | $Types.Skip
@@ -18392,11 +18392,11 @@ export namespace Prisma {
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
     parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     children?: PostUncheckedUpdateManyWithoutParentNestedInput | $Types.Skip
@@ -18581,7 +18581,7 @@ export namespace Prisma {
     phone?: string | null | $Types.Skip
     website?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
+    updatedAt: Date | string
     deletedAt?: Date | string | null | $Types.Skip
     user: UserCreateNestedOneWithoutProfileInput
   }
@@ -18601,7 +18601,7 @@ export namespace Prisma {
     phone?: string | null | $Types.Skip
     website?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    updatedAt?: Date | string | $Types.Skip
+    updatedAt: Date | string
     deletedAt?: Date | string | null | $Types.Skip
   }
 
@@ -18714,11 +18714,11 @@ export namespace Prisma {
   export type PostCreateWithoutAttachmentsInput = {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedCreateNestedManyWithoutPostInput | $Types.Skip
     likes?: LikeCreateNestedManyWithoutPostInput | $Types.Skip
@@ -18732,11 +18732,11 @@ export namespace Prisma {
     content?: string | null | $Types.Skip
     userId: string
     parentId?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     feeds?: FeedUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput | $Types.Skip
@@ -18791,11 +18791,11 @@ export namespace Prisma {
   export type PostUpdateWithoutAttachmentsInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
     likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
@@ -18809,11 +18809,11 @@ export namespace Prisma {
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
     parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
@@ -18858,11 +18858,11 @@ export namespace Prisma {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
     parentId?: string | null | $Types.Skip
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
   }
 
   export type BookmarkUpdateWithoutUserInput = {
@@ -18970,11 +18970,11 @@ export namespace Prisma {
   export type PostUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
     likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
@@ -18987,11 +18987,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
@@ -19003,11 +19003,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     parentId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
   }
 
   export type ProfileAttachmentCreateManyProfileInput = {
@@ -19062,11 +19062,11 @@ export namespace Prisma {
     id?: string | $Types.Skip
     content?: string | null | $Types.Skip
     userId: string
+    rootId?: string | null | $Types.Skip
+    type?: $Enums.PostType | $Types.Skip
     createdAt?: Date | string | $Types.Skip
     updatedAt?: Date | string | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
-    rootId?: string | null | $Types.Skip
-    type?: $Enums.PostType | $Types.Skip
   }
 
   export type PostAttachmentCreateManyPostInput = {
@@ -19139,11 +19139,11 @@ export namespace Prisma {
   export type PostUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUpdateManyWithoutPostNestedInput | $Types.Skip
     likes?: LikeUpdateManyWithoutPostNestedInput | $Types.Skip
@@ -19156,11 +19156,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     feeds?: FeedUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput | $Types.Skip
@@ -19172,11 +19172,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string | $Types.Skip
     content?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     userId?: StringFieldUpdateOperationsInput | string | $Types.Skip
+    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
-    rootId?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
-    type?: EnumPostTypeFieldUpdateOperationsInput | $Enums.PostType | $Types.Skip
   }
 
   export type PostAttachmentUpdateWithoutPostInput = {
