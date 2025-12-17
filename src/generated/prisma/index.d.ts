@@ -3508,7 +3508,7 @@ export namespace Prisma {
     phone: string | null
     website: string | null
     createdAt: Date
-    updatedAt: Date
+    updatedAt: Date | null
     deletedAt: Date | null
     _count: ProfileCountAggregateOutputType | null
     _min: ProfileMinAggregateOutputType | null
@@ -3644,7 +3644,7 @@ export namespace Prisma {
       phone: string | null
       website: string | null
       createdAt: Date
-      updatedAt: Date
+      updatedAt: Date | null
       deletedAt: Date | null
     }, ExtArgs["result"]["profile"]>
     composites: {}
@@ -13675,7 +13675,7 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
     website?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
     createdAt?: DateTimeFilter<"Profile"> | Date | string | $Types.Skip
-    updatedAt?: DateTimeFilter<"Profile"> | Date | string | $Types.Skip
+    updatedAt?: DateTimeNullableFilter<"Profile"> | Date | string | null | $Types.Skip
     deletedAt?: DateTimeNullableFilter<"Profile"> | Date | string | null | $Types.Skip
     user?: XOR<UserScalarRelationFilter, UserWhereInput> | $Types.Skip
     attachments?: ProfileAttachmentListRelationFilter | $Types.Skip
@@ -13696,7 +13696,7 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder | $Types.Skip
     website?: SortOrderInput | SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
-    updatedAt?: SortOrder | $Types.Skip
+    updatedAt?: SortOrderInput | SortOrder | $Types.Skip
     deletedAt?: SortOrderInput | SortOrder | $Types.Skip
     user?: UserOrderByWithRelationInput | $Types.Skip
     attachments?: ProfileAttachmentOrderByRelationAggregateInput | $Types.Skip
@@ -13720,7 +13720,7 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
     website?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
     createdAt?: DateTimeFilter<"Profile"> | Date | string | $Types.Skip
-    updatedAt?: DateTimeFilter<"Profile"> | Date | string | $Types.Skip
+    updatedAt?: DateTimeNullableFilter<"Profile"> | Date | string | null | $Types.Skip
     deletedAt?: DateTimeNullableFilter<"Profile"> | Date | string | null | $Types.Skip
     user?: XOR<UserScalarRelationFilter, UserWhereInput> | $Types.Skip
     attachments?: ProfileAttachmentListRelationFilter | $Types.Skip
@@ -13741,7 +13741,7 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder | $Types.Skip
     website?: SortOrderInput | SortOrder | $Types.Skip
     createdAt?: SortOrder | $Types.Skip
-    updatedAt?: SortOrder | $Types.Skip
+    updatedAt?: SortOrderInput | SortOrder | $Types.Skip
     deletedAt?: SortOrderInput | SortOrder | $Types.Skip
     _count?: ProfileCountOrderByAggregateInput | $Types.Skip
     _max?: ProfileMaxOrderByAggregateInput | $Types.Skip
@@ -13766,7 +13766,7 @@ export namespace Prisma {
     phone?: StringNullableWithAggregatesFilter<"Profile"> | string | null | $Types.Skip
     website?: StringNullableWithAggregatesFilter<"Profile"> | string | null | $Types.Skip
     createdAt?: DateTimeWithAggregatesFilter<"Profile"> | Date | string | $Types.Skip
-    updatedAt?: DateTimeWithAggregatesFilter<"Profile"> | Date | string | $Types.Skip
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null | $Types.Skip
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null | $Types.Skip
   }
 
@@ -14442,7 +14442,7 @@ export namespace Prisma {
     phone?: string | null | $Types.Skip
     website?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    updatedAt: Date | string
+    updatedAt?: Date | string | null | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
     user: UserCreateNestedOneWithoutProfileInput
     attachments?: ProfileAttachmentCreateNestedManyWithoutProfileInput | $Types.Skip
@@ -14463,7 +14463,7 @@ export namespace Prisma {
     phone?: string | null | $Types.Skip
     website?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    updatedAt: Date | string
+    updatedAt?: Date | string | null | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
     attachments?: ProfileAttachmentUncheckedCreateNestedManyWithoutProfileInput | $Types.Skip
   }
@@ -14482,7 +14482,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     website?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
     user?: UserUpdateOneRequiredWithoutProfileNestedInput | $Types.Skip
     attachments?: ProfileAttachmentUpdateManyWithoutProfileNestedInput | $Types.Skip
@@ -14503,7 +14503,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     website?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
     attachments?: ProfileAttachmentUncheckedUpdateManyWithoutProfileNestedInput | $Types.Skip
   }
@@ -14523,7 +14523,7 @@ export namespace Prisma {
     phone?: string | null | $Types.Skip
     website?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    updatedAt: Date | string
+    updatedAt?: Date | string | null | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
   }
 
@@ -14541,7 +14541,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     website?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
   }
 
@@ -14560,7 +14560,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     website?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
   }
 
@@ -16822,7 +16822,7 @@ export namespace Prisma {
     phone?: string | null | $Types.Skip
     website?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    updatedAt: Date | string
+    updatedAt?: Date | string | null | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
     attachments?: ProfileAttachmentCreateNestedManyWithoutProfileInput | $Types.Skip
   }
@@ -16841,7 +16841,7 @@ export namespace Prisma {
     phone?: string | null | $Types.Skip
     website?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    updatedAt: Date | string
+    updatedAt?: Date | string | null | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
     attachments?: ProfileAttachmentUncheckedCreateNestedManyWithoutProfileInput | $Types.Skip
   }
@@ -17030,7 +17030,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     website?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
     attachments?: ProfileAttachmentUpdateManyWithoutProfileNestedInput | $Types.Skip
   }
@@ -17049,7 +17049,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     website?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
     attachments?: ProfileAttachmentUncheckedUpdateManyWithoutProfileNestedInput | $Types.Skip
   }
@@ -18581,7 +18581,7 @@ export namespace Prisma {
     phone?: string | null | $Types.Skip
     website?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    updatedAt: Date | string
+    updatedAt?: Date | string | null | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
     user: UserCreateNestedOneWithoutProfileInput
   }
@@ -18601,7 +18601,7 @@ export namespace Prisma {
     phone?: string | null | $Types.Skip
     website?: string | null | $Types.Skip
     createdAt?: Date | string | $Types.Skip
-    updatedAt: Date | string
+    updatedAt?: Date | string | null | $Types.Skip
     deletedAt?: Date | string | null | $Types.Skip
   }
 
@@ -18664,7 +18664,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     website?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
     user?: UserUpdateOneRequiredWithoutProfileNestedInput | $Types.Skip
   }
@@ -18684,7 +18684,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     website?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string | $Types.Skip
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null | $Types.Skip
   }
 
