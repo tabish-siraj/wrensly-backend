@@ -11,11 +11,11 @@ export const normalizePostData = (
     content: post.content,
     parentId: post.parentId,
     type: post.type,
-    hasReplies: post.hasReplies || false,
     parent: post.parent
       ? {
           id: post.parent.id,
           content: post.parent.content,
+          type: post.parent.type,
           createdAt: post.parent.createdAt,
           user: {
             id: post.parent.user.id,
@@ -38,8 +38,8 @@ export const normalizePostData = (
       reposts: post._count.reposts,
       comments: post._count.comments,
     },
-    isLiked: post.likes.length > 0, // Check if the current user liked it
-    isReposted: post.reposts.length > 0, // Check if the current user reposted it
-    isBookmarked: post.bookmarks.length > 0, // Check if the current user bookmarked it
+    isLiked: post.likes.length > 0,
+    isReposted: post.reposts.length > 0,
+    isBookmarked: post.bookmarks.length > 0,
   };
 };
