@@ -1,3 +1,4 @@
+import { notEqual } from 'assert';
 import prisma from '../lib/prisma';
 import { UserPayload, NormalizedPost, GlobalParams } from '../types/express';
 
@@ -23,6 +24,8 @@ export const GetFeed = async (
       userId: {
         in: followingIds,
       },
+      type: { not: 'COMMENT' },
+      deletedAt: null,
     },
     skip: params.offset,
     take: params.limit,
@@ -89,16 +92,16 @@ export const GetFeed = async (
     parentId: post.parentId,
     parent: post.parent
       ? {
-          id: post.parent.id,
-          content: post.parent.content,
-          createdAt: post.parent.createdAt,
-          user: {
-            id: post.parent.user.id,
-            username: post.parent.user.username,
-            firstName: post.parent.user.profile?.firstName,
-            lastName: post.parent.user.profile?.lastName,
-          },
-        }
+        id: post.parent.id,
+        content: post.parent.content,
+        createdAt: post.parent.createdAt,
+        user: {
+          id: post.parent.user.id,
+          username: post.parent.user.username,
+          firstName: post.parent.user.profile?.firstName,
+          lastName: post.parent.user.profile?.lastName,
+        },
+      }
       : null,
     user: {
       id: post.user.id,
