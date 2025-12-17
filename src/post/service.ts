@@ -33,7 +33,7 @@ export const CreatePost = async (user: UserPayload, post: PostInterface) => {
 
     const createdPost = await prisma.post.create({
       data: {
-        content,
+        content: content || null,
         type,
         parentId: parentId || null,
         rootId: rootId || null,
