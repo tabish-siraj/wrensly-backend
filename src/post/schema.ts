@@ -1,40 +1,24 @@
 import { z } from 'zod';
 
-export const PostSchema = z
-  .object({
-    content: z.string().trim().min(1).max(500).optional(),
-    type: z.enum(['POST', 'COMMENT', 'QUOTE', 'REPOST']),
-    parentId: z.string().cuid().nullable().optional(),
-    rootId: z.string().cuid().nullable().optional(),
-  })
-  .superRefine((data, ctx) => {
-    const requiresParent = ['COMMENT', 'QUOTE', 'REPOST'].includes(data.type);
+export const PostSchema = z.object({
+  content: z.string().trim().min(1).max(500),
+});
 
-    if (requiresParent) {
-      if (!data.parentId)
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: `parentId is required for ${data.type}`,
-          path: ['parentId'],
-        });
-    }
+export const CommentSchema = z.object({
+  content: z.string().trim().min(1).max(500),
+  parentId: z.string().cuid(),
+});
 
-    if (data.type === 'POST') {
-      if (data.parentId)
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'parentId should not be provided for a post',
-          path: ['parentId'],
-        });
-    }
+export const QuoteSchema = z.object({
+  content: z.string().trim().min(1).max(500),
+  parentId: z.string().cuid(),
+});
 
-    if (['POST', 'COMMENT', 'QUOTE'].includes(data.type) && !data.content) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: `content is required for ${data.type}`,
-        path: ['content'],
-      });
-    }
-  });
+export const RepostSchema = z.object({
+  parentId: z.string().cuid(),
+});
 
 export type PostInterface = z.infer<typeof PostSchema>;
+export type CommentInterface = z.infer<typeof CommentSchema>;
+export type QuoteInterface = z.infer<typeof QuoteSchema>;
+export type RepostInterface = z.infer<typeof RepostSchema>;

@@ -1,5 +1,14 @@
 import prisma from '../lib/prisma';
-import { PostSchema, PostInterface } from './schema';
+import {
+  PostSchema,
+  PostInterface,
+  CommentSchema,
+  CommentInterface,
+  QuoteSchema,
+  QuoteInterface,
+  RepostSchema,
+  RepostInterface,
+} from './schema';
 import logger from '../utils/logger';
 import {
   NotFoundError,
@@ -19,35 +28,14 @@ export const CreatePost = async (user: UserPayload, post: PostInterface) => {
       throw new BadRequestError(validationErrors);
     }
 
-    let { rootId } = parsed.data;
-    const { content, type, parentId } = parsed.data;
-
-    if (type !== 'POST' && parentId) {
-      const parentPost = await prisma.post.findUnique({
-        where: { id: parentId },
-      });
-      if (!parentPost) throw new BadRequestError('Parent post not found');
-
-      rootId = parentPost.rootId || parentPost.id;
-    }
-
+    const { content } = parsed.data;
     const createdPost = await prisma.post.create({
       data: {
-        content: content || null,
-        type,
-        parentId: parentId || null,
-        rootId: rootId || null,
+        content,
+        type: 'POST',
         userId: user.id,
       },
     });
-
-    if (type === 'POST' && !createdPost.rootId) {
-      await prisma.post.update({
-        where: { id: createdPost.id },
-        data: { rootId: createdPost.id },
-      });
-      createdPost.rootId = createdPost.id;
-    }
 
     if (!createdPost) {
       logger.error(`Failed to create post: ${JSON.stringify(post)}`);
@@ -60,10 +48,135 @@ export const CreatePost = async (user: UserPayload, post: PostInterface) => {
   }
 };
 
-export const GetPostById = async (
+export const CreateComment = async (
   user: UserPayload,
-  id: string
-): Promise<NormalizedPost | null> => {
+  comment: CommentInterface
+) => {
+  try {
+    const parsed = CommentSchema.safeParse(comment);
+    if (!parsed.success) {
+      const validationErrors = parsed.error.flatten().fieldErrors;
+      logger.warn(
+        `Comment validation failed: ${JSON.stringify(validationErrors)}`
+      );
+      throw new BadRequestError(validationErrors);
+    }
+
+    const { content, parentId } = parsed.data;
+
+    const parentPost = await prisma.post.findUnique({
+      where: { id: parentId },
+    });
+    if (!parentPost) throw new BadRequestError('Parent post not found');
+
+    const rootId = parentPost.rootId || parentPost.id;
+    const createdPost = await prisma.post.create({
+      data: {
+        content,
+        type: 'COMMENT',
+        parentId: parentId,
+        rootId,
+        userId: user.id,
+      },
+    });
+
+    if (!createdPost) {
+      logger.error(`Failed to create comment: ${JSON.stringify(comment)}`);
+      throw new InternalServerError('Failed to create comment');
+    }
+
+    return createdPost;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const CreateQuote = async (user: UserPayload, quote: QuoteInterface) => {
+  try {
+    const parsed = QuoteSchema.safeParse(quote);
+    if (!parsed.success) {
+      const validationErrors = parsed.error.flatten().fieldErrors;
+      logger.warn(
+        `Quote validation failed: ${JSON.stringify(validationErrors)}`
+      );
+      throw new BadRequestError(validationErrors);
+    }
+
+    const { content, parentId } = parsed.data;
+
+    const parentPost = await prisma.post.findUnique({
+      where: { id: parentId },
+    });
+    if (!parentPost) throw new BadRequestError('Parent post not found');
+
+    const rootId = parentPost.rootId || parentPost.id;
+
+    const createdPost = await prisma.post.create({
+      data: {
+        content,
+        type: 'QUOTE',
+        parentId: parentId,
+        rootId,
+        userId: user.id,
+      },
+    });
+
+    if (!createdPost) {
+      logger.error(`Failed to create quote: ${JSON.stringify(quote)}`);
+      throw new InternalServerError('Failed to create quote');
+    }
+
+    return createdPost;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const CreateRepost = async (
+  user: UserPayload,
+  repost: RepostInterface
+) => {
+  try {
+    const parsed = RepostSchema.safeParse(repost);
+    if (!parsed.success) {
+      const validationErrors = parsed.error.flatten().fieldErrors;
+      logger.warn(
+        `Repost validation failed: ${JSON.stringify(validationErrors)}`
+      );
+      throw new BadRequestError(validationErrors);
+    }
+
+    const { parentId } = parsed.data;
+
+    const parentPost = await prisma.post.findUnique({
+      where: { id: parentId },
+    });
+    if (!parentPost) throw new BadRequestError('Parent post not found');
+
+    const rootId = parentPost.rootId || parentPost.id;
+
+    const createdPost = await prisma.post.create({
+      data: {
+        type: 'REPOST',
+        parentId: parentId,
+        rootId,
+        userId: user.id,
+        content: '',
+      },
+    });
+
+    if (!createdPost) {
+      logger.error(`Failed to create repost: ${JSON.stringify(repost)}`);
+      throw new InternalServerError('Failed to create repost');
+    }
+
+    return createdPost;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const GetPostById = async (user: UserPayload, id: string) => {
   try {
     if (!id || typeof id !== 'string') {
       logger.warn(`Invalid post ID: ${id}`);
