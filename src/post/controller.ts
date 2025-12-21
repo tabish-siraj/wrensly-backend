@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import {
   CreatePost,
+  CreateComment,
+  CreateQuote,
+  CreateRepost,
   DeletePost,
   GetAllPostsByUser,
   GetPostById,
@@ -22,6 +25,66 @@ export const createPostController = async (
     res
       .status(201)
       .json(successResponse('Post created successfully', post, 201));
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const createCommentController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.user) {
+    throw new UnauthorizedError('You must be logged in to perform this action');
+  }
+  try {
+    const user = req.user;
+    const parentId = req.params.id;
+    const post = await CreateComment(user, { ...req.body, parentId });
+    res
+      .status(201)
+      .json(successResponse('Comment created successfully', post, 201));
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const createQuoteController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.user) {
+    throw new UnauthorizedError('You must be logged in to perform this action');
+  }
+  try {
+    const user = req.user;
+    const parentId = req.params.id;
+    const post = await CreateQuote(user, { ...req.body, parentId });
+    res
+      .status(201)
+      .json(successResponse('Quote created successfully', post, 201));
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const createRepostController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.user) {
+    throw new UnauthorizedError('You must be logged in to perform this action');
+  }
+  try {
+    const user = req.user;
+    const parentId = req.params.id;
+    const post = await CreateRepost(user, { parentId });
+    res
+      .status(201)
+      .json(successResponse('Repost created successfully', post, 201));
   } catch (err) {
     next(err);
   }
