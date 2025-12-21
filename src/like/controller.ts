@@ -44,27 +44,3 @@ export const deleteLikeController = async (
     next(error);
   }
 };
-
-// export const getCommentByIdController = async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//         const user = req.user;
-//         const commentId = req.params.id;
-
-//         const comment = await GetCommentById(user, commentId);
-//         res.status(200).json(successResponse("Comment retrieved successfully", comment, 200));
-//     } catch (error) {
-//         next(error);
-//     }
-// };
-
-// export const getCommentsByPostIdController = async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//         const user = req.user;
-//         const postId = req.params.id;
-
-//         const comments = await GetCommentsByPostId(user, postId);
-//         res.status(200).json(successResponse("Comments retrieved successfully", comments, 200));
-//     } catch (error) {
-//         next(error);
-//     }
-// };

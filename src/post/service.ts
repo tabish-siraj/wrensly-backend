@@ -147,14 +147,41 @@ export const CreateRepost = async (
     }
 
     const { parent_id } = parsed.data;
-
     const parentPost = await prisma.post.findUnique({
       where: { id: parent_id },
     });
     if (!parentPost) throw new BadRequestError('Parent post not found');
 
-    const rootId = parentPost.rootId || parentPost.id;
+    if (parentPost.type !== 'POST' && parentPost.type !== 'QUOTE') throw new BadRequestError('Only posts and quotes can be reposted');
 
+    // Toggle behavior: if a repost by this user for this parent exists,
+    // soft-delete it (undo) or restore it; otherwise create a new repost.
+    const existingRepost = await prisma.post.findFirst({
+      where: { parentId: parent_id, userId: user.id, type: 'REPOST' },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    if (existingRepost) {
+      if (!existingRepost.deletedAt) {
+        // undo repost (soft delete)
+        const undone = await prisma.post.update({
+          where: { id: existingRepost.id },
+          data: { deletedAt: new Date() },
+        });
+
+        return undone;
+      }
+
+      // previously deleted -> restore it
+      const restored = await prisma.post.update({
+        where: { id: existingRepost.id },
+        data: { deletedAt: null, createdAt: new Date() },
+      });
+
+      return restored;
+    }
+
+    const rootId = parentPost.rootId || parentPost.id;
     const createdPost = await prisma.post.create({
       data: {
         type: 'REPOST',

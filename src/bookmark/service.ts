@@ -22,32 +22,32 @@ export const CreateBookmark = async (
   try {
     // Check if the post exists
     const post = await prisma.post.findUnique({
-      where: { id: parsed.data.postId },
+      where: { id: parsed.data.post_id },
     });
     if (!post) {
-      logger.warn(`Post with ID ${parsed.data.postId} not found`);
-      throw new NotFoundError(`Post with ID ${parsed.data.postId} not found`);
+      logger.warn(`Post with ID ${parsed.data.post_id} not found`);
+      throw new NotFoundError(`Post with ID ${parsed.data.post_id} not found`);
     }
 
     // Check if post is already bookmarked (if provided)
-    if (parsed.data.isBookmarked) {
+    if (parsed.data.is_bookmarked) {
       const alreadyBookmarked = await prisma.bookmark.findFirst({
         where: {
-          postId: parsed.data.postId,
+          postId: parsed.data.post_id,
           userId: user.id,
           // deletedAt: null
         },
       });
       if (alreadyBookmarked) {
         logger.warn(
-          `Post with ID ${parsed.data.postId} is already bookmarked by user ${user.id}`
+          `Post with ID ${parsed.data.post_id} is already bookmarked by user ${user.id}`
         );
         throw new ForbiddenError(`You have already bookmarked this post`);
       }
       // Create the bookmark in the database
       const createdBookmark = await prisma.bookmark.create({
         data: {
-          postId: parsed.data.postId,
+          postId: parsed.data.post_id,
           userId: user.id,
         },
       });
@@ -114,60 +114,13 @@ export const CreateDeleteBookmark = async (
   }
 
   try {
-    if (parsed.data.isBookmarked) {
+    if (parsed.data.is_bookmarked) {
       await CreateBookmark(user, parsed.data);
     } else {
-      await DeleteBookmark(user, parsed.data.postId);
+      await DeleteBookmark(user, parsed.data.post_id);
     }
     return;
   } catch (error) {
     throw error;
   }
 };
-
-// export const GetCommentById = async (user: UserPayload, id: string) => {
-//     if (!id || typeof id !== 'string') {
-//         logger.warn(`Invalid comment ID: ${id}`);
-//         throw new BadRequestError('Invalid comment ID');
-//     }
-
-//     try {
-//         // Fetch the comment from the database
-//         const comment = await prisma.comment.findUnique({
-//             where: { id },
-//         });
-
-//         if (!comment) {
-//             logger.warn(`Comment with ID ${id} not found`);
-//             throw new NotFoundError(`Comment with ID ${id} not found`);
-//         }
-
-//         return comment;
-//     } catch (error) {
-//         throw error;
-//     }
-// }
-
-// export const GetCommentsByPostId = async (user: UserPayload, postId: string) => {
-//     if (!postId) {
-//         logger.warn(`Invalid post ID: ${postId}`);
-//         throw new BadRequestError('Invalid post ID');
-//     }
-
-//     try {
-//         // Fetch comments for the specified post
-//         const comments = await prisma.comment.findMany({
-//             where: { postId },
-//             orderBy: { createdAt: 'desc' }, // Optional: order by creation date
-//         });
-
-//         if (!comments || comments.length === 0) {
-//             logger.warn(`No comments found for post ID ${postId}`);
-//             throw new NotFoundError(`No comments found for post ID ${postId}`);
-//         }
-
-//         return comments;
-//     } catch (error) {
-//         throw error;
-//     }
-// }

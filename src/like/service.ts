@@ -22,32 +22,32 @@ export const CreateLike = async (
   try {
     // Check if the post exists
     const post = await prisma.post.findUnique({
-      where: { id: parsed.data.postId },
+      where: { id: parsed.data.post_id },
     });
     if (!post) {
-      logger.warn(`Post with ID ${parsed.data.postId} not found`);
-      throw new NotFoundError(`Post with ID ${parsed.data.postId} not found`);
+      logger.warn(`Post with ID ${parsed.data.post_id} not found`);
+      throw new NotFoundError(`Post with ID ${parsed.data.post_id} not found`);
     }
 
     // Check if post is already liked (if provided)
-    if (parsed.data.isLiked) {
+    if (parsed.data.is_liked) {
       const alreadyLiked = await prisma.like.findFirst({
         where: {
-          postId: parsed.data.postId,
+          postId: parsed.data.post_id,
           userId: user.id,
           // deletedAt: null
         },
       });
       if (alreadyLiked) {
         logger.warn(
-          `Post with ID ${parsed.data.postId} is already liked by user ${user.id}`
+          `Post with ID ${parsed.data.post_id} is already liked by user ${user.id}`
         );
         throw new ForbiddenError(`You have already liked this post`);
       }
       // Create the like in the database
       const createdLike = await prisma.like.create({
         data: {
-          postId: parsed.data.postId,
+          postId: parsed.data.post_id,
           userId: user.id,
         },
       });
@@ -65,9 +65,9 @@ export const CreateLike = async (
   }
 };
 
-export const DeleteLike = async (user: UserPayload, postId: string) => {
-  if (!postId || typeof postId !== 'string') {
-    logger.warn(`Invalid post ID: ${postId}`);
+export const DeleteLike = async (user: UserPayload, post_id: string) => {
+  if (!post_id || typeof post_id !== 'string') {
+    logger.warn(`Invalid post ID: ${post_id}`);
     throw new BadRequestError('Invalid post ID');
   }
 
@@ -75,15 +75,15 @@ export const DeleteLike = async (user: UserPayload, postId: string) => {
     // Check if the post is already liked
     const isLiked = await prisma.like.findFirst({
       where: {
-        postId: postId,
+        postId: post_id,
         userId: user.id,
         // deletedAt: null
       },
     });
     if (!isLiked) {
-      logger.warn(`Like with Post ID ${postId} not found for user ${user.id}`);
+      logger.warn(`Like with Post ID ${post_id} not found for user ${user.id}`);
       throw new NotFoundError(
-        `Like with Post ID ${postId} not found for user ${user.id}`
+        `Like with Post ID ${post_id} not found for user ${user.id}`
       );
     }
 
@@ -112,60 +112,13 @@ export const CreateDeleteLike = async (
   }
 
   try {
-    if (parsed.data.isLiked) {
+    if (parsed.data.is_liked) {
       await CreateLike(user, parsed.data);
     } else {
-      await DeleteLike(user, parsed.data.postId);
+      await DeleteLike(user, parsed.data.post_id);
     }
     return;
   } catch (error) {
     throw error;
   }
 };
-
-// export const GetCommentById = async (user: UserPayload, id: string) => {
-//     if (!id || typeof id !== 'string') {
-//         logger.warn(`Invalid comment ID: ${id}`);
-//         throw new BadRequestError('Invalid comment ID');
-//     }
-
-//     try {
-//         // Fetch the comment from the database
-//         const comment = await prisma.comment.findUnique({
-//             where: { id },
-//         });
-
-//         if (!comment) {
-//             logger.warn(`Comment with ID ${id} not found`);
-//             throw new NotFoundError(`Comment with ID ${id} not found`);
-//         }
-
-//         return comment;
-//     } catch (error) {
-//         throw error;
-//     }
-// }
-
-// export const GetCommentsByPostId = async (user: UserPayload, postId: string) => {
-//     if (!postId) {
-//         logger.warn(`Invalid post ID: ${postId}`);
-//         throw new BadRequestError('Invalid post ID');
-//     }
-
-//     try {
-//         // Fetch comments for the specified post
-//         const comments = await prisma.comment.findMany({
-//             where: { postId },
-//             orderBy: { createdAt: 'desc' }, // Optional: order by creation date
-//         });
-
-//         if (!comments || comments.length === 0) {
-//             logger.warn(`No comments found for post ID ${postId}`);
-//             throw new NotFoundError(`No comments found for post ID ${postId}`);
-//         }
-
-//         return comments;
-//     } catch (error) {
-//         throw error;
-//     }
-// }

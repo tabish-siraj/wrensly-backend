@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 export const BookmarkSchema = z.object({
-  postId: z.string(),
-  isBookmarked: z.boolean(),
+  post_id: z.string(),
+  is_bookmarked: z.boolean(),
 });
 
 export type BookmarkInterface = z.infer<typeof BookmarkSchema>;
