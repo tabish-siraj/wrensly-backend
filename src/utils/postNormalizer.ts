@@ -7,30 +7,30 @@ export const normalizePostData = (
 ): NormalizedPost => {
   return {
     id: post.id,
-    createdAt: post.createdAt,
+    created_at: post.created_at,
     content: post.content,
-    parentId: post.parentId,
+    parent_id: post.parent_id,
     type: post.type,
     parent: post.parent
       ? {
-          id: post.parent.id,
-          content: post.parent.content,
-          type: post.parent.type,
-          createdAt: post.parent.createdAt,
-          user: {
-            id: post.parent.user.id,
-            username: post.parent.user.username,
-            firstName: post.parent.user.profile?.firstName || null,
-            lastName: post.parent.user.profile?.lastName || null,
-            avatar: post.parent.user.profile?.avatar || null,
-          },
-        }
+        id: post.parent.id,
+        content: post.parent.content,
+        type: post.parent.type,
+        created_at: post.parent.created_at,
+        user: {
+          id: post.parent.user.id,
+          username: post.parent.user.username,
+          first_name: post.parent.user.profile?.first_name || null,
+          last_name: post.parent.user.profile?.last_name || null,
+          avatar: post.parent.user.profile?.avatar || null,
+        },
+      }
       : null,
     user: {
       id: post.user.id,
       username: post.user.username,
-      firstName: post.user.profile?.firstName || null,
-      lastName: post.user.profile?.lastName || null,
+      first_name: post.user.profile?.first_name || null,
+      last_name: post.user.profile?.last_name || null,
       avatar: post.user.profile?.avatar || null,
     },
     stats: {
@@ -38,8 +38,8 @@ export const normalizePostData = (
       reposts: post._count.reposts,
       comments: post._count.comments,
     },
-    isLiked: post.likes.length > 0,
-    isReposted: post.reposts.length > 0,
-    isBookmarked: post.bookmarks.length > 0,
+    is_liked: post.likes.length > 0,
+    is_reposted: post.reposts.length > 0,
+    is_bookmarked: post.bookmarks.length > 0,
   };
 };

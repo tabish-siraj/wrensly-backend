@@ -29,8 +29,8 @@ export interface UserPayload {
 interface NormalizedUser {
   id: string;
   username: string;
-  firstName: string | null;
-  lastName: string | null;
+  first_name: string | null;
+  last_name: string | null;
   avatar: string | null;
 }
 
@@ -38,14 +38,14 @@ interface NormalizedPost {
   id: string;
   content: string | null;
   type: string;
-  createdAt: Date;
+  created_at: Date;
   user: NormalizedUser;
-  parentId?: string | null;
+  parent_id?: string | null;
   parent?: {
     id: string;
     content: string | null;
     type: string;
-    createdAt: Date;
+    created_at: Date;
     user: NormalizedUser;
   } | null;
   comments?: NormalizedPost[];
@@ -54,7 +54,7 @@ interface NormalizedPost {
     comments: number;
     reposts: number;
   };
-  isLiked: boolean;
-  isReposted: boolean;
-  isBookmarked: boolean;
+  is_liked: boolean;
+  is_reposted: boolean;
+  is_bookmarked: boolean;
 }

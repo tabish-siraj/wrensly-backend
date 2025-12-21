@@ -40,8 +40,8 @@ export const createCommentController = async (
   }
   try {
     const user = req.user;
-    const parentId = req.params.id;
-    const post = await CreateComment(user, { ...req.body, parentId });
+    const parent_id = req.params.id;
+    const post = await CreateComment(user, { ...req.body, parent_id });
     res
       .status(201)
       .json(successResponse('Comment created successfully', post, 201));
@@ -60,8 +60,8 @@ export const createQuoteController = async (
   }
   try {
     const user = req.user;
-    const parentId = req.params.id;
-    const post = await CreateQuote(user, { ...req.body, parentId });
+    const parent_id = req.params.id;
+    const post = await CreateQuote(user, { ...req.body, parent_id });
     res
       .status(201)
       .json(successResponse('Quote created successfully', post, 201));
@@ -80,8 +80,8 @@ export const createRepostController = async (
   }
   try {
     const user = req.user;
-    const parentId = req.params.id;
-    const post = await CreateRepost(user, { parentId });
+    const parent_id = req.params.id;
+    const post = await CreateRepost(user, { parent_id });
     res
       .status(201)
       .json(successResponse('Repost created successfully', post, 201));
