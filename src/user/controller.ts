@@ -1,6 +1,5 @@
 // src/controllers/users/controller.ts
 import { Request, Response, NextFunction } from 'express';
-// import { createUser, getUserByEmail, getUserById, updateUser, getProfileByUserId, updateProfile } from './service';
 import {
   createUser,
   getUserByEmail,
@@ -136,7 +135,7 @@ export const verifyEmailController = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { token } = req.query;
+  const { token } = req.body;
 
   try {
     if (typeof token !== 'string') {

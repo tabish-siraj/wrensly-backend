@@ -1,123 +1,83 @@
-import { LikeSchema, LikeInterface } from './schema';
 import prisma from '../lib/prisma';
 import logger from '../utils/logger';
 import {
   NotFoundError,
   BadRequestError,
-  ForbiddenError,
   InternalServerError,
 } from '../utils/errors';
 import { UserPayload } from '../types/express';
 
-export const CreateLike = async (
-  user: UserPayload,
-  likePayload: LikeInterface
-) => {
-  const parsed = LikeSchema.safeParse(likePayload);
-  if (!parsed.success) {
-    const validationErrors = parsed.error.flatten().fieldErrors;
-    logger.warn(`Like validation failed: ${validationErrors}`);
-    throw new BadRequestError(`${validationErrors}`);
-  }
+export const CreateLike = async (user: UserPayload, postId: string) => {
   try {
+    if (!postId || typeof postId !== 'string') {
+      logger.warn(`Invalid post ID: ${postId}`);
+      throw new BadRequestError('Invalid post ID');
+    }
+
     // Check if the post exists
     const post = await prisma.post.findUnique({
-      where: { id: parsed.data.post_id },
+      where: { id: postId, deletedAt: null },
     });
     if (!post) {
-      logger.warn(`Post with ID ${parsed.data.post_id} not found`);
-      throw new NotFoundError(`Post with ID ${parsed.data.post_id} not found`);
+      logger.warn(`Post with ID ${postId} not found`);
+      throw new NotFoundError(`Post with ID ${postId} not found`);
     }
 
-    // Check if post is already liked (if provided)
-    if (parsed.data.is_liked) {
-      const alreadyLiked = await prisma.like.findFirst({
-        where: {
-          postId: parsed.data.post_id,
-          userId: user.id,
-          // deletedAt: null
-        },
-      });
-      if (alreadyLiked) {
-        logger.warn(
-          `Post with ID ${parsed.data.post_id} is already liked by user ${user.id}`
-        );
-        throw new ForbiddenError(`You have already liked this post`);
-      }
-      // Create the like in the database
-      const createdLike = await prisma.like.create({
-        data: {
-          postId: parsed.data.post_id,
-          userId: user.id,
-        },
-      });
+    // Check if post is already liked
+    const existingLike = await prisma.like.findUnique({
+      where: {
+        userId_postId: { userId: user.id, postId },
+      },
+    });
 
-      if (!createdLike) {
-        logger.warn('Failed to create like in the database');
-        throw new InternalServerError('Failed to create like');
-      }
-
-      return createdLike;
+    if (existingLike) {
+      logger.warn(
+        `Post with ID ${postId} is already liked by user ${user.id}`
+      );
+      throw new BadRequestError('Post already liked');
     }
-    return;
+
+    // Create the like in the database
+    await prisma.like.create({
+      data: {
+        postId,
+        userId: user.id,
+      },
+    });
+
+    return { is_liked: true };
   } catch (error) {
     throw error;
   }
 };
 
-export const DeleteLike = async (user: UserPayload, post_id: string) => {
-  if (!post_id || typeof post_id !== 'string') {
-    logger.warn(`Invalid post ID: ${post_id}`);
-    throw new BadRequestError('Invalid post ID');
-  }
-
+export const DeleteLike = async (user: UserPayload, postId: string) => {
   try {
-    // Check if the post is already liked
-    const isLiked = await prisma.like.findFirst({
-      where: {
-        postId: post_id,
-        userId: user.id,
-        // deletedAt: null
-      },
-    });
-    if (!isLiked) {
-      logger.warn(`Like with Post ID ${post_id} not found for user ${user.id}`);
-      throw new NotFoundError(
-        `Like with Post ID ${post_id} not found for user ${user.id}`
-      );
+    if (!postId || typeof postId !== 'string') {
+      logger.warn(`Invalid post ID: ${postId}`);
+      throw new BadRequestError('Invalid post ID');
     }
 
-    // Soft delete the like by setting deletedAt TODO: Need to add deletedAt field in like model
-    // Hard delete the like by deleting the record
+    // Check if the like exists
+    const existingLike = await prisma.like.findUnique({
+      where: {
+        userId_postId: { userId: user.id, postId },
+      },
+    });
+
+    if (!existingLike) {
+      logger.warn(`Like with Post ID ${postId} not found for user ${user.id}`);
+      throw new NotFoundError('Like not found');
+    }
+
+    // Delete the like
     await prisma.like.delete({
       where: {
-        id: isLiked.id,
+        userId_postId: { userId: user.id, postId },
       },
     });
-    return;
-  } catch (error) {
-    throw error;
-  }
-};
 
-export const CreateDeleteLike = async (
-  user: UserPayload,
-  likePayload: LikeInterface
-) => {
-  const parsed = LikeSchema.safeParse(likePayload);
-  if (!parsed.success) {
-    const validationErrors = parsed.error.flatten().fieldErrors;
-    logger.warn(`Like validation failed: ${validationErrors}`);
-    throw new BadRequestError(`${validationErrors}`);
-  }
-
-  try {
-    if (parsed.data.is_liked) {
-      await CreateLike(user, parsed.data);
-    } else {
-      await DeleteLike(user, parsed.data.post_id);
-    }
-    return;
+    return { is_liked: false };
   } catch (error) {
     throw error;
   }

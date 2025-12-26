@@ -3,13 +3,13 @@ import { FollowInterface, FollowSchema } from './schema';
 import logger from '../utils/logger';
 import { NotFoundError, BadRequestError } from '../utils/errors';
 import { UserPayload } from '../types/express';
+import { CursorPaginationParams, createPaginatedResponse, PaginatedResult } from '../utils/pagination';
 
 export const CreateFollowUnfollow = async (
   user: UserPayload,
   payload: FollowInterface
 ) => {
   try {
-    // Validate follow data against the schema
     const parsed = FollowSchema.safeParse(payload);
     if (!parsed.success) {
       const validationErrors = parsed.error.flatten().fieldErrors;
@@ -19,16 +19,15 @@ export const CreateFollowUnfollow = async (
       throw new BadRequestError(validationErrors);
     }
 
-    // Check if the followed user exists
     const followedUser = await prisma.user.findUnique({
       where: { id: parsed.data.following },
     });
     if (!followedUser) {
       logger.warn(
-        `User you're trying to ${parsed.data.operation ? 'follow' : 'unfollow'} with ID ${parsed.data.following} not found`
+        `User you're trying to ${parsed.data.operation === 'follow' ? 'follow' : 'unfollow'} with ID ${parsed.data.following} not found`
       );
       throw new NotFoundError(
-        `User you're trying to ${parsed.data.operation ? 'follow' : 'unfollow'} with ID ${parsed.data.following} not found`
+        `User you're trying to ${parsed.data.operation === 'follow' ? 'follow' : 'unfollow'} with ID ${parsed.data.following} not found`
       );
     }
 
@@ -39,27 +38,35 @@ export const CreateFollowUnfollow = async (
       },
     });
 
-    if (existingFollow && !existingFollow.deletedAt) {
+    if (parsed.data.operation === 'follow') {
+      if (existingFollow && !existingFollow.deletedAt) {
+        throw new BadRequestError('Already following this user');
+      } else if (existingFollow && existingFollow.deletedAt) {
+        await prisma.follow.update({
+          where: { id: existingFollow.id },
+          data: { deletedAt: null },
+        });
+      } else {
+        await prisma.follow.create({
+          data: {
+            followerId: user.id,
+            followingId: parsed.data.following,
+          },
+        });
+      }
+      return 'followed';
+    } else if (parsed.data.operation === 'unfollow') {
+      if (!existingFollow || existingFollow.deletedAt) {
+        throw new BadRequestError('Not following this user');
+      }
       await prisma.follow.update({
         where: { id: existingFollow.id },
         data: { deletedAt: new Date() },
       });
       return 'unfollowed';
-    } else if (existingFollow && existingFollow.deletedAt) {
-      await prisma.follow.update({
-        where: { id: existingFollow.id },
-        data: { deletedAt: null },
-      });
-      return 'followed';
-    } else {
-      await prisma.follow.create({
-        data: {
-          followerId: user.id,
-          followingId: parsed.data.following,
-        },
-      });
-      return 'followed';
     }
+
+    throw new BadRequestError('Invalid operation');
   } catch (error) {
     logger.error(`Follow error: ${error}`);
     throw error;
@@ -68,9 +75,12 @@ export const CreateFollowUnfollow = async (
 
 export const GetFollowsByUsername = async (
   _user: UserPayload,
-  username: string
-) => {
+  username: string,
+  paginationParams: CursorPaginationParams
+): Promise<PaginatedResult<any>> => {
   try {
+    const { cursor, limit = 10 } = paginationParams;
+
     // Validate the username format
     if (!username || typeof username !== 'string') {
       logger.warn(`Invalid username: ${username}`);
@@ -91,50 +101,39 @@ export const GetFollowsByUsername = async (
         followerId: foundUser.id,
         deletedAt: null,
       },
-      select: {
-        followingId: true,
-      },
-    });
-
-    if (follows.length === 0) return [];
-
-    const followingIds = follows.map((follow) => follow.followingId);
-
-    const followingUsers = await prisma.user.findMany({
-      where: {
-        id: {
-          in: followingIds,
-        },
-      },
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        createdAt: true,
-        profile: {
+      take: limit + 1,
+      cursor: cursor ? { id: cursor } : undefined,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        following: {
           select: {
-            firstName: true,
-            lastName: true,
-            avatar: true,
+            id: true,
+            username: true,
+            profile: {
+              select: {
+                firstName: true,
+                lastName: true,
+                avatar: true,
+              },
+            },
           },
         },
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
     });
 
-    return followingUsers.map((user) => {
-      return {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        createdAt: user.createdAt,
-        firstName: user.profile?.firstName,
-        lastName: user.profile?.lastName,
-        avatar: user.profile?.avatar,
-      };
-    });
+    const transformedFollows = follows.map((follow) => ({
+      id: follow.id,
+      user: {
+        id: follow.following.id,
+        username: follow.following.username,
+        firstName: follow.following.profile?.firstName || '',
+        lastName: follow.following.profile?.lastName || '',
+        avatar: follow.following.profile?.avatar || '',
+      },
+      createdAt: follow.createdAt,
+    }));
+
+    return createPaginatedResponse(transformedFollows, limit, cursor);
   } catch (error) {
     logger.error(`Get follows error: ${error}`);
     throw error;
@@ -143,9 +142,12 @@ export const GetFollowsByUsername = async (
 
 export const GetFollowersByUsername = async (
   _user: UserPayload,
-  username: string
-) => {
+  username: string,
+  paginationParams: CursorPaginationParams
+): Promise<PaginatedResult<any>> => {
   try {
+    const { cursor, limit = 10 } = paginationParams;
+
     // Validate the username format
     if (!username || typeof username !== 'string') {
       logger.warn(`Invalid username: ${username}`);
@@ -166,50 +168,39 @@ export const GetFollowersByUsername = async (
         followingId: foundUser.id,
         deletedAt: null,
       },
-      select: {
-        followerId: true,
-      },
-    });
-
-    if (follows.length === 0) return [];
-
-    const followerIds = follows.map((follow) => follow.followerId);
-
-    const followerUsers = await prisma.user.findMany({
-      where: {
-        id: {
-          in: followerIds,
-        },
-      },
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        createdAt: true,
-        profile: {
+      take: limit + 1,
+      cursor: cursor ? { id: cursor } : undefined,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        follower: {
           select: {
-            firstName: true,
-            lastName: true,
-            avatar: true,
+            id: true,
+            username: true,
+            profile: {
+              select: {
+                firstName: true,
+                lastName: true,
+                avatar: true,
+              },
+            },
           },
         },
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
     });
 
-    return followerUsers.map((user) => {
-      return {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        createdAt: user.createdAt,
-        firstName: user.profile?.firstName,
-        lastName: user.profile?.lastName,
-        avatar: user.profile?.avatar,
-      };
-    });
+    const transformedFollows = follows.map((follow) => ({
+      id: follow.id,
+      user: {
+        id: follow.follower.id,
+        username: follow.follower.username,
+        firstName: follow.follower.profile?.firstName || '',
+        lastName: follow.follower.profile?.lastName || '',
+        avatar: follow.follower.profile?.avatar || '',
+      },
+      createdAt: follow.createdAt,
+    }));
+
+    return createPaginatedResponse(transformedFollows, limit, cursor);
   } catch (error) {
     logger.error(`Get followers error: ${error}`);
     throw error;

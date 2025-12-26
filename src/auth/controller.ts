@@ -6,6 +6,7 @@ import {
   resetPassword,
 } from './service';
 import { successResponse } from '../utils/response';
+import { LoginSchema, ForgotPasswordSchema, ResetPasswordSchema, RefreshTokenSchema } from './schema';
 
 export const loginUserController = async (
   req: Request,
@@ -13,11 +14,11 @@ export const loginUserController = async (
   next: NextFunction
 ) => {
   try {
-    const { email, password } = req.body;
-    const { token, refreshToken } = await loginUser(email, password);
+    const validatedData = LoginSchema.parse(req.body);
+    const result = await loginUser(validatedData.email, validatedData.password);
     res
       .status(200)
-      .json(successResponse('Login successful', { token, refreshToken }));
+      .json(successResponse('Login successful', result));
   } catch (err) {
     next(err);
   }
@@ -29,11 +30,11 @@ export const refreshTokenController = async (
   next: NextFunction
 ) => {
   try {
-    const { token } = req.body;
-    const newToken = await refreshToken(token);
+    const validatedData = RefreshTokenSchema.parse(req.body);
+    const result = await refreshToken(validatedData.token);
     res
       .status(200)
-      .json(successResponse('Token refreshed successfully', newToken));
+      .json(successResponse('Token refreshed successfully', result));
   } catch (err) {
     next(err);
   }
@@ -45,8 +46,8 @@ export const forgotPasswordController = async (
   next: NextFunction
 ) => {
   try {
-    const { email } = req.body;
-    const result = await forgotPassword(email);
+    const validatedData = ForgotPasswordSchema.parse(req.body);
+    const result = await forgotPassword(validatedData.email);
     res.status(200).json(successResponse(result.message, null));
   } catch (err) {
     next(err);
@@ -59,8 +60,8 @@ export const resetPasswordController = async (
   next: NextFunction
 ) => {
   try {
-    const { token, password } = req.body;
-    const result = await resetPassword(token, password);
+    const validatedData = ResetPasswordSchema.parse(req.body);
+    const result = await resetPassword(validatedData.token, validatedData.password);
     res.status(200).json(successResponse(result.message, null));
   } catch (err) {
     next(err);

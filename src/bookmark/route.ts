@@ -1,15 +1,12 @@
 import { Router } from 'express';
 import {
   createBookmarkController,
-  // getBookmarkByIdController,
-  // getBookmarksByPostIdController,
   deleteBookmarkController,
 } from './controller';
 
 const router = Router();
 router.post('/', createBookmarkController);
-// router.get("/:id", getBookmarkByIdController);
-// router.get("/post/:id", getBookmarksByPostIdController);
-router.delete('/:id', deleteBookmarkController);
+router.delete('/:postId', deleteBookmarkController);
+router.delete('/:post_id', deleteBookmarkController); // Support snake_case parameter
 
 export default router;

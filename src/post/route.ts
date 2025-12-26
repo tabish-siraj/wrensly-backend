@@ -4,19 +4,21 @@ import {
   getPostByIdController,
   deletePostController,
   getAllPostsByUserController,
+  getAllPostsController,
   createCommentController,
   createQuoteController,
   createRepostController,
 } from './controller';
-import { authenticateJWT } from '../middlewares/auth';
+import { createPostRateLimit } from '../middlewares/rateLimiter';
 
 const router = Router();
-router.post('/', authenticateJWT, createPostController);
-router.post('/:id/comment', authenticateJWT, createCommentController);
-router.post('/:id/quote', authenticateJWT, createQuoteController);
-router.post('/:id/repost', authenticateJWT, createRepostController);
-router.get('/', authenticateJWT, getAllPostsByUserController);
+router.post('/', createPostRateLimit, createPostController);
+router.post('/:id/comment', createPostRateLimit, createCommentController);
+router.post('/:id/quote', createPostRateLimit, createQuoteController);
+router.post('/:id/repost', createPostRateLimit, createRepostController);
+router.get('/', getAllPostsController);
+router.get('/user/:userId', getAllPostsByUserController);
 router.get('/:id', getPostByIdController);
-router.delete('/:id', authenticateJWT, deletePostController);
+router.delete('/:id', deletePostController);
 
 export default router;

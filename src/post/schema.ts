@@ -1,16 +1,16 @@
 import { z } from 'zod';
 
 export const PostSchema = z.object({
-  content: z.string().trim().min(1).max(500),
+  content: z.string().trim().min(1).max(280),
 });
 
 export const CommentSchema = z.object({
-  content: z.string().trim().min(1).max(500),
+  content: z.string().trim().min(1).max(280),
   parent_id: z.string().cuid(),
 });
 
 export const QuoteSchema = z.object({
-  content: z.string().trim().min(1).max(500),
+  content: z.string().trim().min(1).max(280),
   parent_id: z.string().cuid(),
 });
 

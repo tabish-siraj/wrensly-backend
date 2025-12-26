@@ -7,41 +7,51 @@ import {
   verifyRefreshToken,
 } from '../utils/auth';
 import logger from '../utils/logger';
-import { NotFoundError, BadRequestError } from '../utils/errors';
+import { NotFoundError, BadRequestError, InternalServerError, AppError } from '../utils/errors';
 import { sendPasswordResetEmail } from '../utils/email';
 
 export const loginUser = async (email: string, password: string) => {
   try {
+    if (!email || !password) {
+      throw new BadRequestError('Email and password are required');
+    }
+
     const user = await prisma.user.findFirst({
       where: {
         email: {
           equals: email,
           mode: 'insensitive', // Case insensitive search
         },
+        isActive: true,
+        isBanned: false,
       },
     });
 
     if (!user) {
-      logger.error(`User not found: ${email}`);
-      throw new NotFoundError('User not found');
+      logger.warn(`Login attempt with non-existent or inactive email: ${email}`);
+      throw new NotFoundError('Invalid credentials');
     }
 
-    // Assuming you have a function to compare passwords
     const isPasswordValid = await comparePassword(password, user.password);
     if (!isPasswordValid) {
-      logger.error(`Invalid password for user: ${email}`);
-      throw new BadRequestError('Invalid password');
+      logger.warn(`Invalid password for user: ${email}`);
+      throw new BadRequestError('Invalid credentials');
     }
 
-    // Generate a token for the user
     const token = generateToken({ id: user.id, email: user.email });
     const refreshToken = generateRefreshToken({
       id: user.id,
       email: user.email,
     });
+    
+    logger.info(`User logged in successfully: ${email}`);
     return { token, refreshToken };
   } catch (error) {
-    throw error;
+    if (error instanceof AppError) {
+      throw error;
+    }
+    logger.error(`Unexpected error during login for ${email}:`, error);
+    throw new InternalServerError('Login failed');
   }
 };
 

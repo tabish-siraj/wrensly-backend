@@ -1,9 +1,15 @@
 import cors from 'cors';
 import express from 'express';
+import helmet from 'helmet';
+import mongoSanitize from 'express-mongo-sanitize';
 import router from './src/routes/index';
 import requestLogger from './src/middlewares/logger';
 import { errorHandler } from './src/middlewares/errorHandler';
 import { globalParamsHandler } from './src/middlewares/params';
+import { generalRateLimit } from './src/middlewares/rateLimiter';
+import { sanitizeInput } from './src/middlewares/sanitizer';
+import { responseWrapper } from './src/middlewares/responseWrapper';
+import { transformIncomingPayload } from './src/middlewares/caseTransform';
 
 const app = express();
 
@@ -27,7 +33,10 @@ app.use(
 );
 
 app.use(express.json());
+app.use(transformIncomingPayload); // Transform snake_case to camelCase for incoming payloads
+app.use(generalRateLimit);
 app.use(requestLogger);
+app.use(responseWrapper);
 app.use('/api', globalParamsHandler, router);
 app.use('/test', (req, res) => {
   res.status(200).json({ message: 'Server is running!!!' });

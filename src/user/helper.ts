@@ -9,26 +9,26 @@ export function omitEmptyFields(obj: any) {
   return obj;
 }
 
-export function toUserResponse(user: any): UserResponseInterface {
+export function toUserResponse(user: any): any {
   return {
     id: user.id || '',
     username: user.username || '',
     email: user.email || '',
-    isEmailVerified: user.isEmailVerified || false,
-    firstName: user.Profile?.firstName || '',
-    lastName: user.Profile?.lastName || '',
-    dateOfBirth: user.Profile?.dateOfBirth?.toString() || '',
-    gender: user.Profile?.gender || '',
-    bio: user.Profile?.bio || '',
-    avatar: user.Profile?.avatar || '',
-    city: user.Profile?.city || '',
-    state: user.Profile?.state || '',
-    country: user.Profile?.country || '',
-    phone: user.Profile?.phone || '',
-    website: user.Profile?.website || '',
-    followersCount: user._count?.Follower || 0,
-    followingCount: user._count?.Following || 0,
-    createdAt: user.createdAt.toString() || '',
-    updatedAt: user.updatedAt.toString() || '',
+    is_email_verified: user.isEmailVerified || false,
+    first_name: user.profile?.firstName || '',
+    last_name: user.profile?.lastName || '',
+    date_of_birth: user.profile?.dateOfBirth?.toString() || '',
+    gender: user.profile?.gender || '',
+    bio: user.profile?.bio || '',
+    avatar: user.profile?.avatar || '',
+    city: user.profile?.city || '',
+    state: user.profile?.state || '',
+    country: user.profile?.country || '',
+    phone: user.profile?.phone || '',
+    website: user.profile?.website || '',
+    followers_count: user._count?.followers || 0,
+    following_count: user._count?.following || 0,
+    created_at: user.createdAt.toString() || '',
+    updated_at: user.updatedAt.toString() || '',
   };
 }

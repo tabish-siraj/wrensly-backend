@@ -19,6 +19,9 @@ const pool = new Pool({
     rejectUnauthorized: true,
     ca: fs.readFileSync(caPath).toString(),
   },
+  max: 20, // Maximum number of connections in the pool
+  idleTimeoutMillis: 30000, // How long a client is allowed to remain idle before being closed
+  connectionTimeoutMillis: 2000, // How long to wait when connecting a new client
 });
 
 // Force the pool to connect once to catch errors early

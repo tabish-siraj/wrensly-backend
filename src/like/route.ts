@@ -1,15 +1,12 @@
 import { Router } from 'express';
 import {
   createLikeController,
-  // getLikeByIdController,
-  // getLikesByPostIdController,
   deleteLikeController,
 } from './controller';
 
 const router = Router();
 router.post('/', createLikeController);
-// router.get("/:id", getLikeByIdController);
-// router.get("/post/:id", getLikesByPostIdController);
-router.delete('/:id', deleteLikeController);
+router.delete('/:postId', deleteLikeController);
+router.delete('/:post_id', deleteLikeController); // Support snake_case parameter
 
 export default router;

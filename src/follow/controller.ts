@@ -6,6 +6,7 @@ import {
 } from './service';
 import { successResponse } from '../utils/response';
 import { UnauthorizedError } from '../utils/errors';
+import { parsePaginationParams } from '../utils/pagination';
 
 export const followUnfollowController = async (
   req: Request,
@@ -18,10 +19,10 @@ export const followUnfollowController = async (
   try {
     const user = req.user;
     const payload = req.body;
-    const follow = await CreateFollowUnfollow(user, payload);
+    const result = await CreateFollowUnfollow(user, payload);
     res
       .status(200)
-      .json(successResponse('Follow created successfully', follow, 200));
+      .json(successResponse(`User ${result} successfully`, { operation: result }));
   } catch (err) {
     next(err);
   }
@@ -38,8 +39,9 @@ export const getFollowsByUsernameController = async (
   try {
     const user = req.user;
     const username = req.params.username;
-    const follow = await GetFollowsByUsername(user, username);
-    res.status(200).json(successResponse('Follow model list', follow, 200));
+    const paginationParams = parsePaginationParams(req.query);
+    const result = await GetFollowsByUsername(user, username, paginationParams);
+    res.status(200).json(successResponse('Following list retrieved successfully', result.data, result.meta));
   } catch (err) {
     next(err);
   }
@@ -56,8 +58,9 @@ export const getFollowersByUsernameController = async (
   try {
     const user = req.user;
     const username = req.params.username;
-    const follow = await GetFollowersByUsername(user, username);
-    res.status(200).json(successResponse('Follow model list', follow, 200));
+    const paginationParams = parsePaginationParams(req.query);
+    const result = await GetFollowersByUsername(user, username, paginationParams);
+    res.status(200).json(successResponse('Followers list retrieved successfully', result.data, result.meta));
   } catch (err) {
     next(err);
   }

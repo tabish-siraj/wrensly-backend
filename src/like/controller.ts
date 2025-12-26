@@ -13,12 +13,13 @@ export const createLikeController = async (
   }
   try {
     const user = req.user;
-    const likeData = req.body;
+    // Handle both camelCase (from middleware transform) and snake_case
+    const postId = req.body.postId || req.body.post_id;
 
-    const like = await CreateLike(user, likeData);
+    const result = await CreateLike(user, postId);
     res
-      .status(201)
-      .json(successResponse('Like created successfully', like, 201));
+      .status(200)
+      .json(successResponse('Post liked successfully', result));
   } catch (error) {
     next(error);
   }
@@ -34,12 +35,13 @@ export const deleteLikeController = async (
   }
   try {
     const user = req.user;
-    const likeId = req.params.id;
+    // Handle both camelCase and snake_case parameter names
+    const postId = req.params.postId || req.params.post_id;
 
-    await DeleteLike(user, likeId);
+    const result = await DeleteLike(user, postId);
     res
-      .status(204)
-      .json(successResponse('Like deleted successfully', null, 204));
+      .status(200)
+      .json(successResponse('Post unliked successfully', result));
   } catch (error) {
     next(error);
   }

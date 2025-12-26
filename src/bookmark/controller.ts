@@ -13,12 +13,13 @@ export const createBookmarkController = async (
   }
   try {
     const user = req.user;
-    const bookmarkData = req.body;
+    // Handle both camelCase (from middleware transform) and snake_case
+    const postId = req.body.postId || req.body.post_id;
 
-    const bookmark = await CreateBookmark(user, bookmarkData);
+    const result = await CreateBookmark(user, postId);
     res
-      .status(201)
-      .json(successResponse('Bookmark created successfully', bookmark, 201));
+      .status(200)
+      .json(successResponse('Post bookmarked successfully', result));
   } catch (error) {
     next(error);
   }
@@ -34,37 +35,14 @@ export const deleteBookmarkController = async (
   }
   try {
     const user = req.user;
-    const bookmarkId = req.params.id;
+    // Handle both camelCase and snake_case parameter names
+    const postId = req.params.postId || req.params.post_id;
 
-    await DeleteBookmark(user, bookmarkId);
+    const result = await DeleteBookmark(user, postId);
     res
-      .status(204)
-      .json(successResponse('Bookmark deleted successfully', null, 204));
+      .status(200)
+      .json(successResponse('Bookmark removed successfully', result));
   } catch (error) {
     next(error);
   }
 };
-
-// export const getCommentByIdController = async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//         const user = req.user;
-//         const commentId = req.params.id;
-
-//         const comment = await GetCommentById(user, commentId);
-//         res.status(200).json(successResponse("Comment retrieved successfully", comment, 200));
-//     } catch (error) {
-//         next(error);
-//     }
-// };
-
-// export const getCommentsByPostIdController = async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//         const user = req.user;
-//         const postId = req.params.id;
-
-//         const comments = await GetCommentsByPostId(user, postId);
-//         res.status(200).json(successResponse("Comments retrieved successfully", comments, 200));
-//     } catch (error) {
-//         next(error);
-//     }
-// };

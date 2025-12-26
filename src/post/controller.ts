@@ -7,9 +7,11 @@ import {
   DeletePost,
   GetAllPostsByUser,
   GetPostById,
+  GetAllPosts,
 } from './service';
 import { successResponse } from '../utils/response';
 import { UnauthorizedError } from '../utils/errors';
+import { parsePaginationParams } from '../utils/pagination';
 
 export const createPostController = async (
   req: Request,
@@ -24,7 +26,7 @@ export const createPostController = async (
     const post = await CreatePost(user, req.body);
     res
       .status(201)
-      .json(successResponse('Post created successfully', post, 201));
+      .json(successResponse('Post created successfully', post));
   } catch (err) {
     next(err);
   }
@@ -44,7 +46,7 @@ export const createCommentController = async (
     const post = await CreateComment(user, { ...req.body, parent_id });
     res
       .status(201)
-      .json(successResponse('Comment created successfully', post, 201));
+      .json(successResponse('Comment created successfully', post));
   } catch (err) {
     next(err);
   }
@@ -64,7 +66,7 @@ export const createQuoteController = async (
     const post = await CreateQuote(user, { ...req.body, parent_id });
     res
       .status(201)
-      .json(successResponse('Quote created successfully', post, 201));
+      .json(successResponse('Quote created successfully', post));
   } catch (err) {
     next(err);
   }
@@ -84,7 +86,7 @@ export const createRepostController = async (
     const post = await CreateRepost(user, { parent_id });
     res
       .status(201)
-      .json(successResponse('Repost created successfully', post, 201));
+      .json(successResponse('Repost created successfully', post));
   } catch (err) {
     next(err);
   }
@@ -104,7 +106,27 @@ export const getPostByIdController = async (
     const post = await GetPostById(user, postId);
     res
       .status(200)
-      .json(successResponse('Post retrieved successfully', post, 200));
+      .json(successResponse('Post retrieved successfully', post));
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getAllPostsController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.user) {
+    throw new UnauthorizedError('You must be logged in to perform this action');
+  }
+  try {
+    const user = req.user;
+    const paginationParams = parsePaginationParams(req.query);
+    const result = await GetAllPosts(user, paginationParams);
+    res
+      .status(200)
+      .json(successResponse('Posts retrieved successfully', result.data, result.meta));
   } catch (err) {
     next(err);
   }
@@ -120,10 +142,12 @@ export const getAllPostsByUserController = async (
   }
   try {
     const user = req.user;
-    const posts = await GetAllPostsByUser(user);
+    const userId = req.params.userId;
+    const paginationParams = parsePaginationParams(req.query);
+    const result = await GetAllPostsByUser(user, paginationParams, userId);
     res
       .status(200)
-      .json(successResponse('Posts retrieved successfully', posts, 200));
+      .json(successResponse('Posts retrieved successfully', result.data, result.meta));
   } catch (err) {
     next(err);
   }
@@ -142,8 +166,8 @@ export const deletePostController = async (
     const postId = req.params.id;
     await DeletePost(user, postId);
     res
-      .status(204)
-      .json(successResponse('Post deleted successfully', null, 204));
+      .status(200)
+      .json(successResponse('Post deleted successfully', null));
   } catch (err) {
     next(err);
   }

@@ -4,10 +4,11 @@ import {
   getFollowsByUsernameController,
   getFollowersByUsernameController,
 } from './controller';
+import { followRateLimit } from '../middlewares/rateLimiter';
 
 const router = Router();
 
-router.post('/', followUnfollowController);
+router.post('/', followRateLimit, followUnfollowController);
 router.get('/following/:username', getFollowsByUsernameController);
 router.get('/followers/:username', getFollowersByUsernameController);
 

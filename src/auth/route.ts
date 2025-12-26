@@ -5,11 +5,12 @@ import {
   forgotPasswordController,
   resetPasswordController,
 } from './controller';
+import { authRateLimit } from '../middlewares/rateLimiter';
 
 const router = Router();
-router.post('/login', loginUserController);
-router.post('/token/refresh', refreshTokenController);
-router.post('/forgot-password', forgotPasswordController);
-router.post('/reset-password', resetPasswordController);
+router.post('/login', authRateLimit, loginUserController);
+router.post('/token/refresh', authRateLimit, refreshTokenController);
+router.post('/forgot-password', authRateLimit, forgotPasswordController);
+router.post('/reset-password', authRateLimit, resetPasswordController);
 
 export default router;
