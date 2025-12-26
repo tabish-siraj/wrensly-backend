@@ -3313,6 +3313,7 @@ export namespace Prisma {
     gender: string | null
     bio: string | null
     avatar: string | null
+    cover: string | null
     city: string | null
     state: string | null
     country: string | null
@@ -3332,6 +3333,7 @@ export namespace Prisma {
     gender: string | null
     bio: string | null
     avatar: string | null
+    cover: string | null
     city: string | null
     state: string | null
     country: string | null
@@ -3351,6 +3353,7 @@ export namespace Prisma {
     gender: number
     bio: number
     avatar: number
+    cover: number
     city: number
     state: number
     country: number
@@ -3372,6 +3375,7 @@ export namespace Prisma {
     gender?: true | $Types.Skip
     bio?: true | $Types.Skip
     avatar?: true | $Types.Skip
+    cover?: true | $Types.Skip
     city?: true | $Types.Skip
     state?: true | $Types.Skip
     country?: true | $Types.Skip
@@ -3391,6 +3395,7 @@ export namespace Prisma {
     gender?: true | $Types.Skip
     bio?: true | $Types.Skip
     avatar?: true | $Types.Skip
+    cover?: true | $Types.Skip
     city?: true | $Types.Skip
     state?: true | $Types.Skip
     country?: true | $Types.Skip
@@ -3410,6 +3415,7 @@ export namespace Prisma {
     gender?: true | $Types.Skip
     bio?: true | $Types.Skip
     avatar?: true | $Types.Skip
+    cover?: true | $Types.Skip
     city?: true | $Types.Skip
     state?: true | $Types.Skip
     country?: true | $Types.Skip
@@ -3502,6 +3508,7 @@ export namespace Prisma {
     gender: string | null
     bio: string | null
     avatar: string | null
+    cover: string | null
     city: string | null
     state: string | null
     country: string | null
@@ -3538,6 +3545,7 @@ export namespace Prisma {
     gender?: boolean | $Types.Skip
     bio?: boolean | $Types.Skip
     avatar?: boolean | $Types.Skip
+    cover?: boolean | $Types.Skip
     city?: boolean | $Types.Skip
     state?: boolean | $Types.Skip
     country?: boolean | $Types.Skip
@@ -3560,6 +3568,7 @@ export namespace Prisma {
     gender?: boolean | $Types.Skip
     bio?: boolean | $Types.Skip
     avatar?: boolean | $Types.Skip
+    cover?: boolean | $Types.Skip
     city?: boolean | $Types.Skip
     state?: boolean | $Types.Skip
     country?: boolean | $Types.Skip
@@ -3580,6 +3589,7 @@ export namespace Prisma {
     gender?: boolean | $Types.Skip
     bio?: boolean | $Types.Skip
     avatar?: boolean | $Types.Skip
+    cover?: boolean | $Types.Skip
     city?: boolean | $Types.Skip
     state?: boolean | $Types.Skip
     country?: boolean | $Types.Skip
@@ -3600,6 +3610,7 @@ export namespace Prisma {
     gender?: boolean | $Types.Skip
     bio?: boolean | $Types.Skip
     avatar?: boolean | $Types.Skip
+    cover?: boolean | $Types.Skip
     city?: boolean | $Types.Skip
     state?: boolean | $Types.Skip
     country?: boolean | $Types.Skip
@@ -3610,7 +3621,7 @@ export namespace Prisma {
     deletedAt?: boolean | $Types.Skip
   }
 
-  export type ProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "dateOfBirth" | "gender" | "bio" | "avatar" | "city" | "state" | "country" | "phone" | "website" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["profile"], $Types.Skip>
+  export type ProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "dateOfBirth" | "gender" | "bio" | "avatar" | "cover" | "city" | "state" | "country" | "phone" | "website" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["profile"], $Types.Skip>
   export type ProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs> | $Types.Skip
     attachments?: boolean | Profile$attachmentsArgs<ExtArgs> | $Types.Skip
@@ -3638,6 +3649,7 @@ export namespace Prisma {
       gender: string | null
       bio: string | null
       avatar: string | null
+      cover: string | null
       city: string | null
       state: string | null
       country: string | null
@@ -4079,6 +4091,7 @@ export namespace Prisma {
     readonly gender: FieldRef<"Profile", 'String'>
     readonly bio: FieldRef<"Profile", 'String'>
     readonly avatar: FieldRef<"Profile", 'String'>
+    readonly cover: FieldRef<"Profile", 'String'>
     readonly city: FieldRef<"Profile", 'String'>
     readonly state: FieldRef<"Profile", 'String'>
     readonly country: FieldRef<"Profile", 'String'>
@@ -13330,6 +13343,7 @@ export namespace Prisma {
     gender: 'gender',
     bio: 'bio',
     avatar: 'avatar',
+    cover: 'cover',
     city: 'city',
     state: 'state',
     country: 'country',
@@ -13669,6 +13683,7 @@ export namespace Prisma {
     gender?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
     bio?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
     avatar?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
+    cover?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
     city?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
     state?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
     country?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
@@ -13690,6 +13705,7 @@ export namespace Prisma {
     gender?: SortOrderInput | SortOrder | $Types.Skip
     bio?: SortOrderInput | SortOrder | $Types.Skip
     avatar?: SortOrderInput | SortOrder | $Types.Skip
+    cover?: SortOrderInput | SortOrder | $Types.Skip
     city?: SortOrderInput | SortOrder | $Types.Skip
     state?: SortOrderInput | SortOrder | $Types.Skip
     country?: SortOrderInput | SortOrder | $Types.Skip
@@ -13714,6 +13730,7 @@ export namespace Prisma {
     gender?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
     bio?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
     avatar?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
+    cover?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
     city?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
     state?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
     country?: StringNullableFilter<"Profile"> | string | null | $Types.Skip
@@ -13735,6 +13752,7 @@ export namespace Prisma {
     gender?: SortOrderInput | SortOrder | $Types.Skip
     bio?: SortOrderInput | SortOrder | $Types.Skip
     avatar?: SortOrderInput | SortOrder | $Types.Skip
+    cover?: SortOrderInput | SortOrder | $Types.Skip
     city?: SortOrderInput | SortOrder | $Types.Skip
     state?: SortOrderInput | SortOrder | $Types.Skip
     country?: SortOrderInput | SortOrder | $Types.Skip
@@ -13760,6 +13778,7 @@ export namespace Prisma {
     gender?: StringNullableWithAggregatesFilter<"Profile"> | string | null | $Types.Skip
     bio?: StringNullableWithAggregatesFilter<"Profile"> | string | null | $Types.Skip
     avatar?: StringNullableWithAggregatesFilter<"Profile"> | string | null | $Types.Skip
+    cover?: StringNullableWithAggregatesFilter<"Profile"> | string | null | $Types.Skip
     city?: StringNullableWithAggregatesFilter<"Profile"> | string | null | $Types.Skip
     state?: StringNullableWithAggregatesFilter<"Profile"> | string | null | $Types.Skip
     country?: StringNullableWithAggregatesFilter<"Profile"> | string | null | $Types.Skip
@@ -14436,6 +14455,7 @@ export namespace Prisma {
     gender?: string | null | $Types.Skip
     bio?: string | null | $Types.Skip
     avatar?: string | null | $Types.Skip
+    cover?: string | null | $Types.Skip
     city?: string | null | $Types.Skip
     state?: string | null | $Types.Skip
     country?: string | null | $Types.Skip
@@ -14457,6 +14477,7 @@ export namespace Prisma {
     gender?: string | null | $Types.Skip
     bio?: string | null | $Types.Skip
     avatar?: string | null | $Types.Skip
+    cover?: string | null | $Types.Skip
     city?: string | null | $Types.Skip
     state?: string | null | $Types.Skip
     country?: string | null | $Types.Skip
@@ -14476,6 +14497,7 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bio?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     avatar?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    cover?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     city?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     state?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     country?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
@@ -14497,6 +14519,7 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bio?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     avatar?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    cover?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     city?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     state?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     country?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
@@ -14517,6 +14540,7 @@ export namespace Prisma {
     gender?: string | null | $Types.Skip
     bio?: string | null | $Types.Skip
     avatar?: string | null | $Types.Skip
+    cover?: string | null | $Types.Skip
     city?: string | null | $Types.Skip
     state?: string | null | $Types.Skip
     country?: string | null | $Types.Skip
@@ -14535,6 +14559,7 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bio?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     avatar?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    cover?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     city?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     state?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     country?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
@@ -14554,6 +14579,7 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bio?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     avatar?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    cover?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     city?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     state?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     country?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
@@ -15317,6 +15343,7 @@ export namespace Prisma {
     gender?: SortOrder | $Types.Skip
     bio?: SortOrder | $Types.Skip
     avatar?: SortOrder | $Types.Skip
+    cover?: SortOrder | $Types.Skip
     city?: SortOrder | $Types.Skip
     state?: SortOrder | $Types.Skip
     country?: SortOrder | $Types.Skip
@@ -15336,6 +15363,7 @@ export namespace Prisma {
     gender?: SortOrder | $Types.Skip
     bio?: SortOrder | $Types.Skip
     avatar?: SortOrder | $Types.Skip
+    cover?: SortOrder | $Types.Skip
     city?: SortOrder | $Types.Skip
     state?: SortOrder | $Types.Skip
     country?: SortOrder | $Types.Skip
@@ -15355,6 +15383,7 @@ export namespace Prisma {
     gender?: SortOrder | $Types.Skip
     bio?: SortOrder | $Types.Skip
     avatar?: SortOrder | $Types.Skip
+    cover?: SortOrder | $Types.Skip
     city?: SortOrder | $Types.Skip
     state?: SortOrder | $Types.Skip
     country?: SortOrder | $Types.Skip
@@ -16816,6 +16845,7 @@ export namespace Prisma {
     gender?: string | null | $Types.Skip
     bio?: string | null | $Types.Skip
     avatar?: string | null | $Types.Skip
+    cover?: string | null | $Types.Skip
     city?: string | null | $Types.Skip
     state?: string | null | $Types.Skip
     country?: string | null | $Types.Skip
@@ -16835,6 +16865,7 @@ export namespace Prisma {
     gender?: string | null | $Types.Skip
     bio?: string | null | $Types.Skip
     avatar?: string | null | $Types.Skip
+    cover?: string | null | $Types.Skip
     city?: string | null | $Types.Skip
     state?: string | null | $Types.Skip
     country?: string | null | $Types.Skip
@@ -17024,6 +17055,7 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bio?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     avatar?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    cover?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     city?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     state?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     country?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
@@ -17043,6 +17075,7 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bio?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     avatar?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    cover?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     city?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     state?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     country?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
@@ -18575,6 +18608,7 @@ export namespace Prisma {
     gender?: string | null | $Types.Skip
     bio?: string | null | $Types.Skip
     avatar?: string | null | $Types.Skip
+    cover?: string | null | $Types.Skip
     city?: string | null | $Types.Skip
     state?: string | null | $Types.Skip
     country?: string | null | $Types.Skip
@@ -18595,6 +18629,7 @@ export namespace Prisma {
     gender?: string | null | $Types.Skip
     bio?: string | null | $Types.Skip
     avatar?: string | null | $Types.Skip
+    cover?: string | null | $Types.Skip
     city?: string | null | $Types.Skip
     state?: string | null | $Types.Skip
     country?: string | null | $Types.Skip
@@ -18658,6 +18693,7 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bio?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     avatar?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    cover?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     city?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     state?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     country?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
@@ -18678,6 +18714,7 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     bio?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     avatar?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
+    cover?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     city?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     state?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip
     country?: NullableStringFieldUpdateOperationsInput | string | null | $Types.Skip

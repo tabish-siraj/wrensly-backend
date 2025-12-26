@@ -150,6 +150,7 @@ exports.Prisma.ProfileScalarFieldEnum = {
   gender: 'gender',
   bio: 'bio',
   avatar: 'avatar',
+  cover: 'cover',
   city: 'city',
   state: 'state',
   country: 'country',
