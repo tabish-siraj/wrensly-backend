@@ -1,4 +1,4 @@
-import prisma from '../lib/prisma';
+﻿import prisma from '../lib/prisma';
 import {
     PostSchema,
     PostInterface,
@@ -211,62 +211,128 @@ export const GetAllPosts = async (
     try {
         const { cursor, limit = 10 } = paginationParams;
 
-        // Build cursor condition for raw query
-        const cursorCondition = cursor ? `AND p.id < '${cursor}'` : '';
+        const posts = await prisma.post.findMany({
+            where: {
+                deletedAt: null,
+                type: { in: ['POST', 'QUOTE', 'REPOST'] },
+                ...(cursor && { id: { lt: cursor } }),
+            },
+            take: limit + 1,
+            orderBy: { createdAt: 'desc' },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        username: true,
+                        profile: {
+                            select: {
+                                firstName: true,
+                                lastName: true,
+                                avatar: true,
+                            },
+                        },
+                    },
+                },
+                parent: {
+                    where: { deletedAt: null },
+                    include: {
+                        user: {
+                            select: {
+                                id: true,
+                                username: true,
+                                profile: {
+                                    select: {
+                                        firstName: true,
+                                        lastName: true,
+                                        avatar: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                _count: {
+                    select: {
+                        likes: { where: { deletedAt: null } },
+                        children: { where: { type: 'COMMENT', deletedAt: null } },
+                    },
+                },
+                likes: {
+                    where: { userId: user.id, deletedAt: null },
+                    select: { id: true },
+                },
+                bookmarks: {
+                    where: { userId: user.id, deletedAt: null },
+                    select: { id: true },
+                },
+            },
+        });
 
-        const posts = await prisma.$queryRaw<NormalizedPost[]>`
-      SELECT 
-        p.id, 
-        p.content, 
-        p.type, 
-        p.user_id,
-        p.parent_id, 
-        p.root_id, 
-        p.created_at,
-        COALESCE(EXISTS(SELECT 1 FROM likes l WHERE l.user_id=${user.id} AND l.post_id=p.id AND l.deleted_at IS NULL), false) AS is_liked,
-        COALESCE(EXISTS(SELECT 1 FROM bookmarks b WHERE b.user_id=${user.id} AND b.post_id=p.id AND b.deleted_at IS NULL), false) AS is_bookmarked,
-        COALESCE(EXISTS(SELECT 1 FROM posts rp WHERE rp.user_id=${user.id} AND rp.parent_id=p.id AND rp.type='REPOST' AND rp.deleted_at IS NULL), false) AS is_reposted,
-        json_build_object(
-          'likes', (SELECT COUNT(*) FROM likes l WHERE l.post_id=p.id AND l.deleted_at IS NULL),
-          'comments', (SELECT COUNT(*) FROM posts pc WHERE pc.root_id=p.id AND pc.type='COMMENT' AND pc.deleted_at IS NULL),
-          'reposts', (SELECT COUNT(*) FROM posts pr WHERE pr.root_id=p.id AND pr.type='REPOST' AND pr.deleted_at IS NULL)
-        ) AS stats,
-        json_build_object(
-          'id', u.id,
-          'username', u.username,
-          'first_name', COALESCE(NULLIF(prf.first_name, ''), ''),
-          'last_name', COALESCE(NULLIF(prf.last_name, ''), ''),
-          'avatar', COALESCE(NULLIF(prf.avatar, ''), '')
-        ) AS user,
-        CASE 
-          WHEN p.type IN ('QUOTE', 'REPOST') THEN json_build_object(
-            'id', parent.id,
-            'content', parent.content,
-            'type', parent.type,
-            'created_at', parent.created_at,
-            'user', json_build_object(
-              'id', pu.id,
-              'username', pu.username,
-              'first_name', COALESCE(NULLIF(ppr.first_name, ''), ''),
-              'last_name', COALESCE(NULLIF(ppr.last_name, ''), ''),
-              'avatar', COALESCE(NULLIF(ppr.avatar, ''), '')
-            )
-          ) ELSE NULL 
-        END AS parent
+        // Get repost counts and user reposts separately
+        const postIds = posts.map(p => p.id);
+        const repostCounts = await prisma.post.groupBy({
+            by: ['parentId'],
+            where: {
+                parentId: { in: postIds },
+                type: 'REPOST',
+                deletedAt: null,
+            },
+            _count: { id: true },
+        });
 
-      FROM posts p
-      JOIN users u ON u.id = p.user_id
-      LEFT JOIN profiles prf ON prf.user_id = u.id
-      LEFT JOIN posts parent ON parent.id = p.parent_id AND p.type IN ('QUOTE', 'REPOST') AND parent.deleted_at IS NULL
-      LEFT JOIN users pu ON pu.id = parent.user_id
-      LEFT JOIN profiles ppr ON ppr.user_id = pu.id
+        const userReposts = await prisma.post.findMany({
+            where: {
+                userId: user.id,
+                parentId: { in: postIds },
+                type: 'REPOST',
+                deletedAt: null,
+            },
+            select: { parentId: true },
+        });
 
-      WHERE p.deleted_at IS NULL AND p.type IN ('POST', 'QUOTE', 'REPOST') ${cursorCondition}
-      ORDER BY p.created_at DESC
-      LIMIT ${limit + 1};
-    `;
+        const repostCountMap = new Map(repostCounts.map(r => [r.parentId, r._count.id]));
+        const userRepostSet = new Set(userReposts.map(r => r.parentId));
 
-        return createPaginatedResponse(posts, limit, cursor);
+        // Transform to normalized format
+        const normalizedPosts: NormalizedPost[] = posts.map((post) => ({
+            id: post.id,
+            content: post.content,
+            type: post.type,
+            user_id: post.userId,
+            parent_id: post.parentId,
+            root_id: post.rootId,
+            created_at: post.createdAt,
+            is_liked: post.likes.length > 0,
+            is_bookmarked: post.bookmarks.length > 0,
+            is_reposted: userRepostSet.has(post.id),
+            stats: {
+                likes: post._count.likes,
+                comments: post._count.children,
+                reposts: repostCountMap.get(post.id) || 0,
+            },
+            user: {
+                id: post.user.id,
+                username: post.user.username || '',
+                first_name: post.user.profile?.firstName || '',
+                last_name: post.user.profile?.lastName || '',
+                avatar: post.user.profile?.avatar || '',
+            },
+            parent: post.parent ? {
+                id: post.parent.id,
+                content: post.parent.content,
+                type: post.parent.type,
+                created_at: post.parent.createdAt,
+                user: {
+                    id: post.parent.user.id,
+                    username: post.parent.user.username || '',
+                    first_name: post.parent.user.profile?.firstName || '',
+                    last_name: post.parent.user.profile?.lastName || '',
+                    avatar: post.parent.user.profile?.avatar || '',
+                },
+            } : null,
+        }));
+
+        return createPaginatedResponse(normalizedPosts, limit, cursor);
     } catch (error) {
         throw error;
     }
@@ -279,58 +345,119 @@ export const GetPostById = async (user: UserPayload, id: string) => {
             throw new BadRequestError('Invalid post ID');
         }
 
-        const post = await prisma.$queryRaw<NormalizedPost[]>`
-      SELECT 
-        p.id, 
-        p.content, 
-        p.type, 
-        p.user_id,
-        p.parent_id, 
-        p.root_id, 
-        p.created_at,
-        COALESCE(EXISTS(SELECT 1 FROM likes l WHERE l.user_id=${user.id} AND l.post_id=p.id AND l.deleted_at IS NULL), false) AS is_liked,
-        COALESCE(EXISTS(SELECT 1 FROM bookmarks b WHERE b.user_id=${user.id} AND b.post_id=p.id AND b.deleted_at IS NULL), false) AS is_bookmarked,
-        COALESCE(EXISTS(SELECT 1 FROM posts rp WHERE rp.user_id=${user.id} AND rp.parent_id=p.id AND rp.type='REPOST' AND rp.deleted_at IS NULL), false) AS is_reposted,
-        json_build_object(
-          'likes', (SELECT COUNT(*) FROM likes l WHERE l.post_id=p.id AND l.deleted_at IS NULL),
-          'comments', (SELECT COUNT(*) FROM posts pc WHERE pc.root_id=p.id AND pc.type='COMMENT' AND pc.deleted_at IS NULL),
-          'reposts', (SELECT COUNT(*) FROM posts pr WHERE pr.root_id=p.id AND pr.type='REPOST' AND pr.deleted_at IS NULL)
-        ) AS stats,
-        json_build_object(
-          'id', u.id,
-          'username', u.username,
-          'first_name', COALESCE(NULLIF(prf.first_name, ''), ''),
-          'last_name', COALESCE(NULLIF(prf.last_name, ''), ''),
-          'avatar', COALESCE(NULLIF(prf.avatar, ''), '')
-        ) AS user,
-        CASE 
-          WHEN p.type IN ('QUOTE', 'REPOST') THEN json_build_object(
-            'id', parent.id,
-            'content', parent.content,
-            'type', parent.type,
-            'created_at', parent.created_at,
-            'user', json_build_object(
-              'id', pu.id,
-              'username', pu.username,
-              'first_name', COALESCE(NULLIF(ppr.first_name, ''), ''),
-              'last_name', COALESCE(NULLIF(ppr.last_name, ''), ''),
-              'avatar', COALESCE(NULLIF(ppr.avatar, ''), '')
-            )
-          ) ELSE NULL 
-        END AS parent
+        const post = await prisma.post.findUnique({
+            where: { id, deletedAt: null },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        username: true,
+                        profile: {
+                            select: {
+                                firstName: true,
+                                lastName: true,
+                                avatar: true,
+                            },
+                        },
+                    },
+                },
+                parent: {
+                    where: { deletedAt: null },
+                    include: {
+                        user: {
+                            select: {
+                                id: true,
+                                username: true,
+                                profile: {
+                                    select: {
+                                        firstName: true,
+                                        lastName: true,
+                                        avatar: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                _count: {
+                    select: {
+                        likes: { where: { deletedAt: null } },
+                        children: { where: { type: 'COMMENT', deletedAt: null } },
+                    },
+                },
+                likes: {
+                    where: { userId: user.id, deletedAt: null },
+                    select: { id: true },
+                },
+                bookmarks: {
+                    where: { userId: user.id, deletedAt: null },
+                    select: { id: true },
+                },
+            },
+        });
 
-      FROM posts p
-      JOIN users u ON u.id = p.user_id
-      LEFT JOIN profiles prf ON prf.user_id = u.id
-      LEFT JOIN posts parent ON parent.id = p.parent_id AND p.type IN ('QUOTE', 'REPOST') AND parent.deleted_at IS NULL
-      LEFT JOIN users pu ON pu.id = parent.user_id
-      LEFT JOIN profiles ppr ON ppr.user_id = pu.id
+        if (!post) {
+            return null;
+        }
 
-      WHERE p.id=${id} AND p.deleted_at IS NULL
-      ORDER BY p.created_at DESC;
-    `;
+        // Get repost count and user repost status
+        const repostCount = await prisma.post.count({
+            where: {
+                parentId: post.id,
+                type: 'REPOST',
+                deletedAt: null,
+            },
+        });
 
-        return post[0] || null;
+        const userRepost = await prisma.post.findFirst({
+            where: {
+                userId: user.id,
+                parentId: post.id,
+                type: 'REPOST',
+                deletedAt: null,
+            },
+        });
+
+        // Transform to normalized format
+        const normalizedPost: NormalizedPost = {
+            id: post.id,
+            content: post.content,
+            type: post.type,
+            user_id: post.userId,
+            parent_id: post.parentId,
+            root_id: post.rootId,
+            created_at: post.createdAt,
+            is_liked: post.likes.length > 0,
+            is_bookmarked: post.bookmarks.length > 0,
+            is_reposted: !!userRepost,
+            stats: {
+                likes: post._count.likes,
+                comments: post._count.children,
+                reposts: repostCount,
+            },
+            user: {
+                id: post.user.id,
+                username: post.user.username || '',
+                first_name: post.user.profile?.firstName || '',
+                last_name: post.user.profile?.lastName || '',
+                avatar: post.user.profile?.avatar || '',
+            },
+            parent: post.parent ? {
+                id: post.parent.id,
+                content: post.parent.content,
+                type: post.parent.type,
+                created_at: post.parent.createdAt,
+                user: {
+                    id: post.parent.user.id,
+                    username: post.parent.user.username || '',
+                    first_name: post.parent.user.profile?.firstName || '',
+                    last_name: post.parent.user.profile?.lastName || '',
+                    avatar: post.parent.user.profile?.avatar || '',
+                },
+            } : null,
+        };
+
+        return normalizedPost;
     } catch (error) {
         throw error;
     }
@@ -345,62 +472,129 @@ export const GetAllPostsByUser = async (
         const { cursor, limit = 10 } = paginationParams;
         const userId = targetUserId || user.id;
 
-        // Build cursor condition for raw query
-        const cursorCondition = cursor ? `AND p.id < '${cursor}'` : '';
+        const posts = await prisma.post.findMany({
+            where: {
+                userId: userId,
+                deletedAt: null,
+                type: { in: ['POST', 'QUOTE', 'REPOST'] },
+                ...(cursor && { id: { lt: cursor } }),
+            },
+            take: limit + 1,
+            orderBy: { createdAt: 'desc' },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        username: true,
+                        profile: {
+                            select: {
+                                firstName: true,
+                                lastName: true,
+                                avatar: true,
+                            },
+                        },
+                    },
+                },
+                parent: {
+                    where: { deletedAt: null },
+                    include: {
+                        user: {
+                            select: {
+                                id: true,
+                                username: true,
+                                profile: {
+                                    select: {
+                                        firstName: true,
+                                        lastName: true,
+                                        avatar: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                _count: {
+                    select: {
+                        likes: { where: { deletedAt: null } },
+                        children: { where: { type: 'COMMENT', deletedAt: null } },
+                    },
+                },
+                likes: {
+                    where: { userId: user.id, deletedAt: null },
+                    select: { id: true },
+                },
+                bookmarks: {
+                    where: { userId: user.id, deletedAt: null },
+                    select: { id: true },
+                },
+            },
+        });
 
-        const posts = await prisma.$queryRaw<NormalizedPost[]>`
-      SELECT 
-        p.id, 
-        p.content, 
-        p.type, 
-        p.user_id,
-        p.parent_id, 
-        p.root_id, 
-        p.created_at,
-        COALESCE(EXISTS(SELECT 1 FROM likes l WHERE l.user_id=${user.id} AND l.post_id=p.id AND l.deleted_at IS NULL), false) AS is_liked,
-        COALESCE(EXISTS(SELECT 1 FROM bookmarks b WHERE b.user_id=${user.id} AND b.post_id=p.id AND b.deleted_at IS NULL), false) AS is_bookmarked,
-        COALESCE(EXISTS(SELECT 1 FROM posts rp WHERE rp.user_id=${user.id} AND rp.parent_id=p.id AND rp.type='REPOST' AND rp.deleted_at IS NULL), false) AS is_reposted,
-        json_build_object(
-          'likes', (SELECT COUNT(*) FROM likes l WHERE l.post_id=p.id AND l.deleted_at IS NULL),
-          'comments', (SELECT COUNT(*) FROM posts pc WHERE pc.root_id=p.id AND pc.type='COMMENT' AND pc.deleted_at IS NULL),
-          'reposts', (SELECT COUNT(*) FROM posts pr WHERE pr.root_id=p.id AND pr.type='REPOST' AND pr.deleted_at IS NULL)
-        ) AS stats,
-        json_build_object(
-          'id', u.id,
-          'username', u.username,
-          'first_name', COALESCE(NULLIF(prf.first_name, ''), ''),
-          'last_name', COALESCE(NULLIF(prf.last_name, ''), ''),
-          'avatar', COALESCE(NULLIF(prf.avatar, ''), '')
-        ) AS user,
-        CASE 
-          WHEN p.type IN ('QUOTE', 'REPOST') THEN json_build_object(
-            'id', parent.id,
-            'content', parent.content,
-            'type', parent.type,
-            'created_at', parent.created_at,
-            'user', json_build_object(
-              'id', pu.id,
-              'username', pu.username,
-              'first_name', COALESCE(NULLIF(ppr.first_name, ''), ''),
-              'last_name', COALESCE(NULLIF(ppr.last_name, ''), ''),
-              'avatar', COALESCE(NULLIF(ppr.avatar, ''), '')
-            )
-          ) ELSE NULL 
-        END AS parent
+        // Get repost counts and user reposts separately
+        const postIds = posts.map(p => p.id);
+        const repostCounts = await prisma.post.groupBy({
+            by: ['parentId'],
+            where: {
+                parentId: { in: postIds },
+                type: 'REPOST',
+                deletedAt: null,
+            },
+            _count: { id: true },
+        });
 
-      FROM posts p
-      JOIN users u ON u.id = p.user_id
-      LEFT JOIN profiles prf ON prf.user_id = u.id
-      LEFT JOIN posts parent ON parent.id = p.parent_id AND p.type IN ('QUOTE', 'REPOST') AND parent.deleted_at IS NULL
-      LEFT JOIN users pu ON pu.id = parent.user_id
-      LEFT JOIN profiles ppr ON ppr.user_id = pu.id
+        const userReposts = await prisma.post.findMany({
+            where: {
+                userId: user.id,
+                parentId: { in: postIds },
+                type: 'REPOST',
+                deletedAt: null,
+            },
+            select: { parentId: true },
+        });
 
-      WHERE p.user_id=${userId} AND p.deleted_at IS NULL AND p.type IN ('POST', 'QUOTE', 'REPOST') ${cursorCondition}
-      ORDER BY p.created_at DESC
-      LIMIT ${limit + 1};
-    `;
+        const repostCountMap = new Map(repostCounts.map(r => [r.parentId, r._count.id]));
+        const userRepostSet = new Set(userReposts.map(r => r.parentId));
 
-        return createPaginatedResponse(posts, limit, cursor);
+        // Transform to normalized format
+        const normalizedPosts: NormalizedPost[] = posts.map((post) => ({
+            id: post.id,
+            content: post.content,
+            type: post.type,
+            user_id: post.userId,
+            parent_id: post.parentId,
+            root_id: post.rootId,
+            created_at: post.createdAt,
+            is_liked: post.likes.length > 0,
+            is_bookmarked: post.bookmarks.length > 0,
+            is_reposted: userRepostSet.has(post.id),
+            stats: {
+                likes: post._count.likes,
+                comments: post._count.children,
+                reposts: repostCountMap.get(post.id) || 0,
+            },
+            user: {
+                id: post.user.id,
+                username: post.user.username || '',
+                first_name: post.user.profile?.firstName || '',
+                last_name: post.user.profile?.lastName || '',
+                avatar: post.user.profile?.avatar || '',
+            },
+            parent: post.parent ? {
+                id: post.parent.id,
+                content: post.parent.content,
+                type: post.parent.type,
+                created_at: post.parent.createdAt,
+                user: {
+                    id: post.parent.user.id,
+                    username: post.parent.user.username || '',
+                    first_name: post.parent.user.profile?.firstName || '',
+                    last_name: post.parent.user.profile?.lastName || '',
+                    avatar: post.parent.user.profile?.avatar || '',
+                },
+            } : null,
+        }));
+
+        return createPaginatedResponse(normalizedPosts, limit, cursor);
     } catch (error) {
         throw error;
     }

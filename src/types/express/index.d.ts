@@ -29,18 +29,20 @@ export interface UserPayload {
 interface NormalizedUser {
   id: string;
   username: string;
-  first_name: string | null;
-  last_name: string | null;
-  avatar: string | null;
+  first_name: string;
+  last_name: string;
+  avatar: string;
 }
 
 interface NormalizedPost {
   id: string;
   content: string | null;
   type: string;
+  user_id: string;
+  parent_id?: string | null;
+  root_id?: string | null;
   created_at: Date;
   user: NormalizedUser;
-  parent_id?: string | null;
   parent?: {
     id: string;
     content: string | null;
