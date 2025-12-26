@@ -13,6 +13,9 @@ import { transformIncomingPayload } from './src/middlewares/caseTransform';
 
 const app = express();
 
+// Trust proxy for Render deployment
+app.set('trust proxy', 1);
+
 // CORS Configuration
 const allowedOrigins = [
   'http://localhost:3000',
