@@ -41,6 +41,18 @@ app.use('/api', globalParamsHandler, router);
 app.use('/test', (req, res) => {
   res.status(200).json({ message: 'Server is running!!!' });
 });
+app.use('/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    env: {
+      hasDatabase: !!process.env.DATABASE_URL,
+      hasJwtSecret: !!process.env.JWT_SECRET,
+      hasMailjet: !!(process.env.MJ_APIKEY_PUBLIC && process.env.MJ_APIKEY_PRIVATE),
+      hasAppUrl: !!process.env.APP_URL
+    }
+  });
+});
 app.use(errorHandler);
 
 export default app;
