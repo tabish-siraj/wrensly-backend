@@ -1,7 +1,6 @@
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
-import mongoSanitize from 'express-mongo-sanitize';
 import router from './src/routes/index';
 import requestLogger from './src/middlewares/logger';
 import { errorHandler } from './src/middlewares/errorHandler';
@@ -20,12 +19,14 @@ app.set('trust proxy', 1);
 // Security middleware
 app.use(helmet());
 app.use(securityHeaders);
-app.use(mongoSanitize());
+// Note: Removed express-mongo-sanitize as it's incompatible with Express 5.x and PostgreSQL
+// Input sanitization is handled by Prisma ORM and our custom sanitizer middleware
 
 // CORS Configuration
 const allowedOrigins = [
   'http://localhost:3000',
   'https://wrensly-frontend.vercel.app',
+  'https://wrensly-frontend.onrender.com', // Add Render frontend URL if needed
 ];
 
 app.use(
@@ -42,6 +43,7 @@ app.use(
 );
 
 app.use(express.json({ limit: '10mb' }));
+app.use(sanitizeInput); // Custom input sanitization using DOMPurify
 app.use(transformIncomingPayload); // Transform snake_case to camelCase for incoming payloads
 app.use(generalRateLimit);
 app.use(requestLogger);
@@ -54,6 +56,9 @@ app.use('/health', (req, res) => {
   res.status(200).json({
     status: 'ok',
     timestamp: new Date().toISOString(),
+    version: '1.0.0',
+    environment: process.env.NODE_ENV || 'development',
+    port: process.env.PORT || '3000',
     env: {
       hasDatabase: !!process.env.DATABASE_URL,
       hasJwtSecret: !!process.env.JWT_SECRET,
