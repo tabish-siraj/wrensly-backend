@@ -73,14 +73,15 @@ Authorization: Bearer <your-jwt-token>
   "message": "Login successful",
   "data": {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
     "user": {
       "id": "clx1234567890",
       "username": "johndoe",
       "email": "john@example.com",
-      "firstName": "John",
-      "lastName": "Doe",
-      "avatar": "https://example.com/avatar.jpg"
+      "first_name": "John",
+      "last_name": "Doe",
+      "avatar": "https://example.com/avatar.jpg",
+      "is_email_verified": true
     }
   },
   "meta": {
@@ -119,7 +120,7 @@ Authorization: Bearer <your-jwt-token>
   "message": "Token refreshed successfully",
   "data": {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
   },
   "meta": {
     "timestamp": "2024-12-25T10:30:00Z"

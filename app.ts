@@ -10,11 +10,17 @@ import { generalRateLimit } from './src/middlewares/rateLimiter';
 import { sanitizeInput } from './src/middlewares/sanitizer';
 import { responseWrapper } from './src/middlewares/responseWrapper';
 import { transformIncomingPayload } from './src/middlewares/caseTransform';
+import { securityHeaders } from './src/middlewares/securityHeaders';
 
 const app = express();
 
 // Trust proxy for Render deployment
 app.set('trust proxy', 1);
+
+// Security middleware
+app.use(helmet());
+app.use(securityHeaders);
+app.use(mongoSanitize());
 
 // CORS Configuration
 const allowedOrigins = [
@@ -35,7 +41,7 @@ app.use(
   })
 );
 
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 app.use(transformIncomingPayload); // Transform snake_case to camelCase for incoming payloads
 app.use(generalRateLimit);
 app.use(requestLogger);
@@ -51,6 +57,7 @@ app.use('/health', (req, res) => {
     env: {
       hasDatabase: !!process.env.DATABASE_URL,
       hasJwtSecret: !!process.env.JWT_SECRET,
+      hasJwtRefreshSecret: !!process.env.JWT_REFRESH_SECRET,
       hasMailjet: !!(process.env.MJ_APIKEY_PUBLIC && process.env.MJ_APIKEY_PRIVATE),
       hasAppUrl: !!process.env.APP_URL
     }

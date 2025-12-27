@@ -25,6 +25,9 @@ export const loginUser = async (email: string, password: string) => {
         isActive: true,
         isBanned: false,
       },
+      include: {
+        profile: true, // Include profile data
+      },
     });
 
     if (!user) {
@@ -43,9 +46,20 @@ export const loginUser = async (email: string, password: string) => {
       id: user.id,
       email: user.email,
     });
-    
+
+    // Return user data with snake_case variable names (Prisma properties remain camelCase)
+    const user_data = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      first_name: user.profile?.firstName,
+      last_name: user.profile?.lastName,
+      avatar: user.profile?.avatar,
+      is_email_verified: user.isEmailVerified,
+    };
+
     logger.info(`User logged in successfully: ${email}`);
-    return { token, refreshToken };
+    return { token, refresh_token: refreshToken, user: user_data };
   } catch (error) {
     if (error instanceof AppError) {
       throw error;
@@ -60,15 +74,22 @@ export const refreshToken = async (token: string) => {
     // Verify the token and extract user information
     const userData = verifyRefreshToken(token);
     if (!userData) {
-      logger.error(`Invalid token: ${token}`);
+      logger.error(`Invalid refresh token`);
       throw new BadRequestError('Invalid token');
     }
 
-    // Generate a new token
-    const newToken = generateToken({ id: userData.id, email: userData.email });
-    return { token: newToken };
+    // Generate new tokens (rotate refresh token for security)
+    const new_token = generateToken({ id: userData.id, email: userData.email });
+    const new_refresh_token = generateRefreshToken({ id: userData.id, email: userData.email });
+
+    logger.info(`Token refreshed for user: ${userData.email}`);
+    return { token: new_token, refresh_token: new_refresh_token };
   } catch (error) {
-    throw error;
+    if (error instanceof AppError) {
+      throw error;
+    }
+    logger.error('Unexpected error during token refresh:', error);
+    throw new BadRequestError('Invalid token');
   }
 };
 
@@ -117,7 +138,11 @@ export const forgotPassword = async (email: string) => {
     logger.info(`Password reset requested for user: ${email}`);
     return { message: 'Password reset link has been sent to your email.' };
   } catch (error) {
-    throw error;
+    if (error instanceof AppError) {
+      throw error;
+    }
+    logger.error(`Unexpected error during password reset for ${email}:`, error);
+    throw new InternalServerError('Password reset failed');
   }
 };
 
@@ -151,6 +176,10 @@ export const resetPassword = async (token: string, password: string) => {
 
     return { message: 'Password has been reset successfully.' };
   } catch (error) {
-    throw error;
+    if (error instanceof AppError) {
+      throw error;
+    }
+    logger.error('Unexpected error during password reset:', error);
+    throw new InternalServerError('Password reset failed');
   }
 };
