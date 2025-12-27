@@ -147,17 +147,11 @@ export async function getUserById(user: UserPayload, id: string) {
       );
       throw new UnauthorizedError('You are not authorized to update this user');
     }
-    // also get profile and followers/following count
+    // Get user with profile
     const fetchedUser = await prisma.user.findUnique({
       where: { id },
       include: {
         profile: true,
-        _count: {
-          select: {
-            followers: true,
-            following: true,
-          },
-        },
       },
     });
     if (!fetchedUser) {
@@ -165,17 +159,41 @@ export async function getUserById(user: UserPayload, id: string) {
       throw new NotFoundError({ id });
     }
 
-    let isFollowing = false;
-    const follow = await prisma.follow.findFirst({
-      where: {
-        followerId: user.id,
-        followingId: id,
-        deletedAt: null, // if you use soft deletes
-      },
-    });
-    isFollowing = !!follow;
+    // Get followers and following counts separately to respect soft deletes
+    const [followersCount, followingCount, follow] = await Promise.all([
+      prisma.follow.count({
+        where: {
+          followingId: id,
+          deletedAt: null,
+        },
+      }),
+      prisma.follow.count({
+        where: {
+          followerId: id,
+          deletedAt: null,
+        },
+      }),
+      prisma.follow.findFirst({
+        where: {
+          followerId: user.id,
+          followingId: id,
+          deletedAt: null,
+        },
+      }),
+    ]);
 
-    return { ...toUserResponse(fetchedUser), isFollowing };
+    const isFollowing = !!follow;
+
+    // Add counts to the user object
+    const userWithCounts = {
+      ...fetchedUser,
+      _count: {
+        followers: followersCount,
+        following: followingCount,
+      },
+    };
+
+    return { ...toUserResponse(userWithCounts), isFollowing };
   } catch (error) {
     throw error;
   }
@@ -189,12 +207,6 @@ export async function getUserByEmail(user: UserPayload, email: string) {
       where: { email },
       include: {
         profile: true,
-        _count: {
-          select: {
-            followers: true,
-            following: true,
-          },
-        },
       },
     });
     if (!fetchedUser) {
@@ -202,17 +214,41 @@ export async function getUserByEmail(user: UserPayload, email: string) {
       throw new NotFoundError({ email });
     }
 
-    let isFollowing = false;
-    const follow = await prisma.follow.findFirst({
-      where: {
-        followerId: user.id,
-        followingId: fetchedUser.id,
-        deletedAt: null, // if you use soft deletes
-      },
-    });
-    isFollowing = !!follow;
+    // Get followers and following counts separately to respect soft deletes
+    const [followersCount, followingCount, follow] = await Promise.all([
+      prisma.follow.count({
+        where: {
+          followingId: fetchedUser.id,
+          deletedAt: null,
+        },
+      }),
+      prisma.follow.count({
+        where: {
+          followerId: fetchedUser.id,
+          deletedAt: null,
+        },
+      }),
+      prisma.follow.findFirst({
+        where: {
+          followerId: user.id,
+          followingId: fetchedUser.id,
+          deletedAt: null,
+        },
+      }),
+    ]);
 
-    return { ...toUserResponse(fetchedUser), isFollowing };
+    const isFollowing = !!follow;
+
+    // Add counts to the user object
+    const userWithCounts = {
+      ...fetchedUser,
+      _count: {
+        followers: followersCount,
+        following: followingCount,
+      },
+    };
+
+    return { ...toUserResponse(userWithCounts), isFollowing };
   } catch (error) {
     throw error;
   }
@@ -226,12 +262,6 @@ export async function getUserByUsername(user: UserPayload, username: string) {
       where: { username },
       include: {
         profile: true,
-        _count: {
-          select: {
-            followers: true,
-            following: true,
-          },
-        },
       },
     });
     if (!fetchedUser) {
@@ -239,26 +269,49 @@ export async function getUserByUsername(user: UserPayload, username: string) {
       throw new NotFoundError({ username });
     }
 
-    let isFollowing = false;
-    let followingBy = false;
-    const followBy = await prisma.follow.findFirst({
-      where: {
-        followerId: fetchedUser.id,
-        followingId: user.id,
-        deletedAt: null, // if you use soft deletes
-      },
-    });
-    const following = await prisma.follow.findFirst({
-      where: {
-        followerId: user.id,
-        followingId: fetchedUser.id,
-        deletedAt: null, // if you use soft deletes
-      },
-    });
-    isFollowing = !!following;
-    followingBy = !!followBy;
+    // Get followers and following counts separately to respect soft deletes
+    const [followersCount, followingCount, followBy, following] = await Promise.all([
+      prisma.follow.count({
+        where: {
+          followingId: fetchedUser.id,
+          deletedAt: null,
+        },
+      }),
+      prisma.follow.count({
+        where: {
+          followerId: fetchedUser.id,
+          deletedAt: null,
+        },
+      }),
+      prisma.follow.findFirst({
+        where: {
+          followerId: fetchedUser.id,
+          followingId: user.id,
+          deletedAt: null,
+        },
+      }),
+      prisma.follow.findFirst({
+        where: {
+          followerId: user.id,
+          followingId: fetchedUser.id,
+          deletedAt: null,
+        },
+      }),
+    ]);
 
-    return { ...toUserResponse(fetchedUser), isFollowing, followingBy };
+    const isFollowing = !!following;
+    const followingBy = !!followBy;
+
+    // Add counts to the user object
+    const userWithCounts = {
+      ...fetchedUser,
+      _count: {
+        followers: followersCount,
+        following: followingCount,
+      },
+    };
+
+    return { ...toUserResponse(userWithCounts), isFollowing, followingBy };
   } catch (error) {
     throw error;
   }

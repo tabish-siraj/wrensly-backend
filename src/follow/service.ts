@@ -87,8 +87,11 @@ export const GetFollowsByUsername = async (
       throw new BadRequestError('Invalid username');
     }
 
-    const foundUser = await prisma.user.findFirst({
-      where: { username, deletedAt: null },
+    const foundUser = await prisma.user.findUnique({
+      where: {
+        username: username.toLowerCase(),
+        deletedAt: null
+      },
     });
 
     if (!foundUser) {
@@ -100,6 +103,9 @@ export const GetFollowsByUsername = async (
       where: {
         followerId: foundUser.id,
         deletedAt: null,
+        following: {
+          deletedAt: null, // Also filter out deleted users
+        },
       },
       take: limit + 1,
       cursor: cursor ? { id: cursor } : undefined,
@@ -126,11 +132,11 @@ export const GetFollowsByUsername = async (
       user: {
         id: follow.following.id,
         username: follow.following.username,
-        firstName: follow.following.profile?.firstName || '',
-        lastName: follow.following.profile?.lastName || '',
+        first_name: follow.following.profile?.firstName || '',
+        last_name: follow.following.profile?.lastName || '',
         avatar: follow.following.profile?.avatar || '',
       },
-      createdAt: follow.createdAt,
+      created_at: follow.createdAt,
     }));
 
     return createPaginatedResponse(transformedFollows, limit, cursor);
@@ -154,8 +160,11 @@ export const GetFollowersByUsername = async (
       throw new BadRequestError('Invalid username');
     }
 
-    const foundUser = await prisma.user.findFirst({
-      where: { username, deletedAt: null },
+    const foundUser = await prisma.user.findUnique({
+      where: {
+        username: username.toLowerCase(),
+        deletedAt: null
+      },
     });
 
     if (!foundUser) {
@@ -167,6 +176,9 @@ export const GetFollowersByUsername = async (
       where: {
         followingId: foundUser.id,
         deletedAt: null,
+        follower: {
+          deletedAt: null, // Also filter out deleted users
+        },
       },
       take: limit + 1,
       cursor: cursor ? { id: cursor } : undefined,
@@ -193,11 +205,11 @@ export const GetFollowersByUsername = async (
       user: {
         id: follow.follower.id,
         username: follow.follower.username,
-        firstName: follow.follower.profile?.firstName || '',
-        lastName: follow.follower.profile?.lastName || '',
+        first_name: follow.follower.profile?.firstName || '',
+        last_name: follow.follower.profile?.lastName || '',
         avatar: follow.follower.profile?.avatar || '',
       },
-      createdAt: follow.createdAt,
+      created_at: follow.createdAt,
     }));
 
     return createPaginatedResponse(transformedFollows, limit, cursor);
