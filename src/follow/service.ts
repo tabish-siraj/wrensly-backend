@@ -81,6 +81,8 @@ export const GetFollowsByUsername = async (
   try {
     const { cursor, limit = 10 } = paginationParams;
 
+    logger.info(`Getting following for username: ${username}`);
+
     // Validate the username format
     if (!username || typeof username !== 'string') {
       logger.warn(`Invalid username: ${username}`);
@@ -98,6 +100,8 @@ export const GetFollowsByUsername = async (
       logger.warn(`User with username ${username} not found`);
       throw new NotFoundError(`User with username ${username} not found`);
     }
+
+    logger.info(`Found user: ${foundUser.id} for username: ${username}`);
 
     const follows = await prisma.follow.findMany({
       where: {
@@ -127,6 +131,8 @@ export const GetFollowsByUsername = async (
       },
     });
 
+    logger.info(`Found ${follows.length} following for user ${foundUser.id}`);
+
     const transformedFollows = follows.map((follow) => ({
       id: follow.id,
       user: {
@@ -141,7 +147,7 @@ export const GetFollowsByUsername = async (
 
     return createPaginatedResponse(transformedFollows, limit, cursor);
   } catch (error) {
-    logger.error(`Get follows error: ${error}`);
+    logger.error(`Get follows error for username ${username}:`, error);
     throw error;
   }
 };
@@ -153,6 +159,8 @@ export const GetFollowersByUsername = async (
 ): Promise<PaginatedResult<any>> => {
   try {
     const { cursor, limit = 10 } = paginationParams;
+
+    logger.info(`Getting followers for username: ${username}`);
 
     // Validate the username format
     if (!username || typeof username !== 'string') {
@@ -171,6 +179,8 @@ export const GetFollowersByUsername = async (
       logger.warn(`User with username ${username} not found`);
       throw new NotFoundError(`User with username ${username} not found`);
     }
+
+    logger.info(`Found user: ${foundUser.id} for username: ${username}`);
 
     const follows = await prisma.follow.findMany({
       where: {
@@ -200,6 +210,8 @@ export const GetFollowersByUsername = async (
       },
     });
 
+    logger.info(`Found ${follows.length} followers for user ${foundUser.id}`);
+
     const transformedFollows = follows.map((follow) => ({
       id: follow.id,
       user: {
@@ -214,7 +226,7 @@ export const GetFollowersByUsername = async (
 
     return createPaginatedResponse(transformedFollows, limit, cursor);
   } catch (error) {
-    logger.error(`Get followers error: ${error}`);
+    logger.error(`Get followers error for username ${username}:`, error);
     throw error;
   }
 };
