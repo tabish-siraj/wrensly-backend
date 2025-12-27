@@ -35,6 +35,8 @@ export const normalizePostData = (
       last_name: post.user.profile?.last_name || '',
       avatar: post.user.profile?.avatar || '',
     },
+    // Handle Twitter-like repost metadata
+    reposted_by: post.reposted_by || null,
     stats: {
       likes: post._count?.likes || post.stats?.likes || 0,
       reposts: post._count?.reposts || post.stats?.reposts || 0,

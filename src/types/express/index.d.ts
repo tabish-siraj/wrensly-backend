@@ -50,6 +50,15 @@ interface NormalizedPost {
     created_at: Date;
     user: NormalizedUser;
   } | null;
+  // Twitter-like repost info
+  reposted_by?: {
+    id: string;
+    username: string;
+    first_name: string;
+    last_name: string;
+    avatar: string;
+    reposted_at: Date;
+  } | null;
   comments?: NormalizedPost[];
   stats: {
     likes: number;

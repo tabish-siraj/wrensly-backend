@@ -204,6 +204,130 @@ export const CreateRepost = async (
     }
 };
 
+// Optimized helper function to transform posts with batch queries
+const transformPostsWithRepostData = async (
+    posts: any[],
+    user: UserPayload
+): Promise<NormalizedPost[]> => {
+    // Extract all post IDs that need repost counts (both original posts and parent posts)
+    const allPostIds = new Set<string>();
+    posts.forEach(post => {
+        allPostIds.add(post.id);
+        if (post.parent) {
+            allPostIds.add(post.parent.id);
+        }
+    });
+
+    // Batch query: Get all repost counts in one query
+    const repostCounts = await prisma.post.groupBy({
+        by: ['parentId'],
+        where: {
+            parentId: { in: Array.from(allPostIds) },
+            type: 'REPOST',
+            deletedAt: null,
+        },
+        _count: { id: true },
+    });
+
+    // Batch query: Get all user reposts in one query
+    const userReposts = await prisma.post.findMany({
+        where: {
+            userId: user.id,
+            parentId: { in: Array.from(allPostIds) },
+            type: 'REPOST',
+            deletedAt: null,
+        },
+        select: { parentId: true },
+    });
+
+    // Create lookup maps for O(1) access
+    const repostCountMap = new Map(repostCounts.map(r => [r.parentId!, r._count.id]));
+    const userRepostSet = new Set(userReposts.map(r => r.parentId!));
+
+    // Transform posts with Twitter-like repost behavior
+    return posts.map((post) => {
+        if (post.type === 'REPOST' && post.parent) {
+            // For reposts, show the original post with repost metadata
+            const originalPost = post.parent;
+
+            return {
+                id: originalPost.id, // Use original post ID
+                content: originalPost.content,
+                type: originalPost.type,
+                user_id: originalPost.userId,
+                parent_id: originalPost.parentId,
+                root_id: originalPost.rootId,
+                created_at: post.createdAt, // Use repost timestamp for ordering
+                user: {
+                    id: originalPost.user.id,
+                    username: originalPost.user.username || '',
+                    first_name: originalPost.user.profile?.firstName || '',
+                    last_name: originalPost.user.profile?.lastName || '',
+                    avatar: originalPost.user.profile?.avatar || '',
+                },
+                // Add repost metadata (who reposted it)
+                reposted_by: {
+                    id: post.user.id,
+                    username: post.user.username || '',
+                    first_name: post.user.profile?.firstName || '',
+                    last_name: post.user.profile?.lastName || '',
+                    avatar: post.user.profile?.avatar || '',
+                    reposted_at: post.createdAt,
+                },
+                stats: {
+                    likes: originalPost._count?.likes || 0,
+                    comments: originalPost._count?.children || 0,
+                    reposts: repostCountMap.get(originalPost.id) || 0,
+                },
+                is_liked: originalPost.likes?.length > 0 || false,
+                is_bookmarked: originalPost.bookmarks?.length > 0 || false,
+                is_reposted: userRepostSet.has(originalPost.id),
+                parent: null, // Original posts don't have parents in this context
+            };
+        } else {
+            // For regular posts and quotes, show normally
+            return {
+                id: post.id,
+                content: post.content,
+                type: post.type,
+                user_id: post.userId,
+                parent_id: post.parentId,
+                root_id: post.rootId,
+                created_at: post.createdAt,
+                user: {
+                    id: post.user.id,
+                    username: post.user.username || '',
+                    first_name: post.user.profile?.firstName || '',
+                    last_name: post.user.profile?.lastName || '',
+                    avatar: post.user.profile?.avatar || '',
+                },
+                reposted_by: null, // No repost metadata for original posts
+                parent: post.parent ? {
+                    id: post.parent.id,
+                    content: post.parent.content,
+                    type: post.parent.type,
+                    created_at: post.parent.createdAt,
+                    user: {
+                        id: post.parent.user.id,
+                        username: post.parent.user.username || '',
+                        first_name: post.parent.user.profile?.firstName || '',
+                        last_name: post.parent.user.profile?.lastName || '',
+                        avatar: post.parent.user.profile?.avatar || '',
+                    },
+                } : null,
+                stats: {
+                    likes: post._count.likes,
+                    comments: post._count.children,
+                    reposts: repostCountMap.get(post.id) || 0,
+                },
+                is_liked: post.likes.length > 0,
+                is_bookmarked: post.bookmarks.length > 0,
+                is_reposted: userRepostSet.has(post.id),
+            };
+        }
+    });
+};
+
 export const GetAllPosts = async (
     user: UserPayload,
     paginationParams: CursorPaginationParams
@@ -249,6 +373,20 @@ export const GetAllPosts = async (
                                 },
                             },
                         },
+                        _count: {
+                            select: {
+                                likes: { where: { deletedAt: null } },
+                                children: { where: { type: 'COMMENT', deletedAt: null } },
+                            },
+                        },
+                        likes: {
+                            where: { userId: user.id, deletedAt: null },
+                            select: { id: true },
+                        },
+                        bookmarks: {
+                            where: { userId: user.id, deletedAt: null },
+                            select: { id: true },
+                        },
                     },
                 },
                 _count: {
@@ -268,69 +406,8 @@ export const GetAllPosts = async (
             },
         });
 
-        // Get repost counts and user reposts separately
-        const postIds = posts.map(p => p.id);
-        const repostCounts = await prisma.post.groupBy({
-            by: ['parentId'],
-            where: {
-                parentId: { in: postIds },
-                type: 'REPOST',
-                deletedAt: null,
-            },
-            _count: { id: true },
-        });
-
-        const userReposts = await prisma.post.findMany({
-            where: {
-                userId: user.id,
-                parentId: { in: postIds },
-                type: 'REPOST',
-                deletedAt: null,
-            },
-            select: { parentId: true },
-        });
-
-        const repostCountMap = new Map(repostCounts.map(r => [r.parentId, r._count.id]));
-        const userRepostSet = new Set(userReposts.map(r => r.parentId));
-
-        // Transform to normalized format
-        const normalizedPosts: NormalizedPost[] = posts.map((post) => ({
-            id: post.id,
-            content: post.content,
-            type: post.type,
-            user_id: post.userId,
-            parent_id: post.parentId,
-            root_id: post.rootId,
-            created_at: post.createdAt,
-            is_liked: post.likes.length > 0,
-            is_bookmarked: post.bookmarks.length > 0,
-            is_reposted: userRepostSet.has(post.id),
-            stats: {
-                likes: post._count.likes,
-                comments: post._count.children,
-                reposts: repostCountMap.get(post.id) || 0,
-            },
-            user: {
-                id: post.user.id,
-                username: post.user.username || '',
-                first_name: post.user.profile?.firstName || '',
-                last_name: post.user.profile?.lastName || '',
-                avatar: post.user.profile?.avatar || '',
-            },
-            parent: post.parent ? {
-                id: post.parent.id,
-                content: post.parent.content,
-                type: post.parent.type,
-                created_at: post.parent.createdAt,
-                user: {
-                    id: post.parent.user.id,
-                    username: post.parent.user.username || '',
-                    first_name: post.parent.user.profile?.firstName || '',
-                    last_name: post.parent.user.profile?.lastName || '',
-                    avatar: post.parent.user.profile?.avatar || '',
-                },
-            } : null,
-        }));
+        // Use optimized helper function
+        const normalizedPosts = await transformPostsWithRepostData(posts, user);
 
         return createPaginatedResponse(normalizedPosts, limit, cursor);
     } catch (error) {
@@ -377,6 +454,20 @@ export const GetPostById = async (user: UserPayload, id: string) => {
                                 },
                             },
                         },
+                        _count: {
+                            select: {
+                                likes: { where: { deletedAt: null } },
+                                children: { where: { type: 'COMMENT', deletedAt: null } },
+                            },
+                        },
+                        likes: {
+                            where: { userId: user.id, deletedAt: null },
+                            select: { id: true },
+                        },
+                        bookmarks: {
+                            where: { userId: user.id, deletedAt: null },
+                            select: { id: true },
+                        },
                     },
                 },
                 _count: {
@@ -400,64 +491,9 @@ export const GetPostById = async (user: UserPayload, id: string) => {
             return null;
         }
 
-        // Get repost count and user repost status
-        const repostCount = await prisma.post.count({
-            where: {
-                parentId: post.id,
-                type: 'REPOST',
-                deletedAt: null,
-            },
-        });
-
-        const userRepost = await prisma.post.findFirst({
-            where: {
-                userId: user.id,
-                parentId: post.id,
-                type: 'REPOST',
-                deletedAt: null,
-            },
-        });
-
-        // Transform to normalized format
-        const normalizedPost: NormalizedPost = {
-            id: post.id,
-            content: post.content,
-            type: post.type,
-            user_id: post.userId,
-            parent_id: post.parentId,
-            root_id: post.rootId,
-            created_at: post.createdAt,
-            is_liked: post.likes.length > 0,
-            is_bookmarked: post.bookmarks.length > 0,
-            is_reposted: !!userRepost,
-            stats: {
-                likes: post._count.likes,
-                comments: post._count.children,
-                reposts: repostCount,
-            },
-            user: {
-                id: post.user.id,
-                username: post.user.username || '',
-                first_name: post.user.profile?.firstName || '',
-                last_name: post.user.profile?.lastName || '',
-                avatar: post.user.profile?.avatar || '',
-            },
-            parent: post.parent ? {
-                id: post.parent.id,
-                content: post.parent.content,
-                type: post.parent.type,
-                created_at: post.parent.createdAt,
-                user: {
-                    id: post.parent.user.id,
-                    username: post.parent.user.username || '',
-                    first_name: post.parent.user.profile?.firstName || '',
-                    last_name: post.parent.user.profile?.lastName || '',
-                    avatar: post.parent.user.profile?.avatar || '',
-                },
-            } : null,
-        };
-
-        return normalizedPost;
+        // Use optimized helper function for single post
+        const normalizedPosts = await transformPostsWithRepostData([post], user);
+        return normalizedPosts[0];
     } catch (error) {
         throw error;
     }
@@ -511,6 +547,20 @@ export const GetAllPostsByUser = async (
                                 },
                             },
                         },
+                        _count: {
+                            select: {
+                                likes: { where: { deletedAt: null } },
+                                children: { where: { type: 'COMMENT', deletedAt: null } },
+                            },
+                        },
+                        likes: {
+                            where: { userId: user.id, deletedAt: null },
+                            select: { id: true },
+                        },
+                        bookmarks: {
+                            where: { userId: user.id, deletedAt: null },
+                            select: { id: true },
+                        },
                     },
                 },
                 _count: {
@@ -530,69 +580,8 @@ export const GetAllPostsByUser = async (
             },
         });
 
-        // Get repost counts and user reposts separately
-        const postIds = posts.map(p => p.id);
-        const repostCounts = await prisma.post.groupBy({
-            by: ['parentId'],
-            where: {
-                parentId: { in: postIds },
-                type: 'REPOST',
-                deletedAt: null,
-            },
-            _count: { id: true },
-        });
-
-        const userReposts = await prisma.post.findMany({
-            where: {
-                userId: user.id,
-                parentId: { in: postIds },
-                type: 'REPOST',
-                deletedAt: null,
-            },
-            select: { parentId: true },
-        });
-
-        const repostCountMap = new Map(repostCounts.map(r => [r.parentId, r._count.id]));
-        const userRepostSet = new Set(userReposts.map(r => r.parentId));
-
-        // Transform to normalized format
-        const normalizedPosts: NormalizedPost[] = posts.map((post) => ({
-            id: post.id,
-            content: post.content,
-            type: post.type,
-            user_id: post.userId,
-            parent_id: post.parentId,
-            root_id: post.rootId,
-            created_at: post.createdAt,
-            is_liked: post.likes.length > 0,
-            is_bookmarked: post.bookmarks.length > 0,
-            is_reposted: userRepostSet.has(post.id),
-            stats: {
-                likes: post._count.likes,
-                comments: post._count.children,
-                reposts: repostCountMap.get(post.id) || 0,
-            },
-            user: {
-                id: post.user.id,
-                username: post.user.username || '',
-                first_name: post.user.profile?.firstName || '',
-                last_name: post.user.profile?.lastName || '',
-                avatar: post.user.profile?.avatar || '',
-            },
-            parent: post.parent ? {
-                id: post.parent.id,
-                content: post.parent.content,
-                type: post.parent.type,
-                created_at: post.parent.createdAt,
-                user: {
-                    id: post.parent.user.id,
-                    username: post.parent.user.username || '',
-                    first_name: post.parent.user.profile?.firstName || '',
-                    last_name: post.parent.user.profile?.lastName || '',
-                    avatar: post.parent.user.profile?.avatar || '',
-                },
-            } : null,
-        }));
+        // Use optimized helper function
+        const normalizedPosts = await transformPostsWithRepostData(posts, user);
 
         return createPaginatedResponse(normalizedPosts, limit, cursor);
     } catch (error) {
