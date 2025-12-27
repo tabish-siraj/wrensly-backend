@@ -103,7 +103,8 @@ export const GetFollowsByUsername = async (
 
     logger.info(`Found user: ${foundUser.id} for username: ${username}`);
 
-    const follows = await prisma.follow.findMany({
+    // Build query options conditionally to avoid undefined cursor
+    const queryOptions: any = {
       where: {
         followerId: foundUser.id,
         deletedAt: null,
@@ -112,7 +113,6 @@ export const GetFollowsByUsername = async (
         },
       },
       take: limit + 1,
-      cursor: cursor ? { id: cursor } : undefined,
       orderBy: { createdAt: 'desc' },
       include: {
         following: {
@@ -129,11 +129,18 @@ export const GetFollowsByUsername = async (
           },
         },
       },
-    });
+    };
+
+    // Only add cursor if it exists
+    if (cursor) {
+      queryOptions.cursor = { id: cursor };
+    }
+
+    const follows = await prisma.follow.findMany(queryOptions);
 
     logger.info(`Found ${follows.length} following for user ${foundUser.id}`);
 
-    const transformedFollows = follows.map((follow) => ({
+    const transformedFollows = follows.map((follow: any) => ({
       id: follow.id,
       user: {
         id: follow.following.id,
@@ -182,7 +189,8 @@ export const GetFollowersByUsername = async (
 
     logger.info(`Found user: ${foundUser.id} for username: ${username}`);
 
-    const follows = await prisma.follow.findMany({
+    // Build query options conditionally to avoid undefined cursor
+    const queryOptions: any = {
       where: {
         followingId: foundUser.id,
         deletedAt: null,
@@ -191,7 +199,6 @@ export const GetFollowersByUsername = async (
         },
       },
       take: limit + 1,
-      cursor: cursor ? { id: cursor } : undefined,
       orderBy: { createdAt: 'desc' },
       include: {
         follower: {
@@ -208,11 +215,18 @@ export const GetFollowersByUsername = async (
           },
         },
       },
-    });
+    };
+
+    // Only add cursor if it exists
+    if (cursor) {
+      queryOptions.cursor = { id: cursor };
+    }
+
+    const follows = await prisma.follow.findMany(queryOptions);
 
     logger.info(`Found ${follows.length} followers for user ${foundUser.id}`);
 
-    const transformedFollows = follows.map((follow) => ({
+    const transformedFollows = follows.map((follow: any) => ({
       id: follow.id,
       user: {
         id: follow.follower.id,
