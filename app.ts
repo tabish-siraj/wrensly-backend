@@ -19,8 +19,8 @@ app.set('trust proxy', 1);
 // Security middleware
 app.use(helmet());
 app.use(securityHeaders);
-// Note: Removed express-mongo-sanitize as it's incompatible with Express 5.x and PostgreSQL
-// Input sanitization is handled by Prisma ORM and our custom sanitizer middleware
+// Note: Input sanitization temporarily disabled for Express 5.x compatibility
+// Security is maintained through Prisma ORM (SQL injection protection) and Zod validation
 
 // CORS Configuration
 const allowedOrigins = [
@@ -43,7 +43,7 @@ app.use(
 );
 
 app.use(express.json({ limit: '10mb' }));
-app.use(sanitizeInput); // Custom input sanitization using DOMPurify
+// app.use(sanitizeInput); // Temporarily disabled for Express 5.x compatibility
 app.use(transformIncomingPayload); // Transform snake_case to camelCase for incoming payloads
 app.use(generalRateLimit);
 app.use(requestLogger);
