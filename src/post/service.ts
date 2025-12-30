@@ -741,29 +741,55 @@ export const GetAllPostsByUser = async (
     }
 };
 
-export const DeletePost = async (user: UserPayload, postId: string) => {
+export const DeletePost = async (user: UserPayload, post_id: string) => {
     try {
-        if (!postId || typeof postId !== 'string') {
-            logger.warn(`Invalid post ID: ${postId}`);
+        if (!post_id || typeof post_id !== 'string') {
+            logger.warn(`Invalid post ID: ${post_id}`);
             throw new BadRequestError('Invalid post ID');
         }
 
+        // Find the post and verify ownership
         const post = await prisma.post.findUnique({
-            where: { id: postId, userId: user.id, deletedAt: null },
+            where: { id: post_id, deletedAt: null },
+            include: {
+                _count: {
+                    select: {
+                        children: { where: { deletedAt: null } },
+                        likes: { where: { deletedAt: null } },
+                        bookmarks: { where: { deletedAt: null } },
+                    }
+                }
+            }
         });
 
         if (!post) {
-            logger.warn(`Post with ID ${postId} not found`);
-            throw new NotFoundError(`Post with ID ${postId} not found`);
+            logger.warn(`Post with ID ${post_id} not found or already deleted`);
+            throw new NotFoundError(`Post not found`);
         }
 
+        // Check if user owns the post
+        if (post.userId !== user.id) {
+            logger.warn(`User ${user.id} attempted to delete post ${post_id} owned by ${post.userId}`);
+            throw new BadRequestError('You can only delete your own posts');
+        }
+
+        // Soft delete the post
         await prisma.post.update({
-            where: { id: postId },
+            where: { id: post_id },
             data: { deletedAt: new Date() },
         });
 
-        return;
+        logger.info(`Post ${post_id} deleted by user ${user.id}. Had ${post._count.children} comments, ${post._count.likes} likes, ${post._count.bookmarks} bookmarks`);
+
+        return {
+            deleted: true,
+            post_type: post.type,
+            comment_count: post._count.children,
+            like_count: post._count.likes,
+            bookmark_count: post._count.bookmarks,
+        };
     } catch (error) {
+        logger.error(`Delete post error for post ${post_id}:`, error);
         throw error;
     }
 };
