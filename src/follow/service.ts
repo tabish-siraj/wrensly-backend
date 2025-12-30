@@ -74,7 +74,7 @@ export const CreateFollowUnfollow = async (
 };
 
 export const GetFollowsByUsername = async (
-  _user: UserPayload,
+  user: UserPayload,
   username: string,
   paginationParams: CursorPaginationParams
 ): Promise<PaginatedResult<any>> => {
@@ -140,6 +140,21 @@ export const GetFollowsByUsername = async (
 
     logger.info(`Found ${follows.length} following for user ${foundUser.id}`);
 
+    // Get mutual follow information for the current user
+    const followingIds = follows.map((follow: any) => follow.following.id);
+    const mutualFollows = await prisma.follow.findMany({
+      where: {
+        followerId: user.id,
+        followingId: { in: followingIds },
+        deletedAt: null,
+      },
+      select: {
+        followingId: true,
+      },
+    });
+
+    const mutualFollowIds = new Set(mutualFollows.map(f => f.followingId));
+
     const transformedFollows = follows.map((follow: any) => ({
       id: follow.id,
       user: {
@@ -148,6 +163,8 @@ export const GetFollowsByUsername = async (
         first_name: follow.following.profile?.firstName || '',
         last_name: follow.following.profile?.lastName || '',
         avatar: follow.following.profile?.avatar || '',
+        is_following: mutualFollowIds.has(follow.following.id), // Add mutual follow status
+        is_current_user: follow.following.id === user.id, // Check if it's the current user
       },
       created_at: follow.createdAt,
     }));
@@ -160,7 +177,7 @@ export const GetFollowsByUsername = async (
 };
 
 export const GetFollowersByUsername = async (
-  _user: UserPayload,
+  user: UserPayload,
   username: string,
   paginationParams: CursorPaginationParams
 ): Promise<PaginatedResult<any>> => {
@@ -226,6 +243,21 @@ export const GetFollowersByUsername = async (
 
     logger.info(`Found ${follows.length} followers for user ${foundUser.id}`);
 
+    // Get mutual follow information for the current user
+    const followerIds = follows.map((follow: any) => follow.follower.id);
+    const mutualFollows = await prisma.follow.findMany({
+      where: {
+        followerId: user.id,
+        followingId: { in: followerIds },
+        deletedAt: null,
+      },
+      select: {
+        followingId: true,
+      },
+    });
+
+    const mutualFollowIds = new Set(mutualFollows.map(f => f.followingId));
+
     const transformedFollows = follows.map((follow: any) => ({
       id: follow.id,
       user: {
@@ -234,6 +266,8 @@ export const GetFollowersByUsername = async (
         first_name: follow.follower.profile?.firstName || '',
         last_name: follow.follower.profile?.lastName || '',
         avatar: follow.follower.profile?.avatar || '',
+        is_following: mutualFollowIds.has(follow.follower.id), // Add mutual follow status
+        is_current_user: follow.follower.id === user.id, // Check if it's the current user
       },
       created_at: follow.createdAt,
     }));
