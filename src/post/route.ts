@@ -8,6 +8,7 @@ import {
   createCommentController,
   createQuoteController,
   createRepostController,
+  getPostCommentsController,
 } from './controller';
 import { createPostRateLimit } from '../middlewares/rateLimiter';
 
@@ -19,6 +20,7 @@ router.post('/:id/repost', createPostRateLimit, createRepostController);
 router.get('/', getAllPostsController);
 router.get('/user/:userId', getAllPostsByUserController);
 router.get('/:id', getPostByIdController);
+router.get('/:id/comments', getPostCommentsController);
 router.delete('/:id', deletePostController);
 
 export default router;

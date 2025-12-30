@@ -8,6 +8,7 @@ import {
   GetAllPostsByUser,
   GetPostById,
   GetAllPosts,
+  GetPostComments,
 } from './service';
 import { successResponse } from '../utils/response';
 import { UnauthorizedError } from '../utils/errors';
@@ -93,6 +94,27 @@ export const createRepostController = async (
     res
       .status(201)
       .json(successResponse(message, post));
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getPostCommentsController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.user) {
+    throw new UnauthorizedError('You must be logged in to perform this action');
+  }
+  try {
+    const user = req.user;
+    const postId = req.params.id;
+    const paginationParams = parsePaginationParams(req.query);
+    const result = await GetPostComments(user, postId, paginationParams);
+    res
+      .status(200)
+      .json(successResponse('Comments retrieved successfully', result.data, result.meta));
   } catch (err) {
     next(err);
   }

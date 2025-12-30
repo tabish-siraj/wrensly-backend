@@ -92,6 +92,158 @@ export const CreateComment = async (
     }
 };
 
+export const GetPostComments = async (
+    user: UserPayload,
+    postId: string,
+    paginationParams: CursorPaginationParams
+): Promise<PaginatedResult<any>> => {
+    try {
+        const { cursor, limit = 10 } = paginationParams;
+
+        // Validate post exists
+        const post = await prisma.post.findUnique({
+            where: { id: postId, deletedAt: null },
+            select: { id: true }
+        });
+
+        if (!post) {
+            throw new NotFoundError('Post not found');
+        }
+
+        // Get top-level comments (direct replies to the post)
+        const queryOptions: any = {
+            where: {
+                parentId: postId,
+                type: 'COMMENT',
+                deletedAt: null,
+            },
+            take: limit + 1,
+            orderBy: { createdAt: 'asc' }, // Show oldest comments first
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        username: true,
+                        profile: {
+                            select: {
+                                firstName: true,
+                                lastName: true,
+                                avatar: true,
+                            },
+                        },
+                    },
+                },
+                // Include replies (2nd level comments)
+                children: {
+                    where: {
+                        type: 'COMMENT',
+                        deletedAt: null,
+                    },
+                    orderBy: { createdAt: 'asc' },
+                    include: {
+                        user: {
+                            select: {
+                                id: true,
+                                username: true,
+                                profile: {
+                                    select: {
+                                        firstName: true,
+                                        lastName: true,
+                                        avatar: true,
+                                    },
+                                },
+                            },
+                        },
+                        _count: {
+                            select: {
+                                likes: { where: { deletedAt: null } },
+                            },
+                        },
+                        likes: {
+                            where: { userId: user.id, deletedAt: null },
+                            select: { id: true },
+                        },
+                    },
+                },
+                _count: {
+                    select: {
+                        likes: { where: { deletedAt: null } },
+                        children: { where: { type: 'COMMENT', deletedAt: null } },
+                    },
+                },
+                likes: {
+                    where: { userId: user.id, deletedAt: null },
+                    select: { id: true },
+                },
+            },
+        };
+
+        // Add cursor pagination for top-level comments
+        if (cursor) {
+            queryOptions.cursor = { id: cursor };
+        }
+
+        const comments = await prisma.post.findMany(queryOptions);
+
+        // Transform comments with nested replies
+        const transformedComments = comments.map((comment: any) => ({
+            id: comment.id,
+            content: comment.content,
+            type: comment.type,
+            user_id: comment.userId,
+            parent_id: comment.parentId,
+            root_id: comment.rootId,
+            created_at: comment.createdAt,
+            user: {
+                id: comment.user.id,
+                username: comment.user.username || '',
+                first_name: comment.user.profile?.firstName || '',
+                last_name: comment.user.profile?.lastName || '',
+                avatar: comment.user.profile?.avatar || '',
+            },
+            stats: {
+                likes: comment._count.likes,
+                comments: comment._count.children, // Reply count
+                reposts: 0, // Comments can't be reposted
+            },
+            is_liked: comment.likes.length > 0,
+            is_bookmarked: false, // Comments can't be bookmarked
+            is_reposted: false, // Comments can't be reposted
+            // Include nested replies
+            replies: comment.children.map((reply: any) => ({
+                id: reply.id,
+                content: reply.content,
+                type: reply.type,
+                user_id: reply.userId,
+                parent_id: reply.parentId,
+                root_id: reply.rootId,
+                created_at: reply.createdAt,
+                user: {
+                    id: reply.user.id,
+                    username: reply.user.username || '',
+                    first_name: reply.user.profile?.firstName || '',
+                    last_name: reply.user.profile?.lastName || '',
+                    avatar: reply.user.profile?.avatar || '',
+                },
+                stats: {
+                    likes: reply._count.likes,
+                    comments: 0, // Replies don't have sub-replies in our 2-layer system
+                    reposts: 0,
+                },
+                is_liked: reply.likes.length > 0,
+                is_bookmarked: false,
+                is_reposted: false,
+                replies: [], // No nested replies for replies
+            })),
+        }));
+
+        return createPaginatedResponse(transformedComments, limit, cursor);
+    } catch (error) {
+        logger.error(`Get comments error for post ${postId}:`, error);
+        throw error;
+    }
+};
+
 export const CreateQuote = async (user: UserPayload, quote: QuoteInterface) => {
     try {
         const parsed = QuoteSchema.safeParse(quote);
