@@ -228,6 +228,23 @@ exports.Prisma.PostAttachmentScalarFieldEnum = {
   deletedAt: 'deletedAt'
 };
 
+exports.Prisma.HashtagScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  postCount: 'postCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.PostHashtagScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  hashtagId: 'hashtagId',
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -259,7 +276,9 @@ exports.Prisma.ModelName = {
   Feed: 'Feed',
   Attachment: 'Attachment',
   ProfileAttachment: 'ProfileAttachment',
-  PostAttachment: 'PostAttachment'
+  PostAttachment: 'PostAttachment',
+  Hashtag: 'Hashtag',
+  PostHashtag: 'PostHashtag'
 };
 
 /**
