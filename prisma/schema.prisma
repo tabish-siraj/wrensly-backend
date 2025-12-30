@@ -84,6 +84,7 @@ model Post {
   children    Post[]           @relation("ParentPost")
   user        User             @relation(fields: [userId], references: [id])
   attachments PostAttachment[]
+  hashtags    PostHashtag[]
 
   @@index([userId])
   @@index([createdAt])
@@ -205,4 +206,37 @@ enum PostType {
   REPOST
 
   @@map("post_type")
+}
+
+model Hashtag {
+  id        String    @id @default(cuid()) @map("id")
+  name      String    @unique @map("name")
+  postCount Int       @default(0) @map("post_count")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  posts PostHashtag[]
+
+  @@index([name])
+  @@index([postCount(sort: Desc)])
+  @@index([createdAt])
+  @@map("hashtags")
+}
+
+model PostHashtag {
+  id        String    @id @default(cuid()) @map("id")
+  postId    String    @map("post_id")
+  hashtagId String    @map("hashtag_id")
+  createdAt DateTime  @default(now()) @map("created_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  post    Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  hashtag Hashtag @relation(fields: [hashtagId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, hashtagId])
+  @@index([postId])
+  @@index([hashtagId])
+  @@index([createdAt])
+  @@map("post_hashtags")
 }

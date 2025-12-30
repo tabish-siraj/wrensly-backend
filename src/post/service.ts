@@ -9,6 +9,7 @@ import {
     RepostSchema,
     RepostInterface,
 } from './schema';
+import { processPostHashtags, removePostHashtags } from '../hashtag/service';
 import logger from '../utils/logger';
 import {
     NotFoundError,
@@ -41,6 +42,11 @@ export const CreatePost = async (user: UserPayload, post: PostInterface) => {
         if (!createdPost) {
             logger.error(`Failed to create post: ${JSON.stringify(post)}`);
             throw new InternalServerError('Failed to create post');
+        }
+
+        // Process hashtags in the background
+        if (content) {
+            await processPostHashtags(createdPost.id, content);
         }
 
         return createdPost;
@@ -84,6 +90,11 @@ export const CreateComment = async (
         if (!createdPost) {
             logger.error(`Failed to create comment: ${JSON.stringify(comment)}`);
             throw new InternalServerError('Failed to create comment');
+        }
+
+        // Process hashtags in the background
+        if (content) {
+            await processPostHashtags(createdPost.id, content);
         }
 
         return createdPost;
@@ -279,6 +290,11 @@ export const CreateQuote = async (user: UserPayload, quote: QuoteInterface) => {
             throw new InternalServerError('Failed to create quote');
         }
 
+        // Process hashtags in the background
+        if (content) {
+            await processPostHashtags(createdPost.id, content);
+        }
+
         return createdPost;
     } catch (error) {
         throw error;
@@ -434,6 +450,7 @@ const transformPostsWithRepostData = async (
                 is_liked: originalPost.likes?.length > 0 || false,
                 is_bookmarked: originalPost.bookmarks?.length > 0 || false,
                 is_reposted: userRepostSet.has(originalPost.id),
+                hashtags: originalPost.hashtags?.map((ph: any) => ph.hashtag.name) || [],
                 parent: null, // Original posts don't have parents in this context
             };
         } else {
@@ -475,6 +492,7 @@ const transformPostsWithRepostData = async (
                 is_liked: post.likes.length > 0,
                 is_bookmarked: post.bookmarks.length > 0,
                 is_reposted: userRepostSet.has(post.id),
+                hashtags: post.hashtags?.map((ph: any) => ph.hashtag.name) || [],
             };
         }
     });
@@ -778,6 +796,9 @@ export const DeletePost = async (user: UserPayload, post_id: string) => {
             where: { id: post_id },
             data: { deletedAt: new Date() },
         });
+
+        // Remove hashtag associations
+        await removePostHashtags(post_id);
 
         logger.info(`Post ${post_id} deleted by user ${user.id}. Had ${post._count.children} comments, ${post._count.likes} likes, ${post._count.bookmarks} bookmarks`);
 

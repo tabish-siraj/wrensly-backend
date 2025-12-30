@@ -6,6 +6,9 @@ import feedRoutes from '../feed/route';
 import followRoutes from '../follow/route';
 import likeRoutes from '../like/route';
 import bookmarkRoutes from '../bookmark/route';
+import mediaRoutes from '../media/route';
+import hashtagRoutes from '../hashtag/route';
+import searchRoutes from '../search/route';
 import { authenticateJWT } from '../middlewares/auth';
 
 const router = Router();
@@ -17,5 +20,8 @@ router.use('/feed', authenticateJWT, feedRoutes); // /api/feed
 router.use('/follow', authenticateJWT, followRoutes); // /api/follow
 router.use('/like', authenticateJWT, likeRoutes); // /api/like
 router.use('/bookmark', authenticateJWT, bookmarkRoutes); // /api/bookmark
+router.use('/media', authenticateJWT, mediaRoutes); // /api/media
+router.use('/hashtag', hashtagRoutes); // /api/hashtag (some endpoints don't require auth)
+router.use('/search', authenticateJWT, searchRoutes); // /api/search
 
 export default router;

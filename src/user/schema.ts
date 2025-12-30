@@ -47,6 +47,7 @@ export const UserUpdateSchema = z.object({
   gender: z.string().nullable().optional(),
   bio: z.string().nullable().optional(),
   avatar: z.string().nullable().optional(),
+  cover: z.string().nullable().optional(),
   city: z.string().nullable().optional(),
   state: z.string().nullable().optional(),
   country: z.string().nullable().optional(),
