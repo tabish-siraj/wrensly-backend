@@ -84,9 +84,15 @@ export const createRepostController = async (
     const user = req.user;
     const parent_id = req.params.id;
     const post = await CreateRepost(user, { parent_id });
+
+    // Determine if this was a create or undo based on deletedAt
+    const message = post.deletedAt
+      ? 'Repost undone successfully'
+      : 'Repost created successfully';
+
     res
       .status(201)
-      .json(successResponse('Repost created successfully', post));
+      .json(successResponse(message, post));
   } catch (err) {
     next(err);
   }
