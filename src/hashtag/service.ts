@@ -14,8 +14,8 @@ import { CursorPaginationParams, createPaginatedResponse, PaginatedResult } from
 export const extractHashtags = (content: string): string[] => {
     if (!content) return [];
 
-    // Regex to match hashtags: # followed by alphanumeric characters and underscores
-    const hashtagRegex = /#[a-zA-Z0-9_]+/g;
+    // Regex to match hashtags: # followed by alphanumeric characters, underscores, and hyphens
+    const hashtagRegex = /#[a-zA-Z0-9_-]+/g;
     const matches = content.match(hashtagRegex);
 
     if (!matches) return [];
