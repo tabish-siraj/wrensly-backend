@@ -6,6 +6,7 @@ import {
 } from '../utils/errors';
 import { UserPayload } from '../types/express';
 import { CursorPaginationParams, createPaginatedResponse, PaginatedResult } from '../utils/pagination';
+import { calculateRepostData, transformPostWithRepostData } from '../utils/postTransform';
 
 export interface SearchFilters {
     type?: 'all' | 'posts' | 'users' | 'hashtags';
@@ -181,45 +182,13 @@ export const searchPosts = async (
 
         const posts = await prisma.post.findMany(queryOptions);
 
-        // Transform posts to normalized format
-        const transformedPosts = posts.map((post: any) => ({
-            id: post.id,
-            content: post.content,
-            type: post.type,
-            user_id: post.userId,
-            parent_id: post.parentId,
-            root_id: post.rootId,
-            created_at: post.createdAt,
-            user: {
-                id: post.user.id,
-                username: post.user.username || '',
-                first_name: post.user.profile?.firstName || '',
-                last_name: post.user.profile?.lastName || '',
-                avatar: post.user.profile?.avatar || '',
-            },
-            parent: post.parent ? {
-                id: post.parent.id,
-                content: post.parent.content,
-                type: post.parent.type,
-                created_at: post.parent.createdAt,
-                user: {
-                    id: post.parent.user.id,
-                    username: post.parent.user.username || '',
-                    first_name: post.parent.user.profile?.firstName || '',
-                    last_name: post.parent.user.profile?.lastName || '',
-                    avatar: post.parent.user.profile?.avatar || '',
-                },
-            } : null,
-            stats: {
-                likes: post._count.likes,
-                comments: post._count.children,
-                reposts: 0, // TODO: Calculate reposts
-            },
-            is_liked: post.likes.length > 0,
-            is_bookmarked: post.bookmarks.length > 0,
-            is_reposted: false, // TODO: Calculate repost status
-            hashtags: post.hashtags.map((ph: any) => ph.hashtag.name),
-        }));
+        // Calculate repost data for all posts
+        const { repostCountMap, userRepostSet } = await calculateRepostData(posts, user);
+
+        // Transform posts to normalized format with correct repost data
+        const transformedPosts = posts.map((post: any) =>
+            transformPostWithRepostData(post, repostCountMap, userRepostSet)
+        );
 
         return createPaginatedResponse(transformedPosts, limit, cursor);
     } catch (error) {

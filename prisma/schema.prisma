@@ -140,6 +140,8 @@ model Follow {
   @@unique([followerId, followingId])
   @@index([followerId])
   @@index([followingId])
+  @@index([followerId, deletedAt])
+  @@index([followingId, deletedAt])
   @@map("follows")
 }
 
