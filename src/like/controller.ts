@@ -36,7 +36,7 @@ export const deleteLikeController = async (
   try {
     const user = req.user;
     // Handle both camelCase and snake_case parameter names
-    const postId = req.params.postId || req.params.post_id;
+    const postId = req.params.post_id;
 
     const result = await DeleteLike(user, postId);
     res
