@@ -8,6 +8,7 @@ import {
   getUserByUsername,
   verifyEmail,
   resendVerifyEmail,
+  getSuggestedUsers,
 } from './service';
 import { successResponse } from '../utils/response';
 import { UnauthorizedError } from '../utils/errors';
@@ -160,6 +161,32 @@ export const resendVerifyEmailController = async (
     res
       .status(200)
       .json(successResponse('Verification email resent successfully', null));
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getSuggestedUsersController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.user) {
+    throw new UnauthorizedError('You must be logged in to perform this action');
+  }
+
+  const user = req.user;
+  const { cursor, limit } = req.query;
+  const paginationParams = {
+    cursor: cursor as string | undefined,
+    limit: limit ? parseInt(limit as string) : 10,
+  };
+
+  try {
+    const result = await getSuggestedUsers(user, paginationParams);
+    res
+      .status(200)
+      .json(successResponse('Suggested users retrieved successfully', result.data, result.meta));
   } catch (err) {
     next(err);
   }

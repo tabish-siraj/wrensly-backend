@@ -19,6 +19,7 @@ import {
 import { omitEmptyFields, toUserResponse } from './helper';
 import { UserPayload } from '../types/express';
 import { sendEmailVerificationEmail } from '../utils/email';
+import { CursorPaginationParams, createPaginatedResponse } from '../utils/pagination';
 
 export async function createUser(user: UserInterface) {
   // Validate user data against the schema
@@ -384,6 +385,85 @@ export async function resendVerifyEmail(username: string, email: string) {
 
     return;
   } catch (error) {
+    throw error;
+  }
+}
+
+export async function getSuggestedUsers(user: UserPayload, paginationParams: CursorPaginationParams) {
+  try {
+    const { cursor, limit = 10 } = paginationParams;
+
+    // Get users that the current user is not following
+    // Prioritize users with more followers and recent activity
+    const suggestedUsers = await prisma.user.findMany({
+      where: {
+        id: {
+          not: user.id, // Exclude current user
+        },
+        isEmailVerified: true, // Only verified users
+        NOT: {
+          followers: {
+            some: {
+              followerId: user.id,
+              deletedAt: null,
+            },
+          },
+        },
+      },
+      include: {
+        profile: true,
+        _count: {
+          select: {
+            followers: {
+              where: {
+                deletedAt: null,
+              },
+            },
+            posts: {
+              where: {
+                deletedAt: null,
+              },
+            },
+          },
+        },
+      },
+      orderBy: [
+        {
+          followers: {
+            _count: 'desc', // Users with more followers first
+          },
+        },
+        {
+          createdAt: 'desc', // Then by recent users
+        },
+      ],
+      ...(cursor && { cursor: { id: cursor }, skip: 1 }),
+      take: limit + 1, // Take one extra to check if there's a next page
+    });
+
+    // Transform to include follow status
+    const usersWithFollowStatus = await Promise.all(
+      suggestedUsers.map(async (suggestedUser) => {
+        // Check if this user follows the current user back
+        const followsBack = await prisma.follow.findFirst({
+          where: {
+            followerId: suggestedUser.id,
+            followingId: user.id,
+            deletedAt: null,
+          },
+        });
+
+        return {
+          ...toUserResponse(suggestedUser),
+          isFollowing: false, // By definition, we're not following suggested users
+          followsYou: !!followsBack,
+        };
+      })
+    );
+
+    return createPaginatedResponse(usersWithFollowStatus, limit);
+  } catch (error) {
+    logger.error('Error getting suggested users:', error);
     throw error;
   }
 }
