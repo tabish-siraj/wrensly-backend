@@ -19,8 +19,6 @@ app.set('trust proxy', 1);
 // Security middleware
 app.use(helmet());
 app.use(securityHeaders);
-// Note: Input sanitization temporarily disabled for Express 5.x compatibility
-// Security is maintained through Prisma ORM (SQL injection protection) and Zod validation
 
 // CORS Configuration
 const allowedOrigins = [
@@ -43,7 +41,7 @@ app.use(
 );
 
 app.use(express.json({ limit: '10mb' }));
-// app.use(sanitizeInput); // Temporarily disabled for Express 5.x compatibility
+// app.use(sanitizeInput); 
 app.use(transformIncomingPayload); // Transform snake_case to camelCase for incoming payloads
 app.use(generalRateLimit);
 app.use(requestLogger);
