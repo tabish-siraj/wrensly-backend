@@ -1,24 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
+// Self-contained test replicating securityHeaders logic to avoid requiring TypeScript module
 
-// Build Content-Security-Policy header from env variables with safe defaults.
-// Environment vars (comma-separated lists) supported:
-// CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_SCRIPT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC, CSP_FRAME_SRC
-// Fallback defaults include 'self' and common image hosts used by frontend.
-export const securityHeaders = (req: Request, res: Response, next: NextFunction) => {
-    // Prevent clickjacking
-    res.setHeader('X-Frame-Options', 'DENY');
+function envList(v) {
+    return v ? v.split(',').map((s) => s.trim()).filter(Boolean) : [];
+}
 
-    // Prevent MIME type sniffing
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-
-    // Enable XSS protection
-    res.setHeader('X-XSS-Protection', '1; mode=block');
-
-    // Referrer policy
-    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-
-    const envList = (v?: string) => (v ? v.split(',').map((s) => s.trim()).filter(Boolean) : []);
-
+function buildSecurityHeaders() {
     const defaultImgSrc = ["'self'", 'data:', 'blob:', 'https://encrypted-tbn0.gstatic.com', 'https://images.unsplash.com', 'https://avatars.githubusercontent.com'];
     const defaultConnectSrc = ["'self'", 'https://wrensly-backend.onrender.com'];
 
@@ -29,7 +15,7 @@ export const securityHeaders = (req: Request, res: Response, next: NextFunction)
     const fontSrc = Array.from(new Set(["'self'", ...envList(process.env.CSP_FONT_SRC)]));
     const frameSrc = Array.from(new Set([...envList(process.env.CSP_FRAME_SRC)]));
 
-    const directives: Record<string, string[]> = {
+    const directives = {
         "default-src": ["'self'"],
         'img-src': imgSrc,
         'connect-src': connectSrc,
@@ -44,7 +30,29 @@ export const securityHeaders = (req: Request, res: Response, next: NextFunction)
         .map(([k, v]) => `${k} ${v.join(' ')}`)
         .join('; ');
 
-    res.setHeader('Content-Security-Policy', csp);
+    return {
+        'X-Frame-Options': 'DENY',
+        'X-Content-Type-Options': 'nosniff',
+        'X-XSS-Protection': '1; mode=block',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Content-Security-Policy': csp,
+    };
+}
 
-    next();
-};
+function runTest(env = {}) {
+    for (const k of Object.keys(env)) process.env[k] = env[k];
+    const headers = buildSecurityHeaders();
+    console.log('Headers:');
+    console.log(headers);
+}
+
+console.log('--- Default run (no extra env) ---');
+runTest();
+
+console.log('\n--- With env overrides ---');
+runTest({
+    CSP_IMG_SRC: 'https://cdn.example.com,https://media.example.org',
+    CSP_CONNECT_SRC: 'https://api.example.com',
+    CSP_SCRIPT_SRC: 'https://cdn.example.com',
+    ALLOWED_ORIGINS: 'https://frontend.example.com',
+});

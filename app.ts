@@ -20,28 +20,32 @@ app.set('trust proxy', 1);
 app.use(helmet());
 app.use(securityHeaders);
 
-// CORS Configuration
-const allowedOrigins = [
+// CORS Configuration — environment-driven
+const DEFAULT_ALLOWED_ORIGINS = [
   'http://localhost:3000',
   'https://wrensly-frontend.vercel.app',
-  'https://wrensly-frontend.onrender.com', // Add Render frontend URL if needed
+  'https://wrensly-frontend.onrender.com',
 ];
+
+const allowedOriginsEnv = process.env.ALLOWED_ORIGINS || '';
+const allowedOrigins = allowedOriginsEnv
+  ? allowedOriginsEnv.split(',').map((s) => s.trim()).filter(Boolean)
+  : DEFAULT_ALLOWED_ORIGINS;
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
+      // Allow requests with no origin (e.g., server-to-server, curl, Postman)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error(`Not allowed by CORS: ${origin}`));
     },
     credentials: true,
   })
 );
 
 app.use(express.json({ limit: '10mb' }));
-// app.use(sanitizeInput); 
+app.use(sanitizeInput);
 app.use(transformIncomingPayload); // Transform snake_case to camelCase for incoming payloads
 app.use(generalRateLimit);
 app.use(requestLogger);

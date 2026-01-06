@@ -143,3 +143,4 @@ dist
 # npx prisma migrate dev --name <migration-name> --create-only
 /generated/
 /src/generated/prisma/query_compiler_bg.wasm
+src/generated/prisma/

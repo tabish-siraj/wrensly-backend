@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon server.ts",
     "start": "node dist/server.js",
-    "build": "tsc && node scripts/copy-assets.js",
+    "build": "prisma generate && tsc",
     "test": "jest",
     "format": "prettier --write \"src/**/*.ts\"",
     "postinstall": "prisma generate"
