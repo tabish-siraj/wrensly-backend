@@ -9,7 +9,8 @@
     "build": "tsc",
     "test": "jest",
     "format": "prettier --write \"src/**/*.ts\"",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "postbuild": "node ./scripts/copy-generated-prisma.js"
   },
   "repository": {
     "type": "git",
