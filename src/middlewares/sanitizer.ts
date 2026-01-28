@@ -9,7 +9,9 @@ const MAX_DEPTH = 6;
 const MAX_STRING_LENGTH = 20000; // avoid extremely large strings that could cause DoS
 
 const sanitizeObject = (obj: any, depth = 0): any => {
-  if (depth > MAX_DEPTH) return obj;
+  if (depth > MAX_DEPTH) {
+    return null; // Stop recursion and return null for deep objects to prevent XSS/DoS
+  }
   if (typeof obj === 'string') {
     if (obj.length > MAX_STRING_LENGTH) return obj.slice(0, MAX_STRING_LENGTH);
     return DOMPurify.sanitize(obj);
@@ -27,7 +29,11 @@ const sanitizeObject = (obj: any, depth = 0): any => {
   return obj;
 };
 
-export const sanitizeInput = (req: Request, _res: Response, next: NextFunction) => {
+export const sanitizeInput = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     // Only sanitize request body when it's a plain object
     if (req.body && typeof req.body === 'object') {
@@ -41,6 +47,7 @@ export const sanitizeInput = (req: Request, _res: Response, next: NextFunction) 
     return next();
   } catch (error: any) {
     logger.error(`sanitizeInput error: ${error?.message || error}`);
+    // Continue without sanitization if there's an error - log but don't break the request
     return next();
   }
 };

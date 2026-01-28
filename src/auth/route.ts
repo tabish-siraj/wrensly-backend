@@ -6,9 +6,16 @@ import {
   resetPasswordController,
 } from './controller';
 import { authRateLimit } from '../middlewares/rateLimiter';
+import { validateBody } from '../middlewares/validation';
+import {
+  LoginSchema,
+  RefreshTokenSchema,
+  ForgotPasswordSchema,
+  ResetPasswordSchema,
+} from './schema';
 
 const router = Router();
-router.post('/login', authRateLimit, loginUserController);
+router.post('/login', authRateLimit, validateBody(LoginSchema), loginUserController);
 router.post('/logout', (req, res) => {
   // Since we're using stateless JWT, logout is handled client-side
   // This endpoint exists for consistency and future token blacklisting
@@ -21,8 +28,23 @@ router.post('/logout', (req, res) => {
     },
   });
 });
-router.post('/token/refresh', authRateLimit, refreshTokenController);
-router.post('/forgot-password', authRateLimit, forgotPasswordController);
-router.post('/reset-password', authRateLimit, resetPasswordController);
+router.post(
+  '/token/refresh',
+  authRateLimit,
+  validateBody(RefreshTokenSchema),
+  refreshTokenController
+);
+router.post(
+  '/forgot-password',
+  authRateLimit,
+  validateBody(ForgotPasswordSchema),
+  forgotPasswordController
+);
+router.post(
+  '/reset-password',
+  authRateLimit,
+  validateBody(ResetPasswordSchema),
+  resetPasswordController
+);
 
 export default router;

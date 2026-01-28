@@ -1,9 +1,9 @@
 // Media upload routes
 import { Router } from 'express';
 import {
-    generateUploadUrlController,
-    confirmUploadController,
-    deleteMediaController
+  generateUploadUrlController,
+  confirmUploadController,
+  deleteMediaController,
 } from './controller';
 import { createPostRateLimit } from '../middlewares/rateLimiter';
 

@@ -17,7 +17,9 @@ export const getFeedController = async (
     const result = await GetFeed(req.user, paginationParams);
     res
       .status(200)
-      .json(successResponse('Feed retrieved successfully', result.data, result.meta));
+      .json(
+        successResponse('Feed retrieved successfully', result.data, result.meta)
+      );
   } catch (err) {
     next(err);
   }

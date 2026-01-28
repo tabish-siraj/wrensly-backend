@@ -1,8 +1,5 @@
 import { Router } from 'express';
-import {
-  createLikeController,
-  deleteLikeController,
-} from './controller';
+import { createLikeController, deleteLikeController } from './controller';
 
 const router = Router();
 router.post('/', createLikeController);

@@ -6,6 +6,12 @@ export const UserSchema = z.object({
   password: z.string(),
 });
 
+export const RegisterUserSchema = z.object({
+  username: z.string().min(1, 'Username is required'),
+  email: z.string().email(),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+});
+
 export type UserInterface = z.infer<typeof UserSchema>;
 
 export const ProfileSchema = z.object({

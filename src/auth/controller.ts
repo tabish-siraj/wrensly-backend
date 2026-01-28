@@ -6,7 +6,12 @@ import {
   resetPassword,
 } from './service';
 import { successResponse } from '../utils/response';
-import { LoginSchema, ForgotPasswordSchema, ResetPasswordSchema, RefreshTokenSchema } from './schema';
+import {
+  LoginSchema,
+  ForgotPasswordSchema,
+  ResetPasswordSchema,
+  RefreshTokenSchema,
+} from './schema';
 
 export const loginUserController = async (
   req: Request,
@@ -16,9 +21,7 @@ export const loginUserController = async (
   try {
     const validatedData = LoginSchema.parse(req.body);
     const result = await loginUser(validatedData.email, validatedData.password);
-    res
-      .status(200)
-      .json(successResponse('Login successful', result));
+    res.status(200).json(successResponse('Login successful', result));
   } catch (err) {
     next(err);
   }
@@ -61,7 +64,10 @@ export const resetPasswordController = async (
 ) => {
   try {
     const validatedData = ResetPasswordSchema.parse(req.body);
-    const result = await resetPassword(validatedData.token, validatedData.password);
+    const result = await resetPassword(
+      validatedData.token,
+      validatedData.password
+    );
     res.status(200).json(successResponse(result.message, null));
   } catch (err) {
     next(err);

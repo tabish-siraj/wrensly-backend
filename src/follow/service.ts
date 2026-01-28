@@ -3,7 +3,11 @@ import { FollowInterface, FollowSchema } from './schema';
 import logger from '../utils/logger';
 import { NotFoundError, BadRequestError } from '../utils/errors';
 import { UserPayload } from '../types/express';
-import { CursorPaginationParams, createPaginatedResponse, PaginatedResult } from '../utils/pagination';
+import {
+  CursorPaginationParams,
+  createPaginatedResponse,
+  PaginatedResult,
+} from '../utils/pagination';
 
 export const CreateFollowUnfollow = async (
   user: UserPayload,
@@ -92,7 +96,7 @@ export const GetFollowsByUsername = async (
     const foundUser = await prisma.user.findUnique({
       where: {
         username: username.toLowerCase(),
-        deletedAt: null
+        deletedAt: null,
       },
     });
 
@@ -153,7 +157,7 @@ export const GetFollowsByUsername = async (
       },
     });
 
-    const mutualFollowIds = new Set(mutualFollows.map(f => f.followingId));
+    const mutualFollowIds = new Set(mutualFollows.map((f) => f.followingId));
 
     const transformedFollows = follows.map((follow: any) => ({
       id: follow.id,
@@ -195,7 +199,7 @@ export const GetFollowersByUsername = async (
     const foundUser = await prisma.user.findUnique({
       where: {
         username: username.toLowerCase(),
-        deletedAt: null
+        deletedAt: null,
       },
     });
 
@@ -256,7 +260,7 @@ export const GetFollowersByUsername = async (
       },
     });
 
-    const mutualFollowIds = new Set(mutualFollows.map(f => f.followingId));
+    const mutualFollowIds = new Set(mutualFollows.map((f) => f.followingId));
 
     const transformedFollows = follows.map((follow: any) => ({
       id: follow.id,

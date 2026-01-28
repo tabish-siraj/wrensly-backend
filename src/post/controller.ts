@@ -25,9 +25,7 @@ export const createPostController = async (
   try {
     const user = req.user;
     const post = await CreatePost(user, req.body);
-    res
-      .status(201)
-      .json(successResponse('Post created successfully', post));
+    res.status(201).json(successResponse('Post created successfully', post));
   } catch (err) {
     next(err);
   }
@@ -45,9 +43,7 @@ export const createCommentController = async (
     const user = req.user;
     const parent_id = req.params.id;
     const post = await CreateComment(user, { ...req.body, parent_id });
-    res
-      .status(201)
-      .json(successResponse('Comment created successfully', post));
+    res.status(201).json(successResponse('Comment created successfully', post));
   } catch (err) {
     next(err);
   }
@@ -65,9 +61,7 @@ export const createQuoteController = async (
     const user = req.user;
     const parent_id = req.params.id;
     const post = await CreateQuote(user, { ...req.body, parent_id });
-    res
-      .status(201)
-      .json(successResponse('Quote created successfully', post));
+    res.status(201).json(successResponse('Quote created successfully', post));
   } catch (err) {
     next(err);
   }
@@ -91,9 +85,7 @@ export const createRepostController = async (
       ? 'Repost undone successfully'
       : 'Repost created successfully';
 
-    res
-      .status(201)
-      .json(successResponse(message, post));
+    res.status(201).json(successResponse(message, post));
   } catch (err) {
     next(err);
   }
@@ -114,7 +106,13 @@ export const getPostCommentsController = async (
     const result = await GetPostComments(user, postId, paginationParams);
     res
       .status(200)
-      .json(successResponse('Comments retrieved successfully', result.data, result.meta));
+      .json(
+        successResponse(
+          'Comments retrieved successfully',
+          result.data,
+          result.meta
+        )
+      );
   } catch (err) {
     next(err);
   }
@@ -132,9 +130,7 @@ export const getPostByIdController = async (
     const user = req.user;
     const postId = req.params.id;
     const post = await GetPostById(user, postId);
-    res
-      .status(200)
-      .json(successResponse('Post retrieved successfully', post));
+    res.status(200).json(successResponse('Post retrieved successfully', post));
   } catch (err) {
     next(err);
   }
@@ -154,7 +150,13 @@ export const getAllPostsController = async (
     const result = await GetAllPosts(user, paginationParams);
     res
       .status(200)
-      .json(successResponse('Posts retrieved successfully', result.data, result.meta));
+      .json(
+        successResponse(
+          'Posts retrieved successfully',
+          result.data,
+          result.meta
+        )
+      );
   } catch (err) {
     next(err);
   }
@@ -175,7 +177,13 @@ export const getAllPostsByUserController = async (
     const result = await GetAllPostsByUser(user, paginationParams, userId);
     res
       .status(200)
-      .json(successResponse('Posts retrieved successfully', result.data, result.meta));
+      .json(
+        successResponse(
+          'Posts retrieved successfully',
+          result.data,
+          result.meta
+        )
+      );
   } catch (err) {
     next(err);
   }
@@ -193,9 +201,7 @@ export const deletePostController = async (
     const user = req.user;
     const postId = req.params.id;
     await DeletePost(user, postId);
-    res
-      .status(200)
-      .json(successResponse('Post deleted successfully', null));
+    res.status(200).json(successResponse('Post deleted successfully', null));
   } catch (err) {
     next(err);
   }

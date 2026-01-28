@@ -22,7 +22,10 @@ export const authenticateJWT = (
 
     // Development shortcut for testing purposes
     if (token === 'success') {
-      req.user = { id: 'cmjai7ezf000029g77z72dah1', email: 'tabish1226@gmail.com' };
+      req.user = {
+        id: 'cmjai7ezf000029g77z72dah1',
+        email: 'tabish1226@gmail.com',
+      };
       return next();
     }
 

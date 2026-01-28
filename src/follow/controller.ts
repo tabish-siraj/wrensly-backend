@@ -22,7 +22,9 @@ export const followUnfollowController = async (
     const result = await CreateFollowUnfollow(user, payload);
     res
       .status(200)
-      .json(successResponse(`User ${result} successfully`, { operation: result }));
+      .json(
+        successResponse(`User ${result} successfully`, { operation: result })
+      );
   } catch (err) {
     next(err);
   }
@@ -41,7 +43,15 @@ export const getFollowsByUsernameController = async (
     const username = req.params.username;
     const paginationParams = parsePaginationParams(req.query);
     const result = await GetFollowsByUsername(user, username, paginationParams);
-    res.status(200).json(successResponse('Following list retrieved successfully', result.data, result.meta));
+    res
+      .status(200)
+      .json(
+        successResponse(
+          'Following list retrieved successfully',
+          result.data,
+          result.meta
+        )
+      );
   } catch (err) {
     next(err);
   }
@@ -59,8 +69,20 @@ export const getFollowersByUsernameController = async (
     const user = req.user;
     const username = req.params.username;
     const paginationParams = parsePaginationParams(req.query);
-    const result = await GetFollowersByUsername(user, username, paginationParams);
-    res.status(200).json(successResponse('Followers list retrieved successfully', result.data, result.meta));
+    const result = await GetFollowersByUsername(
+      user,
+      username,
+      paginationParams
+    );
+    res
+      .status(200)
+      .json(
+        successResponse(
+          'Followers list retrieved successfully',
+          result.data,
+          result.meta
+        )
+      );
   } catch (err) {
     next(err);
   }

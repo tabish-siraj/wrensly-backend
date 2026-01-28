@@ -19,7 +19,10 @@ import {
 import { omitEmptyFields, toUserResponse } from './helper';
 import { UserPayload } from '../types/express';
 import { sendEmailVerificationEmail } from '../utils/email';
-import { CursorPaginationParams, createPaginatedResponse } from '../utils/pagination';
+import {
+  CursorPaginationParams,
+  createPaginatedResponse,
+} from '../utils/pagination';
 
 export async function createUser(user: UserInterface) {
   // Validate user data against the schema
@@ -271,34 +274,35 @@ export async function getUserByUsername(user: UserPayload, username: string) {
     }
 
     // Get followers and following counts separately to respect soft deletes
-    const [followersCount, followingCount, followBy, following] = await Promise.all([
-      prisma.follow.count({
-        where: {
-          followingId: fetchedUser.id,
-          deletedAt: null,
-        },
-      }),
-      prisma.follow.count({
-        where: {
-          followerId: fetchedUser.id,
-          deletedAt: null,
-        },
-      }),
-      prisma.follow.findFirst({
-        where: {
-          followerId: fetchedUser.id,
-          followingId: user.id,
-          deletedAt: null,
-        },
-      }),
-      prisma.follow.findFirst({
-        where: {
-          followerId: user.id,
-          followingId: fetchedUser.id,
-          deletedAt: null,
-        },
-      }),
-    ]);
+    const [followersCount, followingCount, followBy, following] =
+      await Promise.all([
+        prisma.follow.count({
+          where: {
+            followingId: fetchedUser.id,
+            deletedAt: null,
+          },
+        }),
+        prisma.follow.count({
+          where: {
+            followerId: fetchedUser.id,
+            deletedAt: null,
+          },
+        }),
+        prisma.follow.findFirst({
+          where: {
+            followerId: fetchedUser.id,
+            followingId: user.id,
+            deletedAt: null,
+          },
+        }),
+        prisma.follow.findFirst({
+          where: {
+            followerId: user.id,
+            followingId: fetchedUser.id,
+            deletedAt: null,
+          },
+        }),
+      ]);
 
     const isFollowing = !!following;
     const followingBy = !!followBy;
@@ -389,7 +393,10 @@ export async function resendVerifyEmail(username: string, email: string) {
   }
 }
 
-export async function getSuggestedUsers(user: UserPayload, paginationParams: CursorPaginationParams) {
+export async function getSuggestedUsers(
+  user: UserPayload,
+  paginationParams: CursorPaginationParams
+) {
   try {
     const { cursor, limit = 10 } = paginationParams;
 

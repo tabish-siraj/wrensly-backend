@@ -15,18 +15,18 @@ export const normalizePostData = (
     type: post.type,
     parent: post.parent
       ? {
-        id: post.parent.id,
-        content: post.parent.content,
-        type: post.parent.type,
-        created_at: post.parent.created_at,
-        user: {
-          id: post.parent.user.id,
-          username: post.parent.user.username || '',
-          first_name: post.parent.user.profile?.first_name || '',
-          last_name: post.parent.user.profile?.last_name || '',
-          avatar: post.parent.user.profile?.avatar || '',
-        },
-      }
+          id: post.parent.id,
+          content: post.parent.content,
+          type: post.parent.type,
+          created_at: post.parent.created_at,
+          user: {
+            id: post.parent.user.id,
+            username: post.parent.user.username || '',
+            first_name: post.parent.user.profile?.first_name || '',
+            last_name: post.parent.user.profile?.last_name || '',
+            avatar: post.parent.user.profile?.avatar || '',
+          },
+        }
       : null,
     user: {
       id: post.user.id,

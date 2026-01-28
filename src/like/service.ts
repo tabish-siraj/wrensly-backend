@@ -31,9 +31,7 @@ export const CreateLike = async (user: UserPayload, postId: string) => {
     });
 
     if (existingLike) {
-      logger.warn(
-        `Post with ID ${postId} is already liked by user ${user.id}`
-      );
+      logger.warn(`Post with ID ${postId} is already liked by user ${user.id}`);
       throw new BadRequestError('Post already liked');
     }
 

@@ -66,7 +66,9 @@ export const DeleteBookmark = async (user: UserPayload, postId: string) => {
     });
 
     if (!existingBookmark) {
-      logger.warn(`Bookmark with Post ID ${postId} not found for user ${user.id}`);
+      logger.warn(
+        `Bookmark with Post ID ${postId} not found for user ${user.id}`
+      );
       throw new NotFoundError('Bookmark not found');
     }
 

@@ -7,7 +7,12 @@ import {
   verifyRefreshToken,
 } from '../utils/auth';
 import logger from '../utils/logger';
-import { NotFoundError, BadRequestError, InternalServerError, AppError } from '../utils/errors';
+import {
+  NotFoundError,
+  BadRequestError,
+  InternalServerError,
+  AppError,
+} from '../utils/errors';
 import { sendPasswordResetEmail } from '../utils/email';
 
 export const loginUser = async (email: string, password: string) => {
@@ -31,7 +36,9 @@ export const loginUser = async (email: string, password: string) => {
     });
 
     if (!user) {
-      logger.warn(`Login attempt with non-existent or inactive email: ${email}`);
+      logger.warn(
+        `Login attempt with non-existent or inactive email: ${email}`
+      );
       throw new NotFoundError('Invalid credentials');
     }
 
@@ -80,7 +87,10 @@ export const refreshToken = async (token: string) => {
 
     // Generate new tokens (rotate refresh token for security)
     const new_token = generateToken({ id: userData.id, email: userData.email });
-    const new_refresh_token = generateRefreshToken({ id: userData.id, email: userData.email });
+    const new_refresh_token = generateRefreshToken({
+      id: userData.id,
+      email: userData.email,
+    });
 
     logger.info(`Token refreshed for user: ${userData.email}`);
     return { token: new_token, refresh_token: new_refresh_token };

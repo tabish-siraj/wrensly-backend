@@ -1,6 +1,8 @@
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
+import compression from 'compression';
+import morgan from 'morgan';
 import router from './src/routes/index';
 import requestLogger from './src/middlewares/logger';
 import { errorHandler } from './src/middlewares/errorHandler';
@@ -19,6 +21,12 @@ app.set('trust proxy', 1);
 // Security middleware
 app.use(helmet());
 app.use(securityHeaders);
+app.use(compression());
+
+// Set up logging
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+}
 
 // CORS Configuration — environment-driven
 const DEFAULT_ALLOWED_ORIGINS = [
@@ -29,7 +37,10 @@ const DEFAULT_ALLOWED_ORIGINS = [
 
 const allowedOriginsEnv = process.env.ALLOWED_ORIGINS || '';
 const allowedOrigins = allowedOriginsEnv
-  ? allowedOriginsEnv.split(',').map((s) => s.trim()).filter(Boolean)
+  ? allowedOriginsEnv
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
   : DEFAULT_ALLOWED_ORIGINS;
 
 app.use(
@@ -65,9 +76,11 @@ app.use('/health', (req, res) => {
       hasDatabase: !!process.env.DATABASE_URL,
       hasJwtSecret: !!process.env.JWT_SECRET,
       hasJwtRefreshSecret: !!process.env.JWT_REFRESH_SECRET,
-      hasMailjet: !!(process.env.MJ_APIKEY_PUBLIC && process.env.MJ_APIKEY_PRIVATE),
-      hasAppUrl: !!process.env.APP_URL
-    }
+      hasMailjet: !!(
+        process.env.MJ_APIKEY_PUBLIC && process.env.MJ_APIKEY_PRIVATE
+      ),
+      hasAppUrl: !!process.env.APP_URL,
+    },
   });
 });
 app.use(errorHandler);

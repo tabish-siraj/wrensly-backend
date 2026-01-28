@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import {
-    searchAllController,
-    searchPostsController,
-    searchUsersController,
-    searchHashtagsController,
-    getSearchSuggestionsController,
+  searchAllController,
+  searchPostsController,
+  searchUsersController,
+  searchHashtagsController,
+  getSearchSuggestionsController,
 } from './controller';
 
 const router = Router();

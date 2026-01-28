@@ -17,9 +17,7 @@ export const createLikeController = async (
     const postId = req.body.postId || req.body.post_id;
 
     const result = await CreateLike(user, postId);
-    res
-      .status(200)
-      .json(successResponse('Post liked successfully', result));
+    res.status(200).json(successResponse('Post liked successfully', result));
   } catch (error) {
     next(error);
   }
@@ -39,9 +37,7 @@ export const deleteLikeController = async (
     const postId = req.params.post_id;
 
     const result = await DeleteLike(user, postId);
-    res
-      .status(200)
-      .json(successResponse('Post unliked successfully', result));
+    res.status(200).json(successResponse('Post unliked successfully', result));
   } catch (error) {
     next(error);
   }

@@ -186,7 +186,13 @@ export const getSuggestedUsersController = async (
     const result = await getSuggestedUsers(user, paginationParams);
     res
       .status(200)
-      .json(successResponse('Suggested users retrieved successfully', result.data, result.meta));
+      .json(
+        successResponse(
+          'Suggested users retrieved successfully',
+          result.data,
+          result.meta
+        )
+      );
   } catch (err) {
     next(err);
   }

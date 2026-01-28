@@ -1,6 +1,10 @@
 import prisma from '../lib/prisma';
 import { UserPayload, NormalizedPost } from '../types/express';
-import { CursorPaginationParams, createPaginatedResponse, PaginatedResult } from '../utils/pagination';
+import {
+  CursorPaginationParams,
+  createPaginatedResponse,
+  PaginatedResult,
+} from '../utils/pagination';
 
 export const GetFeed = async (
   user: UserPayload,
@@ -93,7 +97,7 @@ export const GetFeed = async (
 
     // Extract all post IDs that need repost counts (both original posts and parent posts)
     const allPostIds = new Set<string>();
-    posts.forEach(post => {
+    posts.forEach((post) => {
       allPostIds.add(post.id);
       if (post.parent) {
         allPostIds.add(post.parent.id);
@@ -123,8 +127,10 @@ export const GetFeed = async (
     });
 
     // Create lookup maps for O(1) access
-    const repostCountMap = new Map(repostCounts.map(r => [r.parentId!, r._count.id]));
-    const userRepostSet = new Set(userReposts.map(r => r.parentId!));
+    const repostCountMap = new Map(
+      repostCounts.map((r) => [r.parentId!, r._count.id])
+    );
+    const userRepostSet = new Set(userReposts.map((r) => r.parentId!));
 
     // Transform posts with Twitter-like repost behavior
     const normalizedPosts: NormalizedPost[] = posts.map((post) => {
@@ -184,19 +190,21 @@ export const GetFeed = async (
             avatar: post.user.profile?.avatar || '',
           },
           reposted_by: null, // No repost metadata for original posts
-          parent: post.parent ? {
-            id: post.parent.id,
-            content: post.parent.content,
-            type: post.parent.type,
-            created_at: post.parent.createdAt,
-            user: {
-              id: post.parent.user.id,
-              username: post.parent.user.username || '',
-              first_name: post.parent.user.profile?.firstName || '',
-              last_name: post.parent.user.profile?.lastName || '',
-              avatar: post.parent.user.profile?.avatar || '',
-            },
-          } : null,
+          parent: post.parent
+            ? {
+                id: post.parent.id,
+                content: post.parent.content,
+                type: post.parent.type,
+                created_at: post.parent.createdAt,
+                user: {
+                  id: post.parent.user.id,
+                  username: post.parent.user.username || '',
+                  first_name: post.parent.user.profile?.firstName || '',
+                  last_name: post.parent.user.profile?.lastName || '',
+                  avatar: post.parent.user.profile?.avatar || '',
+                },
+              }
+            : null,
           stats: {
             likes: post._count.likes,
             comments: post._count.children,

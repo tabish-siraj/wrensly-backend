@@ -32,7 +32,7 @@ export const generalRateLimit = rateLimit({
 
 export const createPostRateLimit = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // 10 posts per 15 minutes
+  max: 20, // 20 posts per 15 minutes
   message: {
     success: false,
     message: 'Too many posts created, please try again later.',

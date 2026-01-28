@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import {
-    getTrendingHashtagsController,
-    getPostsByHashtagController,
-    searchHashtagsController,
-    getHashtagDetailsController,
+  getTrendingHashtagsController,
+  getPostsByHashtagController,
+  searchHashtagsController,
+  getHashtagDetailsController,
 } from './controller';
 import { authenticateJWT } from '../middlewares/auth';
 

@@ -1,6 +1,6 @@
 // Utility function to convert camelCase to snake_case
 const toSnakeCase = (str: string): string => {
-  return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+  return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
 };
 
 // Utility function to convert snake_case to camelCase
@@ -90,12 +90,14 @@ export const successResponse = <T>(
   const transformedData = transformToSnakeCase(data);
 
   // Transform pagination meta to snake_case if present
-  const transformedPagination = meta?.pagination ? {
-    cursor: meta.pagination.cursor,
-    has_next_page: meta.pagination.hasNextPage,
-    has_previous_page: meta.pagination.hasPreviousPage,
-    total_count: meta.pagination.totalCount,
-  } : undefined;
+  const transformedPagination = meta?.pagination
+    ? {
+        cursor: meta.pagination.cursor,
+        has_next_page: meta.pagination.hasNextPage,
+        has_previous_page: meta.pagination.hasPreviousPage,
+        total_count: meta.pagination.totalCount,
+      }
+    : undefined;
 
   return {
     success: true,
