@@ -9,6 +9,7 @@ import {
   GetPostById,
   GetAllPosts,
   GetPostComments,
+  GetLikedPostsByUser,
 } from './service';
 import { successResponse } from '../utils/response';
 import { UnauthorizedError } from '../utils/errors';
@@ -202,6 +203,33 @@ export const deletePostController = async (
     const postId = req.params.id;
     await DeletePost(user, postId);
     res.status(200).json(successResponse('Post deleted successfully', null));
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getLikedPostsByUserController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.user) {
+    throw new UnauthorizedError('You must be logged in to perform this action');
+  }
+  try {
+    const user = req.user;
+    const userId = req.params.userId;
+    const paginationParams = parsePaginationParams(req.query);
+    const result = await GetLikedPostsByUser(user, paginationParams, userId);
+    res
+      .status(200)
+      .json(
+        successResponse(
+          'Liked posts retrieved successfully',
+          result.data,
+          result.meta
+        )
+      );
   } catch (err) {
     next(err);
   }

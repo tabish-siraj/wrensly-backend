@@ -9,6 +9,7 @@ import {
   createQuoteController,
   createRepostController,
   getPostCommentsController,
+  getLikedPostsByUserController,
 } from './controller';
 import { createPostRateLimit } from '../middlewares/rateLimiter';
 import {
@@ -51,6 +52,11 @@ router.get(
   '/user/:userId',
   validateQuery(PaginationQuerySchema),
   getAllPostsByUserController
+);
+router.get(
+  '/user/:userId/likes',
+  validateQuery(PaginationQuerySchema),
+  getLikedPostsByUserController
 );
 router.get('/:id', getPostByIdController);
 router.get(

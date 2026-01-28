@@ -481,18 +481,18 @@ const transformPostsWithRepostData = async (
         reposted_by: null, // No repost metadata for original posts
         parent: post.parent
           ? {
-              id: post.parent.id,
-              content: post.parent.content,
-              type: post.parent.type,
-              created_at: post.parent.createdAt,
-              user: {
-                id: post.parent.user.id,
-                username: post.parent.user.username || '',
-                first_name: post.parent.user.profile?.firstName || '',
-                last_name: post.parent.user.profile?.lastName || '',
-                avatar: post.parent.user.profile?.avatar || '',
-              },
-            }
+            id: post.parent.id,
+            content: post.parent.content,
+            type: post.parent.type,
+            created_at: post.parent.createdAt,
+            user: {
+              id: post.parent.user.id,
+              username: post.parent.user.username || '',
+              first_name: post.parent.user.profile?.firstName || '',
+              last_name: post.parent.user.profile?.lastName || '',
+              avatar: post.parent.user.profile?.avatar || '',
+            },
+          }
           : null,
         stats: {
           likes: post._count.likes,
@@ -825,6 +825,151 @@ export const DeletePost = async (user: UserPayload, post_id: string) => {
     };
   } catch (error) {
     logger.error(`Delete post error for post ${post_id}:`, error);
+    throw error;
+  }
+};
+
+export const GetLikedPostsByUser = async (
+  user: UserPayload,
+  paginationParams: CursorPaginationParams,
+  targetUserId: string
+): Promise<PaginatedResult<NormalizedPost>> => {
+  try {
+    const { cursor, limit = 10 } = paginationParams;
+
+    // 1. Get the Likes first (to sort by when the user liked them)
+    // We use the Like ID for the cursor
+    const likes = await prisma.like.findMany({
+      where: {
+        userId: targetUserId,
+        deletedAt: null, // Only active likes
+        post: {
+          deletedAt: null // Ensure post isn't deleted
+        },
+        ...(cursor && { id: { lt: cursor } }),
+      },
+      take: limit + 1,
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        postId: true,
+      },
+    });
+
+    // 2. Extract Post IDs
+    const likeMap = new Map<string, string>(); // postId -> likeId
+    const postIds: string[] = [];
+
+    // We need to keep track of the last ID for the next cursor
+    let nextCursor: string | undefined = undefined;
+    let hasMore = false;
+
+    if (likes.length > limit) {
+      hasMore = true;
+      const nextItem = likes.pop();
+      if (nextItem) nextCursor = nextItem.id;
+    }
+
+    likes.forEach(like => {
+      postIds.push(like.postId);
+    });
+
+    if (postIds.length === 0) {
+      return createPaginatedResponse([], limit, undefined);
+    }
+
+    // 3. Fetch the actual posts with all necessary data
+    const posts = await prisma.post.findMany({
+      where: {
+        id: { in: postIds },
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            profile: {
+              select: {
+                firstName: true,
+                lastName: true,
+                avatar: true,
+              },
+            },
+          },
+        },
+        parent: {
+          where: { deletedAt: null },
+          include: {
+            user: {
+              select: {
+                id: true,
+                username: true,
+                profile: {
+                  select: {
+                    firstName: true,
+                    lastName: true,
+                    avatar: true,
+                  },
+                },
+              },
+            },
+            _count: {
+              select: {
+                likes: { where: { deletedAt: null } },
+                children: { where: { type: 'COMMENT', deletedAt: null } },
+              },
+            },
+            likes: {
+              where: { userId: user.id, deletedAt: null },
+              select: { id: true },
+            },
+            bookmarks: {
+              where: { userId: user.id, deletedAt: null },
+              select: { id: true },
+            },
+          },
+        },
+        _count: {
+          select: {
+            likes: { where: { deletedAt: null } },
+            children: { where: { type: 'COMMENT', deletedAt: null } },
+          },
+        },
+        likes: {
+          where: { userId: user.id, deletedAt: null },
+          select: { id: true },
+        },
+        bookmarks: {
+          where: { userId: user.id, deletedAt: null },
+          select: { id: true },
+        },
+      },
+    });
+
+    // 4. Re-sort posts to match the order of 'likes' array
+    const postsMap = new Map(posts.map(p => [p.id, p]));
+    const orderedPosts = postIds
+      .map(id => postsMap.get(id))
+      .filter((p): p is typeof posts[0] => p !== undefined);
+
+    // 5. Transform
+    const normalizedPosts = await transformPostsWithRepostData(orderedPosts, user);
+
+    // 6. Return with the LIKE cursor
+    return {
+      data: normalizedPosts,
+      meta: {
+        pagination: {
+          cursor: nextCursor || undefined,
+          hasNextPage: hasMore,
+          hasPreviousPage: !!cursor,
+          totalCount: normalizedPosts.length // approximate
+        },
+        timestamp: new Date().toISOString()
+      }
+    };
+
+  } catch (error) {
     throw error;
   }
 };
